@@ -168,6 +168,16 @@ public class Board<E> {
 					}
 				}
 			}
+		}else {
+			for (int y = 1; y < 8; y++) {
+				for (int x = 0; x < 8; x++) {
+					temp = this.get(new Position(x, y));
+					if(temp instanceof BlackPawn && (((BlackPawn)temp).canLeftPassant() || ((BlackPawn)temp).canRightPassant())){
+						((BlackPawn)temp).canLeftPassant(false);
+						((BlackPawn)temp).canRightPassant(false);
+					}
+				}
+			}
 		}
 
 		this.turn++;
