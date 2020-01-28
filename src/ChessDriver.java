@@ -315,13 +315,20 @@ public class ChessDriver {
 			    this.currentY = 0;
 			    this.currentC = null;
 				this.board.incTurn();
-				if(type instanceof BlackKing)
-					((BlackKing)p).moved();
-				if(type instanceof WhiteKing)
-					((WhiteKing)p).moved();
-				if(type instanceof BlackKnight)
+				if(type instanceof BlackKing){}
+					
+					if(!((BlackKing)p).hasMoved())
+						((BlackKing)p).moved();
+				}
+				if(type instanceof WhiteKing){
+				
+					if(!((BlackKing)p).hasMoved())
+						((WhiteKing)p).moved();
+				}
+				//Turns hasMoved variable to true after being moved
+				if(type instanceof BlackKnight && !((BlackKnight)p).hasMoved())
 					((BlackKnight)p).moved();
-				if(type instanceof WhiteKnight)
+				if(type instanceof WhiteKnight && !((WhiteKnight)p).hasMoved())
 					((WhiteKnight)p).moved();
 		    }else{
 

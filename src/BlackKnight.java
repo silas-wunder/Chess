@@ -2,7 +2,7 @@ import java.util.ArrayList;
 
 public class BlackKnight extends Piece{
 
-private boolean hasMoved;
+	private boolean hasMoved;
 
 	/**
 	 * Makes a Knight object

@@ -46,6 +46,11 @@ public class WhiteKnight extends Piece{
 		hasMoved = true;
 	}
 
+	public boolean hasMoved(){
+		return hasMoved;
+	}
+
+
 	@Override
 	public boolean isWhite() {
 		return true;

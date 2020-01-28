@@ -111,6 +111,10 @@ public class BlackKing extends Piece{
 	public void moved(){ 
 		this.hasMoved = true;
 	}	
+
+	public boolean hasMoved(){
+		return hasMoved;
+	}
 	
 	public String toString(){ return "BlackKing.png"; }
 	
