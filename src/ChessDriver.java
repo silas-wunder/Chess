@@ -304,12 +304,12 @@ public class ChessDriver {
 						Position rightPos = new Position(pos.getX() + 1, pos.getY());
 						if(this.board.isValid(leftPos)){
 							if(this.board.get(leftPos) instanceof WhitePawn){
-								((WhitePawn)this.board.get(leftPos)).canPassant(true);
+								((WhitePawn)this.board.get(leftPos)).canRightPassant(true);
 							}
 						}
 						if(this.board.isValid(rightPos)){
 							if(this.board.get(rightPos) instanceof WhitePawn){
-								((WhitePawn)this.board.get(rightPos)).canPassant(true);
+								((WhitePawn)this.board.get(rightPos)).canLeftPassant(true);
 							}
 						}
 					}
@@ -321,12 +321,12 @@ public class ChessDriver {
 						Position rightPos = new Position(pos.getX() + 1, pos.getY());
 						if(this.board.isValid(leftPos)){
 							if(this.board.get(leftPos) instanceof BlackPawn){
-								((BlackPawn)this.board.get(leftPos)).canPassant(true);
+								((BlackPawn)this.board.get(leftPos)).canRightPassant(true);
 							}
 						}
 						if(this.board.isValid(rightPos)){
 							if(this.board.get(rightPos) instanceof BlackPawn){
-								((BlackPawn)this.board.get(rightPos)).canPassant(true);
+								((BlackPawn)this.board.get(rightPos)).canRightPassant(true);
 							}
 						}
 					}
