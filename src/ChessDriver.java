@@ -354,14 +354,15 @@ public class ChessDriver {
 				}
 
 				if (type instanceof WhitePawn) {
-					if (((WhitePawn) p).canLeftPassant()) {
+					if(pos.getY() == 7){
+						((WhitePawn) p).kingMe(board);
+					}else if (((WhitePawn) p).canLeftPassant()) {
 						if (startX - pos.getX() > 0) {
 							Position target = new Position(startX - 1, startY);
 							this.board.remove(target);
 							this.board.add(new DefaultPiece(startX - 1, startY), target);
 						}
-					}
-					if (((WhitePawn) p).canRightPassant()) {
+					}else if (((WhitePawn) p).canRightPassant()) {
 						if (startX - pos.getX() < 0) {
 							Position target = new Position(startX + 1, startY);
 							this.board.remove(target);
@@ -371,14 +372,15 @@ public class ChessDriver {
 				}
 
 				if (type instanceof BlackPawn) {
-					if (((BlackPawn) p).canLeftPassant()) {
+					if(pos.getY() == 0){
+						((BlackPawn) p).kingMe(board);
+					}else if (((BlackPawn) p).canLeftPassant()) {
 						if (startX - pos.getX() > 0) {
 							Position target = new Position(startX - 1, startY);
 							this.board.remove(target);
 							this.board.add(new DefaultPiece(startX - 1, startY), target);
 						}
-					}
-					if (((BlackPawn) p).canRightPassant()) {
+					}else if (((BlackPawn) p).canRightPassant()) {
 						if (startX - pos.getX() < 0) {
 							Position target = new Position(startX + 1, startY);
 							this.board.remove(target);
