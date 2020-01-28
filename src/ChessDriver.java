@@ -315,13 +315,21 @@ public class ChessDriver {
 			    this.currentY = 0;
 			    this.currentC = null;
 				this.board.incTurn();
-				if(type instanceof BlackKing){}
-					
+
+				if(type instanceof BlackKing){
+					//Castle check and moving rook
+					if(p.getPos().getX() - pos.getX() > 1)
+						move(this.board.get(new Position(0, 7)), new Position(3, 7));
+					else if(p.getPos().getX() - pos.getX() < -1)
+						move(this.board.get(new Position(7, 7)), new Position(5, 7));
 					if(!((BlackKing)p).hasMoved())
 						((BlackKing)p).moved();
 				}
 				if(type instanceof WhiteKing){
-				
+					if(p.getPos().getX() - pos.getX() > 1)
+						move(this.board.get(new Position(0, 0)), new Position(3, 0));
+					else if(p.getPos().getX() - pos.getX() < -1)
+						move(this.board.get(new Position(7, 0)), new Position(5, 0));
 					if(!((BlackKing)p).hasMoved())
 						((WhiteKing)p).moved();
 				}
