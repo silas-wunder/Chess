@@ -1,6 +1,6 @@
 import java.util.ArrayList;
 
-@SuppressWarnings({"rawtypes", "unused"})
+@SuppressWarnings("rawtypes")
 public class BlackKing extends Piece{
 	
 	private boolean inCheck;
@@ -110,17 +110,16 @@ public class BlackKing extends Piece{
 		return true;
 	}
 
-	/**
-	 * If King is in check, inCheck is set to true
-	 */
-	public void inCheck(){ this.inCheck = true; }
-	
-	/**
-	 * Once King is out of check, inCheck is set to false
-	 */
-	public void outOfCheck(){ this.inCheck = false; }
+	public void setCheck(boolean inCheck){
+		this.inCheck = inCheck;
+	}
 
-	
-	public String toString(){ return "BlackKing.png"; }
+	public boolean checkStatus(){
+		return inCheck;
+	}
+
+	public String toString(){
+		return "BlackKing.png";
+	}
 	
 }

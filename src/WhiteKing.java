@@ -1,6 +1,6 @@
 import java.util.ArrayList;
 
-@SuppressWarnings({"rawtypes", "unused"})
+@SuppressWarnings("rawtypes")
 public class WhiteKing extends Piece{
 
 	private boolean inCheck;
@@ -9,6 +9,7 @@ public class WhiteKing extends Piece{
 	public WhiteKing(int x, int y) {
 		super(x, y);
 		inCheck = false;
+		hasMoved = false;
 	}
 
 	/**
@@ -107,6 +108,14 @@ public class WhiteKing extends Piece{
 
 	public void moved(){ 
 		hasMoved = true; 
+	}
+
+	public void setCheck(boolean inCheck){
+		this.inCheck = inCheck;
+	}
+
+	public boolean checkStatus(){
+		return inCheck;
 	}
 
 	public String toString(){ return "WhiteKing.png"; }
