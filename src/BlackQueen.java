@@ -73,7 +73,7 @@ public class BlackQueen extends Piece {
 			p.setY(p.getY() + 1);
 			max++;
 		} while (b.isEmpty(p) && b.isValid(p) && !b.hasBlack(p));
-		for (int i = this.getPos().getY(); i < max; i++) { // Add possible positions FORWARD
+		for (int i = 0; i < max; i++) { // Add possible positions FORWARD
 			positions.add(new Position(this.getPos().getX(), this.getPos().getY() + i));
 		}
 
