@@ -90,10 +90,6 @@ public class WhiteKing extends Piece{
 		return positions;
 	}
 
-	public void moved(){
-		hasMoved = true;
-	}
-
 	public boolean hasMoved(){
 		return hasMoved;
 	}
