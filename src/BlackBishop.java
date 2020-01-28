@@ -73,8 +73,8 @@ public class BlackBishop extends Piece {
 					((WhiteKing) b.get(positions.get(i))).setCheck(true);
 				}
 			}
-
 		}
+
 		return positions;
 
 	}
