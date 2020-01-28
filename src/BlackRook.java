@@ -1,94 +1,103 @@
 import java.util.ArrayList;
+
 @SuppressWarnings("rawtypes")
-public class BlackRook extends Piece {	
+public class BlackRook extends Piece {
 
 	private boolean hasMoved;
 
 	/**
 	 * Constructor setting Position of rook
+	 * 
 	 * @param x x Coordinate
 	 * @param y y Coordinate
 	 */
-	BlackRook(int x, int y){
+	BlackRook(int x, int y) {
 		super(x, y);
 		hasMoved = false;
 	}
-	
+
 	/**
 	 * Returns the current possible moves for this piece
+	 * 
 	 * @return ArrayList<Position> the ArrayList of all possible positions
 	 * @param b the board of the piece
 	 */
-	public ArrayList<Position> getPossibleMoves(Board b){
+	public ArrayList<Position> getPossibleMoves(Board b) {
 		ArrayList<Position> positions = new ArrayList<Position>();
 		Position p = new Position(this.getPos().getX(), this.getPos().getY());
 		int max = 1;
-		
-		//Forward Positions
-		do{
+
+		// Forward Positions
+		do {
 			p.setY(p.getY() + 1);
 			max++;
-		}
-		while(b.isEmpty(p) && b.isValid(p) && !b.hasBlack(p));
-		for(int i = 0; i < max; i++){
+		} while (b.isEmpty(p) && b.isValid(p) && !b.hasBlack(p));
+		for (int i = 0; i < max; i++) {
 			positions.add(new Position(this.getPos().getX(), this.getPos().getY() + i));
 		}
-		
-		//Positions to the Right
-		
+
+		// Positions to the Right
+
 		p.setY(this.getPos().getY());
 		p.setX(this.getPos().getX());
 		max = 1;
-		
-		do{
+
+		do {
 			p.setX(p.getX() + 1);
 			max++;
-		}
-		while(b.isEmpty(p) && b.isValid(p) && !b.hasBlack(p));
-		for(int i = 0; i < max; i++){
+		} while (b.isEmpty(p) && b.isValid(p) && !b.hasBlack(p));
+		for (int i = 0; i < max; i++) {
 			positions.add(new Position(this.getPos().getX() + i, this.getPos().getY()));
 		}
-		
-		//Positions to the Left
-		
+
+		// Positions to the Left
+
 		max = 1;
 		p.setY(this.getPos().getY());
 		p.setX(this.getPos().getX());
-		
-		do{
+
+		do {
 			p.setX(p.getX() - 1);
 			max++;
-		}while(b.isEmpty(p) && b.isValid(p) && !b.hasBlack(p));
-		for(int i = max - 1; i >= 0; i--){
+		} while (b.isEmpty(p) && b.isValid(p) && !b.hasBlack(p));
+		for (int i = max - 1; i >= 0; i--) {
 			positions.add(new Position(this.getPos().getX() - i, this.getPos().getY()));
 		}
-		
-		//Positions Behind
-		
+
+		// Positions Behind
+
 		max = 1;
 		p.setY(this.getPos().getY());
 		p.setX(this.getPos().getX());
-		
-		do{
+
+		do {
 			p.setY(p.getY() - 1);
 			max++;
-		}
-		while(b.isEmpty(p) && b.isValid(p) && !b.hasBlack(p));
-		for(int i = max - 1; i >= 0; i--){
+		} while (b.isEmpty(p) && b.isValid(p) && !b.hasBlack(p));
+		for (int i = max - 1; i >= 0; i--) {
 			positions.add(new Position(this.getPos().getX(), this.getPos().getY() - i));
 		}
+
+		for (int i = 0; i < positions.size() - 1; i++) {
+			if (b.isValid(positions.get(i))) {
+				if (b.get(positions.get(i)) instanceof WhiteKing) {
+					((WhiteKing) b.get(positions.get(i))).setCheck(true);
+				}
+			}
+		}
+
 		return positions;
 	}
 
-	public void moved(){
+	public void moved() {
 		hasMoved = true;
 	}
 
-	public boolean hasMoved(){
+	public boolean hasMoved() {
 		return hasMoved;
 	}
-	
-	public String toString(){
+
+	public String toString() {
 		return "BlackRook.png";
 	}
 

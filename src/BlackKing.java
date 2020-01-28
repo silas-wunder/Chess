@@ -1,8 +1,8 @@
 import java.util.ArrayList;
 
 @SuppressWarnings("rawtypes")
-public class BlackKing extends Piece{
-	
+public class BlackKing extends Piece {
+
 	private boolean inCheck;
 	private boolean hasMoved;
 
@@ -14,89 +14,98 @@ public class BlackKing extends Piece{
 
 	/**
 	 * Returns the current possible moves for this piece
+	 * 
 	 * @return ArrayList<Position> the ArrayList of all possible positions
 	 * @param b the board of the piece
 	 */
 	public ArrayList<Position> getPossibleMoves(Board b) {
 		ArrayList<Position> positions = new ArrayList<Position>();
 		Position p = new Position(this.getPos().getX(), this.getPos().getY());
-		
-		//Checks the position to the right
-		
-		if(b.isValid(new Position(p.getX() + 1, p.getY())))
-			if(!b.hasBlack(new Position(p.getX() + 1, p.getY())))
-				positions.add(new Position(p.getX() + 1, p.getY()));
-		
-		//Checks the position to the left
-		
-		if(b.isValid(new Position(p.getX() - 1 , p.getY())))
-			if(!b.hasBlack(new Position(p.getX() - 1, p.getY())))
-				positions.add(new Position(p.getX() - 1, p.getY()));
-		
-		//Checks the position above
-		
-		if(b.isValid(new Position(p.getX(), p.getY() + 1)))
-			if(!b.hasBlack(new Position(p.getX(), p.getY() + 1)))
-				positions.add(new Position(p.getX(), p.getY() + 1));
-		
-		//Checks the position below
-		
-		if(b.isValid(new Position(p.getX(), p.getY() - 1)))
-			if(!b.hasBlack(new Position(p.getX(), p.getY() - 1)))
-				positions.add(new Position(p.getX(), p.getY() - 1));
-		
-		//Checks the position to the diagonal up - right
-		
-		if(b.isValid(new Position(p.getX() + 1, p .getY() + 1)))
-			if(!b.hasBlack(new Position(p.getX() + 1, p.getY() + 1)))
-				positions.add(new Position(p.getX() + 1, p .getY() + 1));
-		
-		//Checks the position to the diagonal down - right
-		
-		if(b.isValid(new Position(p.getX() + 1, p .getY() - 1)))
-			if(!b.hasBlack(new Position(p.getX() + 1, p.getY() - 1)))
-				positions.add(new Position(p.getX() + 1, p .getY() - 1));
-		
-		//Checks the position to the diagonal up - left
-		
-		if(b.isValid(new Position(p.getX() - 1, p .getY() + 1)))
-			if(!b.hasBlack(new Position(p.getX() - 1, p.getY() + 1)))
-				positions.add(new Position(p.getX() - 1, p .getY() + 1));
-		
-		//Checks the position to the diagonal down - left
-		
-		if(b.isValid(new Position(p.getX() - 1, p .getY() - 1)))
-			if(!b.hasBlack(new Position(p.getX() - 1, p.getY() - 1)))
-				positions.add(new Position(p.getX() - 1, p .getY() - 1));
 
-		//Checks conditions for the castle move
-		if(!hasMoved){
-			//Checks if the spaces to the right are empty
-			if(b.isEmpty(new Position(5, 7)) && b.isEmpty(new Position(6, 7))){
-				if(b.getType(new Position(7, 7)) instanceof BlackRook){
-					if(!((BlackRook)(b.get(new Position(7, 7)))).hasMoved()){
+		// Checks the position to the right
+
+		if (b.isValid(new Position(p.getX() + 1, p.getY())))
+			if (!b.hasBlack(new Position(p.getX() + 1, p.getY())))
+				positions.add(new Position(p.getX() + 1, p.getY()));
+
+		// Checks the position to the left
+
+		if (b.isValid(new Position(p.getX() - 1, p.getY())))
+			if (!b.hasBlack(new Position(p.getX() - 1, p.getY())))
+				positions.add(new Position(p.getX() - 1, p.getY()));
+
+		// Checks the position above
+
+		if (b.isValid(new Position(p.getX(), p.getY() + 1)))
+			if (!b.hasBlack(new Position(p.getX(), p.getY() + 1)))
+				positions.add(new Position(p.getX(), p.getY() + 1));
+
+		// Checks the position below
+
+		if (b.isValid(new Position(p.getX(), p.getY() - 1)))
+			if (!b.hasBlack(new Position(p.getX(), p.getY() - 1)))
+				positions.add(new Position(p.getX(), p.getY() - 1));
+
+		// Checks the position to the diagonal up - right
+
+		if (b.isValid(new Position(p.getX() + 1, p.getY() + 1)))
+			if (!b.hasBlack(new Position(p.getX() + 1, p.getY() + 1)))
+				positions.add(new Position(p.getX() + 1, p.getY() + 1));
+
+		// Checks the position to the diagonal down - right
+
+		if (b.isValid(new Position(p.getX() + 1, p.getY() - 1)))
+			if (!b.hasBlack(new Position(p.getX() + 1, p.getY() - 1)))
+				positions.add(new Position(p.getX() + 1, p.getY() - 1));
+
+		// Checks the position to the diagonal up - left
+
+		if (b.isValid(new Position(p.getX() - 1, p.getY() + 1)))
+			if (!b.hasBlack(new Position(p.getX() - 1, p.getY() + 1)))
+				positions.add(new Position(p.getX() - 1, p.getY() + 1));
+
+		// Checks the position to the diagonal down - left
+
+		if (b.isValid(new Position(p.getX() - 1, p.getY() - 1)))
+			if (!b.hasBlack(new Position(p.getX() - 1, p.getY() - 1)))
+				positions.add(new Position(p.getX() - 1, p.getY() - 1));
+
+		// Checks conditions for the castle move
+		if (!hasMoved) {
+			// Checks if the spaces to the right are empty
+			if (b.isEmpty(new Position(5, 7)) && b.isEmpty(new Position(6, 7))) {
+				if (b.getType(new Position(7, 7)) instanceof BlackRook) {
+					if (!((BlackRook) (b.get(new Position(7, 7)))).hasMoved()) {
 						positions.add(new Position(6, 7));
 					}
 				}
 			}
-			//Checks if the spaces to the left are empty
-			if(b.isEmpty(new Position(3, 7)) && b.isEmpty(new Position(2, 7)) && b.isEmpty(new Position(1, 7))){
-				if(b.getType(new Position(0, 7)) instanceof BlackRook){
-					if(!((BlackRook)(b.get(new Position(0, 7)))).hasMoved()){
+			// Checks if the spaces to the left are empty
+			if (b.isEmpty(new Position(3, 7)) && b.isEmpty(new Position(2, 7)) && b.isEmpty(new Position(1, 7))) {
+				if (b.getType(new Position(0, 7)) instanceof BlackRook) {
+					if (!((BlackRook) (b.get(new Position(0, 7)))).hasMoved()) {
 						positions.add(new Position(2, 7));
 					}
 				}
 			}
-		}	
-		
+		}
+
+		for (int i = 0; i < positions.size() - 1; i++) {
+			if (b.isValid(positions.get(i))) {
+				if (b.get(positions.get(i)) instanceof WhiteKing) {
+					((WhiteKing) b.get(positions.get(i))).setCheck(true);
+				}
+			}
+		}
+
 		return positions;
 	}
 
-	public void moved(){
+	public void moved() {
 		hasMoved = true;
 	}
 
-	public boolean hasMoved(){
+	public boolean hasMoved() {
 		return hasMoved;
 	}
 
@@ -110,16 +119,16 @@ public class BlackKing extends Piece{
 		return true;
 	}
 
-	public void setCheck(boolean inCheck){
+	public void setCheck(boolean inCheck) {
 		this.inCheck = inCheck;
 	}
 
-	public boolean checkStatus(){
+	public boolean checkStatus() {
 		return inCheck;
 	}
 
-	public String toString(){
+	public String toString() {
 		return "BlackKing.png";
 	}
-	
+
 }
