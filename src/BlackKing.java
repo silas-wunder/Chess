@@ -73,8 +73,8 @@ public class BlackKing extends Piece{
 		if(!hasMoved){
 			//Checks if the spaces to the right are empty
 			if(b.isEmpty(new Position(5, 7)) && b.isEmpty(new Position(6, 7))){
-				if(b.getType(new Position(7, 7)) instanceof BlackKnight){
-					if(((BlackKnight)(b.get(new Position(7, 7)))).hasMoved()){
+				if(b.getType(new Position(7, 7)) instanceof BlackRook){
+					if(((BlackRook)(b.get(new Position(7, 7)))).hasMoved()){
 
 					}
 				}

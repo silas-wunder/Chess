@@ -2,7 +2,6 @@ import java.util.ArrayList;
 
 public class BlackKnight extends Piece{
 
-	private boolean hasMoved;
 
 	/**
 	 * Makes a Knight object
@@ -11,7 +10,6 @@ public class BlackKnight extends Piece{
 	 */
 	public BlackKnight(int x, int y) {
 		super(x, y);
-		hasMoved = false;
 	}
 
 	/**
@@ -41,13 +39,7 @@ public class BlackKnight extends Piece{
 		return positions;
 	}
 
-	public void moved(){
-		hasMoved = true;
-	}
-
-	public boolean hasMoved(){
-		return hasMoved;
-	}
+	
 
 	@Override
 	public boolean isWhite() {

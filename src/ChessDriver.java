@@ -334,10 +334,10 @@ public class ChessDriver {
 						((WhiteKing)p).moved();
 				}
 				//Turns hasMoved variable to true after being moved
-				if(type instanceof BlackKnight && !((BlackKnight)p).hasMoved())
-					((BlackKnight)p).moved();
-				if(type instanceof WhiteKnight && !((WhiteKnight)p).hasMoved())
-					((WhiteKnight)p).moved();
+				if(type instanceof BlackRook && !((BlackRook)p).hasMoved())
+					((BlackRook)p).moved();
+				if(type instanceof WhiteRook && !((WhiteRook)p).hasMoved())
+					((WhiteRook)p).moved();
 		    }else{
 
 		    }

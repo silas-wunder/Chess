@@ -1,5 +1,8 @@
 import java.util.ArrayList;
 public class WhiteRook extends Piece {	
+
+	private boolean hasMoved;
+
 	/**
 	 * Constructor setting Position of rook
 	 * @param x x Coordinate
@@ -7,6 +10,7 @@ public class WhiteRook extends Piece {
 	 */
 	WhiteRook(int x, int y){
 		super(x, y);
+		hasMoved = false;
 	}
 	
 	/**
@@ -73,6 +77,14 @@ public class WhiteRook extends Piece {
 			positions.add(new Position(this.getPos().getX(), this.getPos().getY() - i));
 		}
 		return positions;
+	}
+
+	public void moved(){
+		hasMoved = true;
+	}
+
+	public boolean hasMoved(){
+		return hasMoved;
 	}
 	
 	public String toString(){

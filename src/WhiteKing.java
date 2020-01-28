@@ -71,8 +71,8 @@ public class WhiteKing extends Piece{
 		if(!hasMoved){
 			//Checks if the spaces to the right are empty
 			if(b.isEmpty(new Position(5, 0)) && b.isEmpty(new Position(6, 0))){
-				if(b.getType(new Position(0, 0)) instanceof BlackKnight){
-					if(((BlackKnight)(b.get(new Position(0, 0)))).hasMoved()){
+				if(b.getType(new Position(0, 0)) instanceof WhiteRook){
+					if(((WhiteRook)(b.get(new Position(0, 0)))).hasMoved()){
 
 					}
 				}
