@@ -4,7 +4,8 @@ import java.util.ArrayList;
 public class WhitePawn extends Piece{
 	
 	private boolean hasMoved;
-	private boolean canPassant;
+	private boolean canLeftPassant;
+	private boolean canRightPassant;
 	
 	/**
 	 * Makes a Pawn piece
@@ -29,16 +30,13 @@ public class WhitePawn extends Piece{
 			if(b.isValid(new Position(p.getX() - 1, p .getY() + 1)))
 				positions.add(new Position(p.getX() - 1, p .getY() + 1));
 		}
-		
 		//Checks the right diagonal position to see if there is a piece there 
 		if(!b.isEmpty(new Position(p.getX() + 1, p.getY() + 1))){
 			if(b.isValid(new Position(p.getX() + 1, p .getY() + 1)))
 				positions.add(new Position(p.getX() + 1, p .getY() + 1));
 		}
-		
 		//Checks to see if the pawn has moved yet
 		if(!hasMoved){
-			
 			//If the pawn hasn't moved, it has the option to move 1 forward or 2 forward
 			if(b.isEmpty(new Position(p.getX(), p.getY() + 1)))
 				if(b.isValid(new Position(p.getX(), p.getY() + 1)))
@@ -47,8 +45,7 @@ public class WhitePawn extends Piece{
 			if(b.isEmpty(new Position(p.getX(), p.getY() + 2)))
 				if(b.isValid(new Position(p.getX(), p.getY() + 2)))
 					positions.add(new Position(p.getX(), p.getY() + 2));
-		}else{
-				
+		}else{	
 			//Only adds the space in front of the pawn if it has moved
 			if(b.isEmpty(new Position(p.getX(), p.getY() + 1)))
 				if(b.isValid(new Position(p.getX(), p.getY() + 1)))
@@ -76,9 +73,13 @@ public class WhitePawn extends Piece{
 
 	public boolean hasMoved(){ return this.hasMoved; }
 
-	public void canPassant(boolean canPassant){ this.canPassant = canPassant; }
+	public void canLeftPassant(boolean canPassant){ this.canLeftPassant = canPassant; }
 
-	public boolean canPassant(){ return this.canPassant; }
+	public boolean canLeftPassant(){ return this.canLeftPassant; }
+
+	public void canRightPassant(boolean canPassant){ this.canRightPassant = canPassant; }
+
+	public boolean canRightPassant(){ return this.canRightPassant; }
 	
 	public String toString(){ return "WhitePawn.png"; }
 }
