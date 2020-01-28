@@ -67,6 +67,22 @@ public class WhiteKing extends Piece{
 			if(!b.hasWhite(new Position(p.getX() - 1, p.getY() - 1)))
 				positions.add(new Position(p.getX() - 1, p .getY() - 1));
 		
+		//Checks conditions for the castle move
+		if(!hasMoved){
+			//Checks if the spaces to the right are empty
+			if(b.isEmpty(new Position(5, 0)) && b.isEmpty(new Position(6, 0))){
+				if(b.getType(new Position(0, 0)) instanceof BlackKnight){
+					if(((BlackKnight)(b.get(new Position(0, 0)))).hasMoved()){
+
+					}
+				}
+			}
+			//Checks if the spaces to the left are empty
+			if(b.isEmpty(new Position(3, 0)) && b.isEmpty(new Position(2, 0)) && b.isEmpty(new Position(1, 0))){
+
+			}
+		}
+
 		return positions;
 	}
 
