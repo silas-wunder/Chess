@@ -326,7 +326,7 @@ public class ChessDriver {
 						}
 						if(this.board.isValid(rightPos)){
 							if(this.board.get(rightPos) instanceof BlackPawn){
-								((BlackPawn)this.board.get(rightPos)).canRightPassant(true);
+								((BlackPawn)this.board.get(rightPos)).canLeftPassant(true);
 							}
 						}
 					}

@@ -26,12 +26,12 @@ public class WhitePawn extends Piece{
 		ArrayList<Position> positions = new ArrayList<Position>();
 		Position p = new Position(this.getPos().getX(), this.getPos().getY());
 		//Checks the left diagonal position to see if there is a piece there 
-		if(!b.isEmpty(new Position(p.getX() - 1, p.getY() + 1))){
+		if(!b.isEmpty(new Position(p.getX() - 1, p.getY() + 1)) || this.canLeftPassant){
 			if(b.isValid(new Position(p.getX() - 1, p .getY() + 1)))
 				positions.add(new Position(p.getX() - 1, p .getY() + 1));
 		}
 		//Checks the right diagonal position to see if there is a piece there 
-		if(!b.isEmpty(new Position(p.getX() + 1, p.getY() + 1))){
+		if(!b.isEmpty(new Position(p.getX() + 1, p.getY() + 1)) || this.canRightPassant){
 			if(b.isValid(new Position(p.getX() + 1, p .getY() + 1)))
 				positions.add(new Position(p.getX() + 1, p .getY() + 1));
 		}
