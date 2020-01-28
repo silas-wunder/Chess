@@ -59,7 +59,7 @@ public class WhiteRook extends Piece {
 			p.setX(p.getX() - 1);
 			max++;
 		}while(b.isEmpty(p) && b.isValid(p) && !b.hasWhite(p));
-		for(int i = max; i >= 0; i--){
+		for(int i = max - 1; i >= 0; i--){
 			positions.add(new Position(this.getPos().getX() - i, this.getPos().getY()));
 		}
 		
@@ -74,7 +74,7 @@ public class WhiteRook extends Piece {
 			max++;
 		}
 		while(b.isEmpty(p) && b.isValid(p) && !b.hasWhite(p));
-		for(int i = max; i >= 0; i--){
+		for(int i = max - 1; i >= 0; i--){
 			positions.add(new Position(this.getPos().getX(), this.getPos().getY() - i));
 		}
 		return positions;
