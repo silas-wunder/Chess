@@ -1,4 +1,4 @@
-
+package src.main.java;
 public class Position{
 	/**
 	 * x coordinate of Position

@@ -1,3 +1,4 @@
+package src.main.java;
 /******************************************************************************
  *  Compilation:  javac StdDraw.java
  *  Execution:    java StdDraw
