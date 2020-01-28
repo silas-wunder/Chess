@@ -69,21 +69,33 @@ public class WhiteKing extends Piece{
 		
 		//Checks conditions for the castle move
 		if(!hasMoved){
-			//Checks if the spaces to the right are empty
+			//Checks castle conditions to the right
 			if(b.isEmpty(new Position(5, 0)) && b.isEmpty(new Position(6, 0))){
-				if(b.getType(new Position(0, 0)) instanceof WhiteRook){
-					if(((WhiteRook)(b.get(new Position(0, 0)))).hasMoved()){
-
+				if(b.getType(new Position(7, 0)) instanceof WhiteRook){
+					if(!((WhiteRook)(b.get(new Position(7, 0)))).hasMoved()){
+						positions.add(new Position(6, 0));
 					}
 				}
 			}
-			//Checks if the spaces to the left are empty
+			//Checks castle conditions to the left
 			if(b.isEmpty(new Position(3, 0)) && b.isEmpty(new Position(2, 0)) && b.isEmpty(new Position(1, 0))){
-
+				if(b.getType(new Position(0, 0)) instanceof WhiteRook){
+					if(!((WhiteRook)(b.get(new Position(0, 0)))).hasMoved()){
+						positions.add(new Position(2, 0));
+					}
+				}
 			}
 		}
 
 		return positions;
+	}
+
+	public void moved(){
+		hasMoved = true;
+	}
+
+	public boolean hasMoved(){
+		return hasMoved;
 	}
 
 	@Override

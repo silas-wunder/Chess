@@ -330,7 +330,7 @@ public class ChessDriver {
 						move(this.board.get(new Position(0, 0)), new Position(3, 0));
 					else if(p.getPos().getX() - pos.getX() < -1)
 						move(this.board.get(new Position(7, 0)), new Position(5, 0));
-					if(!((BlackKing)p).hasMoved())
+					if(!((WhiteKing)p).hasMoved())
 						((WhiteKing)p).moved();
 				}
 				//Turns hasMoved variable to true after being moved

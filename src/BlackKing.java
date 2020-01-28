@@ -74,18 +74,30 @@ public class BlackKing extends Piece{
 			//Checks if the spaces to the right are empty
 			if(b.isEmpty(new Position(5, 7)) && b.isEmpty(new Position(6, 7))){
 				if(b.getType(new Position(7, 7)) instanceof BlackRook){
-					if(((BlackRook)(b.get(new Position(7, 7)))).hasMoved()){
-
+					if(!((BlackRook)(b.get(new Position(7, 7)))).hasMoved()){
+						positions.add(new Position(6, 7));
 					}
 				}
 			}
 			//Checks if the spaces to the left are empty
 			if(b.isEmpty(new Position(3, 7)) && b.isEmpty(new Position(2, 7)) && b.isEmpty(new Position(1, 7))){
-
+				if(b.getType(new Position(0, 7)) instanceof BlackRook){
+					if(!((BlackRook)(b.get(new Position(0, 7)))).hasMoved()){
+						positions.add(new Position(2, 7));
+					}
+				}
 			}
 		}	
 		
 		return positions;
+	}
+
+	public void moved(){
+		hasMoved = true;
+	}
+
+	public boolean hasMoved(){
+		return hasMoved;
 	}
 
 	@Override
@@ -108,13 +120,6 @@ public class BlackKing extends Piece{
 	 */
 	public void outOfCheck(){ this.inCheck = false; }
 
-	public void moved(){ 
-		this.hasMoved = true;
-	}	
-
-	public boolean hasMoved(){
-		return hasMoved;
-	}
 	
 	public String toString(){ return "BlackKing.png"; }
 	
