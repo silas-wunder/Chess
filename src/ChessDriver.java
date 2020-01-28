@@ -318,20 +318,36 @@ public class ChessDriver {
 
 				if(type instanceof BlackKing){
 					//Castle check and moving rook
-					if(p.getPos().getX() - pos.getX() > 1)
-						move(this.board.get(new Position(0, 7)), new Position(3, 7));
-					else if(p.getPos().getX() - pos.getX() < -1)
-						move(this.board.get(new Position(7, 7)), new Position(5, 7));
-					if(!((BlackKing)p).hasMoved())
+					
+					if(!((BlackKing)p).hasMoved()){
+						if(4 - pos.getX() > 1){
+						this.currentPiece = this.board.get(new Position(0, 7));
+						move(this.currentPiece, new Position(3, 7));
+						this.board.incTurn();
+					}else if(4 - pos.getX() < -1){
+						this.currentPiece = this.board.get(new Position(7, 7));
+						move(this.currentPiece, new Position(5, 7));
+						this.board.incTurn();
+					}
 						((BlackKing)p).moved();
+					}
 				}
 				if(type instanceof WhiteKing){
-					if(p.getPos().getX() - pos.getX() > 1)
-						move(this.board.get(new Position(0, 0)), new Position(3, 0));
-					else if(p.getPos().getX() - pos.getX() < -1)
-						move(this.board.get(new Position(7, 0)), new Position(5, 0));
-					if(!((WhiteKing)p).hasMoved())
+					//System.out.println(p.getPos().getX() + "   " + pos.getX());
+					
+					if(!((WhiteKing)p).hasMoved()){
+						if(4 - pos.getX() > 1){
+						this.currentPiece = this.board.get(new Position(0, 0));
+						move(this.currentPiece, new Position(3, 0));
+						this.board.incTurn();
+					}else if(4 - pos.getX() < -1){
+						this.currentPiece = this.board.get(new Position(7, 0));
+						move(this.currentPiece, new Position(5, 0));
+						this.board.incTurn();
+						System.out.println("haha dummy");
+					}
 						((WhiteKing)p).moved();
+					}
 				}
 				//Turns hasMoved variable to true after being moved
 				if(type instanceof BlackRook && !((BlackRook)p).hasMoved())
