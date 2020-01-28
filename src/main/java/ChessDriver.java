@@ -291,6 +291,8 @@ public class ChessDriver {
 	 */
 	public void move(Piece p, Position pos){
 		Object type = this.board.getType(p.getPos());
+		int startX = p.getPos().getX();
+		int startY = p.getPos().getY();
 		if(this.board.isValid(pos)){
 			if((p.isWhite() == this.board.hasBlack(pos) && p.isBlack() == this.board.hasWhite(pos)) || (this.board.hasWhite(pos) == this.board.hasBlack(pos))){
 				this.board.remove(pos);
@@ -327,7 +329,7 @@ public class ChessDriver {
 						}
 						if(this.board.isValid(rightPos)){
 							if(this.board.get(rightPos) instanceof BlackPawn){
-								((BlackPawn)this.board.get(rightPos)).canRightPassant(true);
+								((BlackPawn)this.board.get(rightPos)).canLeftPassant(true);
 							}
 						}
 					}
@@ -337,27 +339,35 @@ public class ChessDriver {
 
 				if(type instanceof WhitePawn){
 					if(((WhitePawn)p).canLeftPassant()){
-						if(p.getPos().getX() - pos.getX() > 0){
-							this.board.remove(new Position(pos.getX(), pos.getY() - 1));
-						}
+						if(startX - pos.getX() > 0){
+							Position target = new Position(startX - 1, startY);
+							this.board.remove(target);
+							this.board.add(new DefaultPiece(startX - 1, startY), target);
 					}
+				}
 					if(((WhitePawn)p).canRightPassant()){
-						if(p.getPos().getX() - pos.getX() < 0){
-							this.board.remove(new Position(pos.getX(), pos.getY() - 1));
-						}
+						if(startX - pos.getX() > 0){
+							Position target = new Position(startX + 1, startY);
+							this.board.remove(target);
+							this.board.add(new DefaultPiece(startX + 1, startY), target);
+					}
 					}
 				}
 
 				if(type instanceof BlackPawn){
 					if(((BlackPawn)p).canLeftPassant()){
-						if(p.getPos().getX() - pos.getX() > 0){
-							this.board.remove(new Position(pos.getX(), pos.getY() + 1));
-						}
+						if(startX - pos.getX() > 0){
+							Position target = new Position(startX - 1, startY);
+							this.board.remove(target);
+							this.board.add(new DefaultPiece(startX - 1, startY), target);
+					}
 					}
 					if(((BlackPawn)p).canRightPassant()){
-						if(p.getPos().getX() - pos.getX() < 0){
-							this.board.remove(new Position(pos.getX(), pos.getY() + 1));
-						}
+						if(startX - pos.getX() > 0){
+							Position target = new Position(startX + 1, startY);
+							this.board.remove(target);
+							this.board.add(new DefaultPiece(startX + 1, startY), target);
+					}
 					}
 
 				}
