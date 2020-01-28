@@ -455,6 +455,96 @@ public class ChessDriver {
 	}
 
 	/**
+	 * determines which king if any is in check
+	 * returns 0 if neither in check
+	 * returns 1 if white in check
+	 * returns 2 if black in check
+	 * @return int representing which king is in check
+	 */
+	public int checkCheck(Board b){
+		ArrayList <Position> blackPositions = blackLocations(b);
+		ArrayList <Position> whitePositions = whiteLocations(b);
+		WhiteKing wKing = new WhiteKing(-1, -1);
+		BlackKing bKing = new BlackKing(-1, -1);
+
+		if(b.whiteTurn()){
+			for(int i = 0; i < whitePositions.size(); i++){
+				if(b.get(whitePositions.get(i)) instanceof WhiteKing){
+					wKing = ((WhiteKing)b.get(whitePositions.get(i)));
+					wKing.setCheck(false);
+				}
+			}
+			checkPossibleMoves(blackPositions, b);
+			if(wKing.checkStatus()){
+				return 1;
+			}
+
+		}else{
+			for(int i = 0; i < blackPositions.size(); i++){
+				if(b.get(blackPositions.get(i)) instanceof BlackKing){
+					bKing = ((BlackKing)b.get(blackPositions.get(i)));
+					bKing.setCheck(false);
+				}
+			}
+			checkPossibleMoves(whitePositions, b);
+			if(bKing.checkStatus()){
+				return 2;
+			}
+
+
+		}
+
+		return 0;
+	}
+
+
+	public ArrayList<Position> blackLocations(Board b){
+		ArrayList<Position> positions = new ArrayList<Position>();
+		int count = 0;
+		for(int y = 7; y > -1; y--){
+			for(int x = 0; x < 8; x++){
+				if(b.hasBlack(new Position(x, y))){
+					positions.add(new Position(x, y));
+					count++;
+				}
+				if(count > 15)
+					break;
+			}
+			if(count > 15)
+					break;
+		}
+
+		return positions;
+	}
+
+	public ArrayList<Position> whiteLocations(Board b){
+		ArrayList<Position> positions = new ArrayList<Position>();
+		int count = 0;
+		for(int y = 0; y < 8; y++){
+			for(int x = 0; x < 8; x++){
+				if(b.hasWhite(new Position(x, y))){
+					positions.add(new Position(x, y));
+					count++;
+				}
+				if(count > 15)
+					break;
+			}
+			if(count > 15)
+					break;
+		}
+
+		return positions;
+	}
+
+	private void checkPossibleMoves(ArrayList <Position> pieces, Board b){
+		for(int i = 0; i < pieces.size(); i++){
+			b.get(pieces.get(i)).getPossibleMoves(b);
+		}
+	}
+
+
+
+	/**
 	 * Assigns currentPiece the value of posPiece (currentPiece is a placeholder of
 	 * sorts) Says a piece has been selected Assigns new color in color array for
 	 * easier access when redoing rectangles
