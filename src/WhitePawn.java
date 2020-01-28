@@ -1,8 +1,10 @@
 import java.util.ArrayList;
 
+@SuppressWarnings("rawtypes")
 public class WhitePawn extends Piece{
 	
 	private boolean hasMoved;
+	private boolean canPassant;
 	
 	/**
 	 * Makes a Pawn piece
@@ -71,6 +73,12 @@ public class WhitePawn extends Piece{
 	public boolean isBlack(){ return false; }
 	
 	public void moved(){ this.hasMoved = true; }
+
+	public boolean hasMoved(){ return this.hasMoved; }
+
+	public void canPassant(boolean canPassant){ this.canPassant = canPassant; }
+
+	public boolean canPassant(){ return this.canPassant; }
 	
 	public String toString(){ return "WhitePawn.png"; }
 }

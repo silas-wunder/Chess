@@ -1,9 +1,8 @@
 import java.awt.*;
 import java.util.ArrayList;
 
-@SuppressWarnings("unused")
+@SuppressWarnings({"rawtypes", "unused"})
 public class ChessDriver {
-	@SuppressWarnings("rawtypes")
 	/**
 	 * Main board in Chess.
 	 */
@@ -183,7 +182,7 @@ public class ChessDriver {
 	 */
 	public void listen(){
 		while(this.running){
-			if(StdDraw.mousePressed()){
+			if(StdDraw.isMousePressed()){
 				click(StdDraw.mouseX(), StdDraw.mouseY());
 				StdDraw.pause(120);
 			}
@@ -299,10 +298,40 @@ public class ChessDriver {
 				p.getPos().setX(pos.getX());
 				p.getPos().setY(pos.getY());
 				this.board.add((Piece) type, pos);
-				if(type instanceof BlackPawn)
+				if(type instanceof BlackPawn && !((BlackPawn)this.board.getType(pos)).hasMoved()){
+					if(6 - pos.getY() == 2){
+						Position leftPos = new Position(pos.getX() - 1, pos.getY());
+						Position rightPos = new Position(pos.getX() + 1, pos.getY());
+						if(this.board.isValid(leftPos)){
+							if(this.board.get(leftPos) instanceof WhitePawn){
+								((WhitePawn)this.board.get(leftPos)).canPassant(true);
+							}
+						}
+						if(this.board.isValid(rightPos)){
+							if(this.board.get(rightPos) instanceof WhitePawn){
+								((WhitePawn)this.board.get(rightPos)).canPassant(true);
+							}
+						}
+					}
 					((BlackPawn)this.board.getType(pos)).moved();
-				if(type instanceof WhitePawn)
+				}
+				if(type instanceof WhitePawn && !((WhitePawn)this.board.getType(pos)).hasMoved()){
+					if(pos.getY() - 1 == 2){
+						Position leftPos = new Position(pos.getX() - 1, pos.getY());
+						Position rightPos = new Position(pos.getX() + 1, pos.getY());
+						if(this.board.isValid(leftPos)){
+							if(this.board.get(leftPos) instanceof BlackPawn){
+								((BlackPawn)this.board.get(leftPos)).canPassant(true);
+							}
+						}
+						if(this.board.isValid(rightPos)){
+							if(this.board.get(rightPos) instanceof BlackPawn){
+								((BlackPawn)this.board.get(rightPos)).canPassant(true);
+							}
+						}
+					}
 					((WhitePawn)this.board.getType(pos)).moved();
+				}
 			    StdDraw.setPenColor(colors[p.getPos().getX()][p.getPos().getY()]);
 			    StdDraw.filledRectangle(xValue + (inc*p.getPos().getX()), yValue + (inc*p.getPos().getY()), xValue, yValue);
 			    StdDraw.setPenColor(colors[pos.getX()][pos.getY()]);

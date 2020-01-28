@@ -1,5 +1,6 @@
 import java.util.ArrayList;
 
+@SuppressWarnings("rawtypes")
 public class BlackKnight extends Piece{
 
 

@@ -1,8 +1,10 @@
 import java.util.ArrayList;
 
+@SuppressWarnings("rawtypes")
 public class BlackPawn extends Piece{
 	
 	private boolean hasMoved;
+	private boolean canPassant;
 	
 	/**
 	 * Makes a Pawn piece
@@ -33,6 +35,7 @@ public class BlackPawn extends Piece{
 					if(b.isValid(new Position(p.getX() + 1, p .getY() - 1)))
 						positions.add(new Position(p.getX() + 1, p .getY() - 1));
 				}
+				
 		//Checks to see if the pawn has moved yet
 		if(!hasMoved){
 				
@@ -70,6 +73,12 @@ public class BlackPawn extends Piece{
 	public boolean isBlack(){ return true; }
 	
 	public void moved(){ this.hasMoved = true; }
+
+	public boolean hasMoved(){ return this.hasMoved; }
+
+	public void canPassant(boolean canPassant){ this.canPassant = canPassant; }
+
+	public boolean canPassant(){ return this.canPassant; }
 	
 	public String toString(){ return "BlackPawn.png"; }
 }
