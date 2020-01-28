@@ -359,7 +359,6 @@ public class ChessDriver {
 							Position target = new Position(startX - 1, startY);
 							this.board.remove(target);
 							this.board.add(new DefaultPiece(startX - 1, startY), target);
-							System.out.println("jjjjjjjjjj");
 						}
 					}
 					if (((WhitePawn) p).canRightPassant()) {
@@ -367,7 +366,6 @@ public class ChessDriver {
 							Position target = new Position(startX + 1, startY);
 							this.board.remove(target);
 							this.board.add(new DefaultPiece(startX + 1, startY), target);
-							System.out.println("jjjjjjjjjj");
 						}
 					}
 				}
@@ -385,7 +383,6 @@ public class ChessDriver {
 							Position target = new Position(startX + 1, startY);
 							this.board.remove(target);
 							this.board.add(new DefaultPiece(startX + 1, startY), target);
-							System.out.println("jjjjjjjjjj");
 						}
 					}
 
