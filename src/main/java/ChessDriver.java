@@ -299,7 +299,7 @@ public class ChessDriver {
 				p.getPos().setX(pos.getX());
 				p.getPos().setY(pos.getY());
 				this.board.add((Piece) type, pos);
-				if(type instanceof BlackPawn && !((BlackPawn)this.board.getType(pos)).hasMoved()){
+				if(type instanceof BlackPawn && !((BlackPawn)this.board.getType(pos)).hasMoved()){  //conditions for passant
 					if(6 - pos.getY() == 2){
 						Position leftPos = new Position(pos.getX() - 1, pos.getY());
 						Position rightPos = new Position(pos.getX() + 1, pos.getY());
@@ -316,7 +316,7 @@ public class ChessDriver {
 					}
 					((BlackPawn)this.board.getType(pos)).moved();
 				}
-				if(type instanceof WhitePawn && !((WhitePawn)this.board.getType(pos)).hasMoved()){
+				if(type instanceof WhitePawn && !((WhitePawn)this.board.getType(pos)).hasMoved()){ 	//conditions for passant
 					if(pos.getY() - 1 == 2){
 						Position leftPos = new Position(pos.getX() - 1, pos.getY());
 						Position rightPos = new Position(pos.getX() + 1, pos.getY());
@@ -327,12 +327,41 @@ public class ChessDriver {
 						}
 						if(this.board.isValid(rightPos)){
 							if(this.board.get(rightPos) instanceof BlackPawn){
-								((BlackPawn)this.board.get(rightPos)).canLeftPassant(true);
+								((BlackPawn)this.board.get(rightPos)).canRightPassant(true);
 							}
 						}
 					}
 					((WhitePawn)this.board.getType(pos)).moved();
 				}
+
+
+				if(type instanceof WhitePawn){
+					if(((WhitePawn)p).canLeftPassant()){
+						if(p.getPos().getX() - pos.getX() > 0){
+							this.board.remove(new Position(pos.getX(), pos.getY() - 1));
+						}
+					}
+					if(((WhitePawn)p).canRightPassant()){
+						if(p.getPos().getX() - pos.getX() < 0){
+							this.board.remove(new Position(pos.getX(), pos.getY() - 1));
+						}
+					}
+				}
+
+				if(type instanceof BlackPawn){
+					if(((BlackPawn)p).canLeftPassant()){
+						if(p.getPos().getX() - pos.getX() > 0){
+							this.board.remove(new Position(pos.getX(), pos.getY() + 1));
+						}
+					}
+					if(((BlackPawn)p).canRightPassant()){
+						if(p.getPos().getX() - pos.getX() < 0){
+							this.board.remove(new Position(pos.getX(), pos.getY() + 1));
+						}
+					}
+
+				}
+
 			    StdDraw.setPenColor(colors[p.getPos().getX()][p.getPos().getY()]);
 			    StdDraw.filledRectangle(xValue + (inc*p.getPos().getX()), yValue + (inc*p.getPos().getY()), xValue, yValue);
 			    StdDraw.setPenColor(colors[pos.getX()][pos.getY()]);
