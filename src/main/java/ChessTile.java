@@ -2,7 +2,7 @@ package main.java;
 import java.awt.*;
 import java.awt.event.*;
 import javax.swing.*;
-@SuppressWarnings("serial")
+@SuppressWarnings({"serial", "unused"})
 public class ChessTile extends JPanel{
 public void paint(Graphics g){
         

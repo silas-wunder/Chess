@@ -1,6 +1,7 @@
 package main.java;
 import java.util.ArrayList;
 
+@SuppressWarnings("rawtypes")
 public abstract class Piece{
 	/**
 	 * Holds x and y position of piece

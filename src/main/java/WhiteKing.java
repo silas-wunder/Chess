@@ -1,6 +1,7 @@
 package main.java;
 import java.util.ArrayList;
 
+@SuppressWarnings({"rawtypes", "unused"})
 public class WhiteKing extends Piece{
 
 	private boolean inCheck;

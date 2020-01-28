@@ -1,6 +1,7 @@
 package main.java;
 import java.util.ArrayList;
 
+@SuppressWarnings("rawtypes")
 public class BlackBishop extends Piece{
 
 	public BlackBishop(int x, int y) {

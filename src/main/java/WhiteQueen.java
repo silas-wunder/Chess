@@ -1,6 +1,7 @@
 package main.java;
 import java.util.ArrayList;
 
+@SuppressWarnings("rawtypes")
 public class WhiteQueen extends Piece{
 
 	public WhiteQueen(int x, int y) {

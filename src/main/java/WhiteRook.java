@@ -1,5 +1,6 @@
 package main.java;
 import java.util.ArrayList;
+@SuppressWarnings("rawtypes")
 public class WhiteRook extends Piece {	
 
 	private boolean hasMoved;
