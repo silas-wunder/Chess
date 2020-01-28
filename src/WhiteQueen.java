@@ -14,7 +14,7 @@ public class WhiteQueen extends Piece{
 	 */
 	public ArrayList<Position> getPossibleMoves(Board b) {
 		ArrayList<Position> positions = new ArrayList<Position>();
-		Position p = new Position(this.getPos().getX() + 1, this.getPos().getY() + 1);
+		Position p = new Position(this.getPos().getX(), this.getPos().getY());
 		int max = 1;
 		
 		//Positions to the diagonal up - right
@@ -23,7 +23,7 @@ public class WhiteQueen extends Piece{
 			p.setY(p.getY() + 1);
 			max ++;
 		}while(b.isEmpty(p) && b.isValid(p) && !b.hasWhite(p));
-		for(int i = 0; i <= max; i ++)
+		for(int i = 0; i < max; i ++)
 			positions.add(new Position(this.getPos().getX() + i, this.getPos().getY() + i));
 		
 		p.setY(this.getPos().getY());
@@ -36,7 +36,7 @@ public class WhiteQueen extends Piece{
 			p.setY(p.getY() - 1);
 			max ++;
 		}while(b.isEmpty(p) && b.isValid(p) && !b.hasWhite(p));
-		for(int i = max; i >= 0; i --)
+		for(int i = max - 1; i >= 0; i --)
 			positions.add(new Position(this.getPos().getX() - i, this.getPos().getY() - i));
 		
 		p.setY(this.getPos().getY());
@@ -47,7 +47,7 @@ public class WhiteQueen extends Piece{
 		do{
 			p.setX(p.getX() + 1);
 			p.setY(p.getY() - 1);
-			max += 1;
+			max ++;
 		}while(b.isEmpty(p) && b.isValid(p) && !b.hasWhite(p));
 		for(int i = 0; i < max; i ++)
 			positions.add(new Position(this.getPos().getX() + i, this.getPos().getY() - i));
@@ -104,7 +104,7 @@ public class WhiteQueen extends Piece{
 			p.setX(p.getX() - 1);
 			max++;
 		}while(b.isEmpty(p) && b.isValid(p) && !b.hasWhite(p));//Positions to the left
-		for(int i = max; i >= 0; i--){ //Add possible positions LEFT-WARD
+		for(int i = max - 1; i >= 0; i--){ //Add possible positions LEFT-WARD
 			positions.add(new Position(this.getPos().getX() - i, this.getPos().getY()));
 		}
 		
@@ -119,7 +119,7 @@ public class WhiteQueen extends Piece{
 			max++;
 		}
 		while(b.isEmpty(p) && b.isValid(p) && !b.hasWhite(p));//Positions down
-		for(int i = max; i >= 0; i--){ //Add possible positions DOWN-WARD
+		for(int i = max - 1; i >= 0; i--){ //Add possible positions DOWN-WARD
 			positions.add(new Position(this.getPos().getX(), this.getPos().getY() - i));
 		}
 		return positions;
