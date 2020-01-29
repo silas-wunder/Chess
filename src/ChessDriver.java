@@ -480,20 +480,26 @@ public class ChessDriver {
 					}
 
 					int tempC = checkCheck(this.board);
-					if (tempC == 1) {
-						if (b.equals(this.board)) {
-							if (whiteStale()) {
+
+					if (b.equals(this.board)) {
+						if (whiteStale()) {
+							if (tempC == 1) {
 								this.running = false;
-								System.out.println("checkmate dummy");
+								System.out.println("checkmate, white is dummy");
+							} else {
+								this.running = false;
+								System.out.println("Stalemate stupid heads");
+							}
+						} else if (blackStale()) {
+							if (tempC == 2) {
+								this.running = false;
+								System.out.println("checkmate, black is dummy");
+							} else {
+								this.running = false;
+								System.out.println("Stalemate stupid heads");
 							}
 						}
-					} else if (tempC == 2) {
-						if (b.equals(this.board)) {
-							if (blackStale()) {
-								this.running = false;
-								System.out.println("checkmate dummy");
-							}
-						}
+
 					}
 
 					StdDraw.setPenColor(colors[p.getPos().getX()][p.getPos().getY()]);
@@ -552,7 +558,9 @@ public class ChessDriver {
 				}
 
 			}
-		} else {
+		} else
+
+		{
 			System.out.println("\u001B[31m" + "Invalid move, please select a new move or piece." + "\u001B[0m");
 			this.currentX = 0;
 			this.currentY = 0;
