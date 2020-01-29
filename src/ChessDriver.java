@@ -313,7 +313,7 @@ public class ChessDriver {
 				ArrayList<Position> moves = this.currentPiece.getPossibleMoves(this.board);
 				for (int i = 0; i < moves.size(); i++) {
 					if (this.posPiece.equals(moves.get(i))) {
-						move(this.currentPiece, this.posPiece);
+						move(this.currentPiece, this.posPiece, this.board);
 					}
 				}
 			}
@@ -355,32 +355,32 @@ public class ChessDriver {
 	 * @param p   Piece to move
 	 * @param pos Position to move to
 	 */
-	public void move(Piece p, Position pos) {
-		Object type = this.board.getType(p.getPos());
-		Piece temp = this.board.get(pos);
+	public void move(Piece p, Position pos, Board b) {
+		Object type = b.getType(p.getPos());
+		Piece temp = b.get(pos);
 		int startX = p.getPos().getX();
 		int startY = p.getPos().getY();
 
-		if (this.board.isValid(pos)) {
-			if ((p.isWhite() == this.board.hasBlack(pos) && p.isBlack() == this.board.hasWhite(pos))
-					|| (this.board.hasWhite(pos) == this.board.hasBlack(pos))) {
-				this.board.remove(pos);
-				this.board.remove(p.getPos());
+		if (b.isValid(pos)) {
+			if ((p.isWhite() == b.hasBlack(pos) && p.isBlack() == b.hasWhite(pos))
+					|| (b.hasWhite(pos) == b.hasBlack(pos))) {
+				b.remove(pos);
+				b.remove(p.getPos());
 				// Adds DefaultPiece to p's position
-				this.board.add(new DefaultPiece(p.getPos().getX(), p.getPos().getY()), p.getPos());
+				b.add(new DefaultPiece(p.getPos().getX(), p.getPos().getY()), p.getPos());
 				p.getPos().setX(pos.getX());
 				p.getPos().setY(pos.getY());
-				this.board.add((Piece) type, pos);
-				int check = checkCheck(this.board);
+				b.add((Piece) type, pos);
+				int check = checkCheck(b);
 
-				if (check == 1 && this.board.whiteTurn()) {
+				if (check == 1 && b.whiteTurn()) {
 
-					this.board.remove(pos);
-					this.board.remove(new Position(startX, startY));
-					this.board.add(temp, pos);
+					b.remove(pos);
+					b.remove(new Position(startX, startY));
+					b.add(temp, pos);
 					p.getPos().setX(startX);
 					p.getPos().setY(startY);
-					this.board.add((Piece) type, new Position(startX, startY));
+					b.add((Piece) type, new Position(startX, startY));
 
 					System.out.println("\u001B[31m" + "Invalid move, please select a new move or piece." + "\u001B[0m");
 					this.currentX = 0;
@@ -388,14 +388,14 @@ public class ChessDriver {
 					this.currentC = null;
 					isSelected = false;
 
-				} else if (check == 2 && this.board.blackTurn()) {
+				} else if (check == 2 && b.blackTurn()) {
 
-					this.board.remove(pos);
-					this.board.remove(new Position(startX, startY));
-					this.board.add(temp, pos);
+					b.remove(pos);
+					b.remove(new Position(startX, startY));
+					b.add(temp, pos);
 					p.getPos().setX(startX);
 					p.getPos().setY(startY);
-					this.board.add((Piece) type, new Position(startX, startY));
+					b.add((Piece) type, new Position(startX, startY));
 
 					System.out.println("\u001B[31m" + "Invalid move, please select a new move or piece." + "\u001B[0m");
 					this.currentX = 0;
@@ -406,40 +406,40 @@ public class ChessDriver {
 				} else {
 
 					// conditions for passant
-					if (type instanceof BlackPawn && !((BlackPawn) this.board.getType(p.getPos())).hasMoved()) {
+					if (type instanceof BlackPawn && !((BlackPawn) b.getType(p.getPos())).hasMoved()) {
 						if (6 - pos.getY() == 2) {
 							Position leftPos = new Position(pos.getX() - 1, pos.getY());
 							Position rightPos = new Position(pos.getX() + 1, pos.getY());
-							if (this.board.isValid(leftPos)) {
-								if (this.board.get(leftPos) instanceof WhitePawn) {
-									((WhitePawn) this.board.get(leftPos)).canRightPassant(true);
+							if (b.isValid(leftPos)) {
+								if (b.get(leftPos) instanceof WhitePawn) {
+									((WhitePawn) b.get(leftPos)).canRightPassant(true);
 								}
 							}
-							if (this.board.isValid(rightPos)) {
-								if (this.board.get(rightPos) instanceof WhitePawn) {
-									((WhitePawn) this.board.get(rightPos)).canLeftPassant(true);
+							if (b.isValid(rightPos)) {
+								if (b.get(rightPos) instanceof WhitePawn) {
+									((WhitePawn) b.get(rightPos)).canLeftPassant(true);
 								}
 							}
 						}
-						((BlackPawn) this.board.getType(pos)).moved();
+						((BlackPawn) b.getType(pos)).moved();
 					}
 					// coditions for passant
-					if (type instanceof WhitePawn && !((WhitePawn) this.board.getType(p.getPos())).hasMoved()) {
+					if (type instanceof WhitePawn && !((WhitePawn) b.getType(p.getPos())).hasMoved()) {
 						if (pos.getY() - 1 == 2) {
 							Position leftPos = new Position(pos.getX() - 1, pos.getY());
 							Position rightPos = new Position(pos.getX() + 1, pos.getY());
-							if (this.board.isValid(leftPos)) {
-								if (this.board.get(leftPos) instanceof BlackPawn) {
-									((BlackPawn) this.board.get(leftPos)).canRightPassant(true);
+							if (b.isValid(leftPos)) {
+								if (b.get(leftPos) instanceof BlackPawn) {
+									((BlackPawn) b.get(leftPos)).canRightPassant(true);
 								}
 							}
-							if (this.board.isValid(rightPos)) {
-								if (this.board.get(rightPos) instanceof BlackPawn) {
-									((BlackPawn) this.board.get(rightPos)).canLeftPassant(true);
+							if (b.isValid(rightPos)) {
+								if (b.get(rightPos) instanceof BlackPawn) {
+									((BlackPawn) b.get(rightPos)).canLeftPassant(true);
 								}
 							}
 						}
-						((WhitePawn) this.board.getType(pos)).moved();
+						((WhitePawn) b.getType(pos)).moved();
 					}
 
 					if (type instanceof WhitePawn) {
@@ -448,14 +448,14 @@ public class ChessDriver {
 						} else if (((WhitePawn) p).canLeftPassant()) {
 							if (startX - pos.getX() > 0) {
 								Position target = new Position(startX - 1, startY);
-								this.board.remove(target);
-								this.board.add(new DefaultPiece(startX - 1, startY), target);
+								b.remove(target);
+								b.add(new DefaultPiece(startX - 1, startY), target);
 							}
 						} else if (((WhitePawn) p).canRightPassant()) {
 							if (startX - pos.getX() < 0) {
 								Position target = new Position(startX + 1, startY);
-								this.board.remove(target);
-								this.board.add(new DefaultPiece(startX + 1, startY), target);
+								b.remove(target);
+								b.add(new DefaultPiece(startX + 1, startY), target);
 							}
 						}
 					}
@@ -466,14 +466,14 @@ public class ChessDriver {
 						} else if (((BlackPawn) p).canLeftPassant()) {
 							if (startX - pos.getX() > 0) {
 								Position target = new Position(startX - 1, startY);
-								this.board.remove(target);
-								this.board.add(new DefaultPiece(startX - 1, startY), target);
+								b.remove(target);
+								b.add(new DefaultPiece(startX - 1, startY), target);
 							}
 						} else if (((BlackPawn) p).canRightPassant()) {
 							if (startX - pos.getX() < 0) {
 								Position target = new Position(startX + 1, startY);
-								this.board.remove(target);
-								this.board.add(new DefaultPiece(startX + 1, startY), target);
+								b.remove(target);
+								b.add(new DefaultPiece(startX + 1, startY), target);
 							}
 						}
 
@@ -492,20 +492,20 @@ public class ChessDriver {
 					this.currentX = 0;
 					this.currentY = 0;
 					this.currentC = null;
-					this.board.incTurn();
+					b.incTurn();
 
 					if (type instanceof BlackKing) {
 						// Castle check and moving rook
 
 						if (!((BlackKing) p).hasMoved()) {
 							if (4 - pos.getX() > 1) {
-								this.currentPiece = this.board.get(new Position(0, 7));
-								move(this.currentPiece, new Position(3, 7));
-								this.board.incTurn();
+								this.currentPiece = b.get(new Position(0, 7));
+								move(this.currentPiece, new Position(3, 7), this.board);
+								b.incTurn();
 							} else if (4 - pos.getX() < -1) {
-								this.currentPiece = this.board.get(new Position(7, 7));
-								move(this.currentPiece, new Position(5, 7));
-								this.board.incTurn();
+								this.currentPiece = b.get(new Position(7, 7));
+								move(this.currentPiece, new Position(5, 7), this.board);
+								b.incTurn();
 							}
 							((BlackKing) p).moved();
 						}
@@ -515,13 +515,13 @@ public class ChessDriver {
 
 						if (!((WhiteKing) p).hasMoved()) {
 							if (4 - pos.getX() > 1) {
-								this.currentPiece = this.board.get(new Position(0, 0));
-								move(this.currentPiece, new Position(3, 0));
-								this.board.incTurn();
+								this.currentPiece = b.get(new Position(0, 0));
+								move(this.currentPiece, new Position(3, 0), this.board);
+								b.incTurn();
 							} else if (4 - pos.getX() < -1) {
-								this.currentPiece = this.board.get(new Position(7, 0));
-								move(this.currentPiece, new Position(5, 0));
-								this.board.incTurn();
+								this.currentPiece = b.get(new Position(7, 0));
+								move(this.currentPiece, new Position(5, 0), this.board);
+								b.incTurn();
 								System.out.println("haha dummy");
 							}
 							((WhiteKing) p).moved();
