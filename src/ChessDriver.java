@@ -378,32 +378,44 @@ public class ChessDriver {
 	 * Moves piece p to position pos, handles en passant and castling, takes in b so
 	 * that some actions are not taken on the test board
 	 * 
+	 * //TODO: Create helper methods for a lot of this stuff
+	 * 
 	 * @param p   Piece to move
 	 * @param pos Position to move to
 	 * @param b   Board object taken in
 	 */
 	public void move(Piece p, Position pos, Board b) {
+		// This is the type of piece of p
 		Object type = b.getType(p.getPos());
+		// This is the type of piece at pos
 		Piece temp = b.get(pos);
+		// Starting location of p, x direction
 		int startX = p.getPos().getX();
+		// Starting location of p, y direction
 		int startY = p.getPos().getY();
 
+		// If the clicked location is valid, execute move
 		if (b.isValid(pos)) {
+			// If the piece is being moved to the location of a current piece, take that piece
 			if ((p.isWhite() == b.hasBlack(pos) && p.isBlack() == b.hasWhite(pos))
 					|| (b.hasWhite(pos) == b.hasBlack(pos))) {
+				// Remove the piece currently there
 				b.remove(pos);
 				b.remove(p.getPos());
 				// Adds DefaultPiece to p's position
 				b.add(new DefaultPiece(p.getPos().getX(), p.getPos().getY()), p.getPos());
+				// Move p to pos
 				p.getPos().setX(pos.getX());
 				p.getPos().setY(pos.getY());
+				// Add p to the board in position pos
 				b.add((Piece) type, pos);
+				// Check to see if either king is in check now
 				int check = checkCheck(b);
 
 				// If the white king is in check and it's white's turn, they cannot make a move
 				// that won't take them out of check
 				if (check == 1 && b.whiteTurn()) {
-
+					
 					b.remove(pos);
 					b.remove(new Position(startX, startY));
 					b.add(temp, pos);

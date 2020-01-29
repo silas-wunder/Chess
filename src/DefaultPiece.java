@@ -1,7 +1,7 @@
 import java.util.ArrayList;
 
 @SuppressWarnings("rawtypes")
-public class DefaultPiece extends Piece{
+public class DefaultPiece extends Piece {
 
 	DefaultPiece(int x, int y) {
 		super(x, y);
@@ -23,7 +23,4 @@ public class DefaultPiece extends Piece{
 	public boolean isBlack() {
 		return false;
 	}
-
-	
-	
 }
