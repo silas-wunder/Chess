@@ -502,15 +502,18 @@ public class ChessDriver {
 
 					}
 
-					StdDraw.setPenColor(colors[p.getPos().getX()][p.getPos().getY()]);
-					StdDraw.filledRectangle(xValue + (inc * p.getPos().getX()), yValue + (inc * p.getPos().getY()),
-							xValue, yValue);
-					StdDraw.setPenColor(colors[pos.getX()][pos.getY()]);
-					StdDraw.filledRectangle(xValue + (inc * pos.getX()), yValue + (inc * pos.getY()), xValue, yValue);
-					StdDraw.picture(xValue + (inc * pos.getX()), yValue + (inc * pos.getY()), p.toString(), scale,
-							scale);
-					this.createTiles();
-					this.addPictures();
+					if (b.equals(this.board)) {
+						StdDraw.setPenColor(colors[p.getPos().getX()][p.getPos().getY()]);
+						StdDraw.filledRectangle(xValue + (inc * p.getPos().getX()), yValue + (inc * p.getPos().getY()),
+								xValue, yValue);
+						StdDraw.setPenColor(colors[pos.getX()][pos.getY()]);
+						StdDraw.filledRectangle(xValue + (inc * pos.getX()), yValue + (inc * pos.getY()), xValue,
+								yValue);
+						StdDraw.picture(xValue + (inc * pos.getX()), yValue + (inc * pos.getY()), p.toString(), scale,
+								scale);
+						this.createTiles();
+						this.addPictures();
+					}
 					this.isSelected = false;
 					this.currentX = 0;
 					this.currentY = 0;
