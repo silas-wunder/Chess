@@ -348,10 +348,6 @@ public class ChessDriver {
 					this.currentC = null;
 					isSelected = false;
 
-					System.out.println(board.blackTurn());
-					// this.board.incTurn();
-					System.out.println(board.blackTurn());
-
 				} else if (check == 2 && this.board.blackTurn()) {
 
 					this.board.remove(pos);
@@ -366,10 +362,6 @@ public class ChessDriver {
 					this.currentY = 0;
 					this.currentC = null;
 					isSelected = false;
-
-					System.out.println(board.blackTurn());
-					// this.board.incTurn();
-					System.out.println(board.blackTurn());
 
 				} else {
 
@@ -545,14 +537,14 @@ public class ChessDriver {
 			checkPossibleMoves(blackPositions, b);
 			if (wKing.checkStatus()) {
 				xCheck = wKing.getPos().getX();
-				yCheck = wKing.getPos().getX();
+				yCheck = wKing.getPos().getY();
 				return 1;
 			}
 
 			checkPossibleMoves(whitePositions, b);
 			if (bKing.checkStatus()) {
 				xCheck = bKing.getPos().getX();
-				yCheck = bKing.getPos().getX();
+				yCheck = bKing.getPos().getY();
 				return 2;
 			}
 
@@ -562,14 +554,14 @@ public class ChessDriver {
 			checkPossibleMoves(whitePositions, b);
 			if (bKing.checkStatus()) {
 				xCheck = bKing.getPos().getX();
-				yCheck = bKing.getPos().getX();
+				yCheck = bKing.getPos().getY();
 				return 2;
 			}
 
 			checkPossibleMoves(blackPositions, b);
 			if (wKing.checkStatus()) {
 				xCheck = wKing.getPos().getX();
-				yCheck = wKing.getPos().getX();
+				yCheck = wKing.getPos().getY();
 				return 1;
 			}
 
