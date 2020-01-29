@@ -720,13 +720,14 @@ public class ChessDriver {
 			startP = tempP.getPos();
 			tempMoves = tempP.getPossibleMoves(testBoard);
 			for (int j = 0; j < tempMoves.size(); j++) {
-				move(tempP, tempMoves.get(j), testBoard);
-				check = checkCheck(testBoard);
-				if (check == 0 || check == 2)
-					return false;
-				move(tempP, startP, testBoard);
+				if (testBoard.isValid(tempMoves.get(j))) {
+					move(tempP, tempMoves.get(j), testBoard);
+					check = checkCheck(testBoard);
+					if (check == 0 || check == 2)
+						return false;
+					move(tempP, startP, testBoard);
+				}
 			}
-
 		}
 		return true;
 	}
