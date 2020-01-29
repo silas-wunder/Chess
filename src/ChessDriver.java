@@ -8,6 +8,10 @@ public class ChessDriver {
 	 */
 	private Board board;
 	/**
+	 * invisible board used for checkmate testing
+	 */
+	private Board testBoard;
+	/**
 	 * Width of GUI.
 	 */
 	private int width;
@@ -98,6 +102,7 @@ public class ChessDriver {
 	 */
 	public void createBoard(int w, int h) {
 		this.board = new Board();
+		this.testBoard = new Board();
 		this.width = w;
 		this.height = h;
 		StdDraw.setCanvasSize(w, h);
@@ -114,11 +119,11 @@ public class ChessDriver {
 		for (int i = 0; i < 8; i++) {
 			for (int j = 0; j < 8; j++) {
 				// If this is the location of a king in check, draw square red
-				if(xCheck == j && yCheck == i){
+				if (xCheck == j && yCheck == i) {
 					StdDraw.setPenColor(139, 0, 0);
 					colors[i][j] = new Color(139, 0, 0);
-				// Otherwise, draw normally
-				}else if (i % 2 == 0) {
+					// Otherwise, draw normally
+				} else if (i % 2 == 0) {
 					if (j % 2 == 0) {
 						// This should be the darker color
 						StdDraw.setPenColor(new Color(95, 95, 95));
@@ -195,6 +200,41 @@ public class ChessDriver {
 				} else if (j >= 2 && j <= 5)
 					this.board.add(new DefaultPiece(i, j), new Position(i, j)); // PLACEHOLDER so NullPointerException
 																				// will never be thrown
+			}
+		}
+	}
+
+	private void copyBoard() {
+		Position temp;
+		for (int x = 0; x < 8; x++) {
+			for (int y = 0; y < 8; y++) {
+				temp = new Position(x, y);
+				if (this.board.getType(temp) instanceof DefaultPiece)
+					this.testBoard.add(new DefaultPiece(x, y), temp);
+				else if (this.board.getType(temp) instanceof WhitePawn)
+					this.testBoard.add(new WhitePawn(x, y), temp);
+				else if (this.board.getType(temp) instanceof BlackPawn)
+					this.testBoard.add(new BlackPawn(x, y), temp);
+				else if (this.board.getType(temp) instanceof WhiteRook)
+					this.testBoard.add(new WhiteRook(x, y), temp);
+				else if (this.board.getType(temp) instanceof BlackRook)
+					this.testBoard.add(new BlackRook(x, y), temp);
+				else if (this.board.getType(temp) instanceof WhiteKnight)
+					this.testBoard.add(new WhiteKnight(x, y), temp);
+				else if (this.board.getType(temp) instanceof BlackKnight)
+					this.testBoard.add(new BlackKnight(x, y), temp);
+				else if (this.board.getType(temp) instanceof WhiteBishop)
+					this.testBoard.add(new WhiteBishop(x, y), temp);
+				else if (this.board.getType(temp) instanceof BlackBishop)
+					this.testBoard.add(new BlackBishop(x, y), temp);
+				else if (this.board.getType(temp) instanceof WhiteQueen)
+					this.testBoard.add(new WhiteQueen(x, y), temp);
+				else if (this.board.getType(temp) instanceof BlackQueen)
+					this.testBoard.add(new BlackQueen(x, y), temp);
+				else if (this.board.getType(temp) instanceof WhiteKing)
+					this.testBoard.add(new WhiteKing(x, y), temp);
+				else if (this.board.getType(temp) instanceof BlackKing)
+					this.testBoard.add(new BlackKing(x, y), temp);	
 			}
 		}
 	}
@@ -615,6 +655,13 @@ public class ChessDriver {
 			b.get(pieces.get(i)).getPossibleMoves(b);
 		}
 	}
+
+    private boolean whiteStale(){
+		copyBoard();
+		
+		return true;
+	}
+
 
 	/**
 	 * Assigns currentPiece the value of posPiece (currentPiece is a placeholder of
