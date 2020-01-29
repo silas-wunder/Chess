@@ -658,7 +658,15 @@ public class ChessDriver {
 
     private boolean whiteStale(){
 		copyBoard();
-		
+		ArrayList<Position> pieces = whiteLocations(this.testBoard);
+		ArrayList<Position> tempMoves;
+		for(int i = 0; i < pieces.size(); i++){
+			tempMoves = this.testBoard.get(pieces.get(i)).getPossibleMoves(testBoard);
+			for(int j = 0; j < tempMoves.size(); j++){
+				
+			}
+
+		}
 		return true;
 	}
 
