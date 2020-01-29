@@ -234,7 +234,7 @@ public class ChessDriver {
 				else if (this.board.getType(temp) instanceof WhiteKing)
 					this.testBoard.add(new WhiteKing(x, y), temp);
 				else if (this.board.getType(temp) instanceof BlackKing)
-					this.testBoard.add(new BlackKing(x, y), temp);	
+					this.testBoard.add(new BlackKing(x, y), temp);
 			}
 		}
 	}
@@ -479,6 +479,23 @@ public class ChessDriver {
 
 					}
 
+					int tempC = checkCheck(this.board);
+					if (tempC == 1) {
+						if (b.equals(this.board)) {
+							if (whiteStale()) {
+								this.running = false;
+								System.out.println("checkmate dummy");
+							}
+						}
+					} else if (tempC == 2) {
+						if (b.equals(this.board)) {
+							if (blackStale()) {
+								this.running = false;
+								System.out.println("checkmate dummy");
+							}
+						}
+					}
+
 					StdDraw.setPenColor(colors[p.getPos().getX()][p.getPos().getY()]);
 					StdDraw.filledRectangle(xValue + (inc * p.getPos().getX()), yValue + (inc * p.getPos().getY()),
 							xValue, yValue);
@@ -656,20 +673,55 @@ public class ChessDriver {
 		}
 	}
 
-    private boolean whiteStale(){
+	private boolean whiteStale() {
 		copyBoard();
 		ArrayList<Position> pieces = whiteLocations(this.testBoard);
 		ArrayList<Position> tempMoves;
-		for(int i = 0; i < pieces.size(); i++){
-			tempMoves = this.testBoard.get(pieces.get(i)).getPossibleMoves(testBoard);
-			for(int j = 0; j < tempMoves.size(); j++){
-				
+		Piece tempP;
+		Position startP;
+		int check = 0;
+		for (int i = 0; i < pieces.size(); i++) {
+			tempP = this.testBoard.get(pieces.get(i));
+			startP = tempP.getPos();
+			tempMoves = tempP.getPossibleMoves(testBoard);
+			for (int j = 0; j < tempMoves.size(); j++) {
+				if (testBoard.isValid(tempMoves.get(j))) {
+					move(tempP, tempMoves.get(j), testBoard);
+					check = checkCheck(testBoard);
+					if (check == 0 || check == 2)
+						return false;
+					move(tempP, startP, testBoard);
+
+				}
+			}
+
+		}
+		return true;
+
+	}
+
+	private boolean blackStale() {
+		copyBoard();
+		ArrayList<Position> pieces = blackLocations(this.testBoard);
+		ArrayList<Position> tempMoves;
+		Piece tempP;
+		Position startP;
+		int check = 0;
+		for (int i = 0; i < pieces.size(); i++) {
+			tempP = this.testBoard.get(pieces.get(i));
+			startP = tempP.getPos();
+			tempMoves = tempP.getPossibleMoves(testBoard);
+			for (int j = 0; j < tempMoves.size(); j++) {
+				move(tempP, tempMoves.get(j), testBoard);
+				check = checkCheck(testBoard);
+				if (check == 0 || check == 2)
+					return false;
+				move(tempP, startP, testBoard);
 			}
 
 		}
 		return true;
 	}
-
 
 	/**
 	 * Assigns currentPiece the value of posPiece (currentPiece is a placeholder of
