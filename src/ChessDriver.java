@@ -72,6 +72,14 @@ public class ChessDriver {
 	 * Position of clicked piece, very important when moving
 	 */
 	private Piece currentPiece;
+	/**
+	 * X position of the king in check
+	 */
+	private int xCheck = -1;
+	/**
+	 * Y position of the king in check
+	 */
+	private int yCheck = -1;
 
 	public static void main(String[] args) {
 		ChessDriver driver = new ChessDriver();
@@ -105,7 +113,12 @@ public class ChessDriver {
 		double y = yValue;
 		for (int i = 0; i < 8; i++) {
 			for (int j = 0; j < 8; j++) {
-				if (i % 2 == 0) {
+				// If this is the location of a king in check, draw square red
+				if(xCheck == j && yCheck == i){
+					StdDraw.setPenColor(139, 0, 0);
+					colors[i][j] = new Color(139, 0, 0);
+				// Otherwise, draw normally
+				}else if (i % 2 == 0) {
 					if (j % 2 == 0) {
 						// This should be the darker color
 						StdDraw.setPenColor(new Color(95, 95, 95));
@@ -313,10 +326,8 @@ public class ChessDriver {
 					|| (this.board.hasWhite(pos) == this.board.hasBlack(pos))) {
 				this.board.remove(pos);
 				this.board.remove(p.getPos());
-				this.board.add(new DefaultPiece(p.getPos().getX(), p.getPos().getY()), p.getPos()); // Adds
-																									// DefaultPiece
-																									// to p's
-																									// position
+				// Adds DefaultPiece to p's position
+				this.board.add(new DefaultPiece(p.getPos().getX(), p.getPos().getY()), p.getPos());
 				p.getPos().setX(pos.getX());
 				p.getPos().setY(pos.getY());
 				this.board.add((Piece) type, pos);
@@ -338,7 +349,7 @@ public class ChessDriver {
 					isSelected = false;
 
 					System.out.println(board.blackTurn());
-					//this.board.incTurn();
+					// this.board.incTurn();
 					System.out.println(board.blackTurn());
 
 				} else if (check == 2 && this.board.blackTurn()) {
@@ -357,7 +368,7 @@ public class ChessDriver {
 					isSelected = false;
 
 					System.out.println(board.blackTurn());
-					//this.board.incTurn();
+					// this.board.incTurn();
 					System.out.println(board.blackTurn());
 
 				} else {
@@ -380,9 +391,8 @@ public class ChessDriver {
 						}
 						((BlackPawn) this.board.getType(pos)).moved();
 					}
-					if (type instanceof WhitePawn && !((WhitePawn) this.board.getType(p.getPos())).hasMoved()) { // conditions
-																													// for
-						// passant
+					// coditions for passant
+					if (type instanceof WhitePawn && !((WhitePawn) this.board.getType(p.getPos())).hasMoved()) {
 						if (pos.getY() - 1 == 2) {
 							Position leftPos = new Position(pos.getX() - 1, pos.getY());
 							Position rightPos = new Position(pos.getX() + 1, pos.getY());
@@ -534,11 +544,15 @@ public class ChessDriver {
 			wKing.setCheck(false);
 			checkPossibleMoves(blackPositions, b);
 			if (wKing.checkStatus()) {
+				xCheck = wKing.getPos().getX();
+				yCheck = wKing.getPos().getX();
 				return 1;
 			}
 
 			checkPossibleMoves(whitePositions, b);
 			if (bKing.checkStatus()) {
+				xCheck = bKing.getPos().getX();
+				yCheck = bKing.getPos().getX();
 				return 2;
 			}
 
@@ -547,16 +561,22 @@ public class ChessDriver {
 			bKing.setCheck(false);
 			checkPossibleMoves(whitePositions, b);
 			if (bKing.checkStatus()) {
+				xCheck = bKing.getPos().getX();
+				yCheck = bKing.getPos().getX();
 				return 2;
 			}
 
 			checkPossibleMoves(blackPositions, b);
 			if (wKing.checkStatus()) {
+				xCheck = wKing.getPos().getX();
+				yCheck = wKing.getPos().getX();
 				return 1;
 			}
 
 		}
 
+		xCheck = -1;
+		yCheck = -1;
 		return 0;
 	}
 
