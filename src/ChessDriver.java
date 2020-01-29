@@ -304,145 +304,193 @@ public class ChessDriver {
 	 */
 	public void move(Piece p, Position pos) {
 		Object type = this.board.getType(p.getPos());
+		Piece temp = this.board.get(pos);
 		int startX = p.getPos().getX();
 		int startY = p.getPos().getY();
+
 		if (this.board.isValid(pos)) {
 			if ((p.isWhite() == this.board.hasBlack(pos) && p.isBlack() == this.board.hasWhite(pos))
 					|| (this.board.hasWhite(pos) == this.board.hasBlack(pos))) {
 				this.board.remove(pos);
 				this.board.remove(p.getPos());
-				this.board.add(new DefaultPiece(p.getPos().getX(), p.getPos().getY()), p.getPos()); // Adds DefaultPiece
-																									// to p's position
+				this.board.add(new DefaultPiece(p.getPos().getX(), p.getPos().getY()), p.getPos()); // Adds
+																									// DefaultPiece
+																									// to p's
+																									// position
 				p.getPos().setX(pos.getX());
 				p.getPos().setY(pos.getY());
 				this.board.add((Piece) type, pos);
-				if (type instanceof BlackPawn && !((BlackPawn) this.board.getType(pos)).hasMoved()) { // conditions for
-																										// passant
-					if (6 - pos.getY() == 2) {
-						Position leftPos = new Position(pos.getX() - 1, pos.getY());
-						Position rightPos = new Position(pos.getX() + 1, pos.getY());
-						if (this.board.isValid(leftPos)) {
-							if (this.board.get(leftPos) instanceof WhitePawn) {
-								((WhitePawn) this.board.get(leftPos)).canRightPassant(true);
+				int check = checkCheck(this.board);
+
+				if (check == 1 && this.board.whiteTurn()) {
+
+					this.board.remove(pos);
+					this.board.remove(new Position(startX, startY));
+					this.board.add(temp, pos);
+					p.getPos().setX(startX);
+					p.getPos().setY(startY);
+					this.board.add((Piece) type, new Position(startX, startY));
+
+					System.out.println("\u001B[31m" + "Invalid move, please select a new move or piece." + "\u001B[0m");
+					this.currentX = 0;
+					this.currentY = 0;
+					this.currentC = null;
+					isSelected = false;
+
+					System.out.println(board.blackTurn());
+					//this.board.incTurn();
+					System.out.println(board.blackTurn());
+
+				} else if (check == 2 && this.board.blackTurn()) {
+
+					this.board.remove(pos);
+					this.board.remove(new Position(startX, startY));
+					this.board.add(temp, pos);
+					p.getPos().setX(startX);
+					p.getPos().setY(startY);
+					this.board.add((Piece) type, new Position(startX, startY));
+
+					System.out.println("\u001B[31m" + "Invalid move, please select a new move or piece." + "\u001B[0m");
+					this.currentX = 0;
+					this.currentY = 0;
+					this.currentC = null;
+					isSelected = false;
+
+					System.out.println(board.blackTurn());
+					//this.board.incTurn();
+					System.out.println(board.blackTurn());
+
+				} else {
+
+					// conditions for passant
+					if (type instanceof BlackPawn && !((BlackPawn) this.board.getType(p.getPos())).hasMoved()) {
+						if (6 - pos.getY() == 2) {
+							Position leftPos = new Position(pos.getX() - 1, pos.getY());
+							Position rightPos = new Position(pos.getX() + 1, pos.getY());
+							if (this.board.isValid(leftPos)) {
+								if (this.board.get(leftPos) instanceof WhitePawn) {
+									((WhitePawn) this.board.get(leftPos)).canRightPassant(true);
+								}
+							}
+							if (this.board.isValid(rightPos)) {
+								if (this.board.get(rightPos) instanceof WhitePawn) {
+									((WhitePawn) this.board.get(rightPos)).canLeftPassant(true);
+								}
 							}
 						}
-						if (this.board.isValid(rightPos)) {
-							if (this.board.get(rightPos) instanceof WhitePawn) {
-								((WhitePawn) this.board.get(rightPos)).canLeftPassant(true);
+						((BlackPawn) this.board.getType(pos)).moved();
+					}
+					if (type instanceof WhitePawn && !((WhitePawn) this.board.getType(p.getPos())).hasMoved()) { // conditions
+																													// for
+						// passant
+						if (pos.getY() - 1 == 2) {
+							Position leftPos = new Position(pos.getX() - 1, pos.getY());
+							Position rightPos = new Position(pos.getX() + 1, pos.getY());
+							if (this.board.isValid(leftPos)) {
+								if (this.board.get(leftPos) instanceof BlackPawn) {
+									((BlackPawn) this.board.get(leftPos)).canRightPassant(true);
+								}
+							}
+							if (this.board.isValid(rightPos)) {
+								if (this.board.get(rightPos) instanceof BlackPawn) {
+									((BlackPawn) this.board.get(rightPos)).canLeftPassant(true);
+								}
+							}
+						}
+						((WhitePawn) this.board.getType(pos)).moved();
+					}
+
+					if (type instanceof WhitePawn) {
+						if (pos.getY() == 7) {
+							((WhitePawn) p).kingMe(board);
+						} else if (((WhitePawn) p).canLeftPassant()) {
+							if (startX - pos.getX() > 0) {
+								Position target = new Position(startX - 1, startY);
+								this.board.remove(target);
+								this.board.add(new DefaultPiece(startX - 1, startY), target);
+							}
+						} else if (((WhitePawn) p).canRightPassant()) {
+							if (startX - pos.getX() < 0) {
+								Position target = new Position(startX + 1, startY);
+								this.board.remove(target);
+								this.board.add(new DefaultPiece(startX + 1, startY), target);
 							}
 						}
 					}
-					((BlackPawn) this.board.getType(pos)).moved();
-				}
-				if (type instanceof WhitePawn && !((WhitePawn) this.board.getType(pos)).hasMoved()) { // conditions for
-																										// passant
-					if (pos.getY() - 1 == 2) {
-						Position leftPos = new Position(pos.getX() - 1, pos.getY());
-						Position rightPos = new Position(pos.getX() + 1, pos.getY());
-						if (this.board.isValid(leftPos)) {
-							if (this.board.get(leftPos) instanceof BlackPawn) {
-								((BlackPawn) this.board.get(leftPos)).canRightPassant(true);
+
+					if (type instanceof BlackPawn) {
+						if (pos.getY() == 0) {
+							((BlackPawn) p).kingMe(board);
+						} else if (((BlackPawn) p).canLeftPassant()) {
+							if (startX - pos.getX() > 0) {
+								Position target = new Position(startX - 1, startY);
+								this.board.remove(target);
+								this.board.add(new DefaultPiece(startX - 1, startY), target);
+							}
+						} else if (((BlackPawn) p).canRightPassant()) {
+							if (startX - pos.getX() < 0) {
+								Position target = new Position(startX + 1, startY);
+								this.board.remove(target);
+								this.board.add(new DefaultPiece(startX + 1, startY), target);
 							}
 						}
-						if (this.board.isValid(rightPos)) {
-							if (this.board.get(rightPos) instanceof BlackPawn) {
-								((BlackPawn) this.board.get(rightPos)).canLeftPassant(true);
+
+					}
+
+					StdDraw.setPenColor(colors[p.getPos().getX()][p.getPos().getY()]);
+					StdDraw.filledRectangle(xValue + (inc * p.getPos().getX()), yValue + (inc * p.getPos().getY()),
+							xValue, yValue);
+					StdDraw.setPenColor(colors[pos.getX()][pos.getY()]);
+					StdDraw.filledRectangle(xValue + (inc * pos.getX()), yValue + (inc * pos.getY()), xValue, yValue);
+					StdDraw.picture(xValue + (inc * pos.getX()), yValue + (inc * pos.getY()), p.toString(), scale,
+							scale);
+					this.createTiles();
+					this.addPictures();
+					this.isSelected = false;
+					this.currentX = 0;
+					this.currentY = 0;
+					this.currentC = null;
+					this.board.incTurn();
+
+					if (type instanceof BlackKing) {
+						// Castle check and moving rook
+
+						if (!((BlackKing) p).hasMoved()) {
+							if (4 - pos.getX() > 1) {
+								this.currentPiece = this.board.get(new Position(0, 7));
+								move(this.currentPiece, new Position(3, 7));
+								this.board.incTurn();
+							} else if (4 - pos.getX() < -1) {
+								this.currentPiece = this.board.get(new Position(7, 7));
+								move(this.currentPiece, new Position(5, 7));
+								this.board.incTurn();
 							}
+							((BlackKing) p).moved();
 						}
 					}
-					((WhitePawn) this.board.getType(pos)).moved();
-				}
+					if (type instanceof WhiteKing) {
+						// System.out.println(p.getPos().getX() + " " + pos.getX());
 
-				if (type instanceof WhitePawn) {
-					if (pos.getY() == 7) {
-						((WhitePawn) p).kingMe(board);
-					} else if (((WhitePawn) p).canLeftPassant()) {
-						if (startX - pos.getX() > 0) {
-							Position target = new Position(startX - 1, startY);
-							this.board.remove(target);
-							this.board.add(new DefaultPiece(startX - 1, startY), target);
-						}
-					} else if (((WhitePawn) p).canRightPassant()) {
-						if (startX - pos.getX() < 0) {
-							Position target = new Position(startX + 1, startY);
-							this.board.remove(target);
-							this.board.add(new DefaultPiece(startX + 1, startY), target);
+						if (!((WhiteKing) p).hasMoved()) {
+							if (4 - pos.getX() > 1) {
+								this.currentPiece = this.board.get(new Position(0, 0));
+								move(this.currentPiece, new Position(3, 0));
+								this.board.incTurn();
+							} else if (4 - pos.getX() < -1) {
+								this.currentPiece = this.board.get(new Position(7, 0));
+								move(this.currentPiece, new Position(5, 0));
+								this.board.incTurn();
+								System.out.println("haha dummy");
+							}
+							((WhiteKing) p).moved();
 						}
 					}
+					// Turns hasMoved variable to true after being moved
+					if (type instanceof BlackRook && !((BlackRook) p).hasMoved())
+						((BlackRook) p).moved();
+					if (type instanceof WhiteRook && !((WhiteRook) p).hasMoved())
+						((WhiteRook) p).moved();
 				}
-
-				if (type instanceof BlackPawn) {
-					if (pos.getY() == 0) {
-						((BlackPawn) p).kingMe(board);
-					} else if (((BlackPawn) p).canLeftPassant()) {
-						if (startX - pos.getX() > 0) {
-							Position target = new Position(startX - 1, startY);
-							this.board.remove(target);
-							this.board.add(new DefaultPiece(startX - 1, startY), target);
-						}
-					} else if (((BlackPawn) p).canRightPassant()) {
-						if (startX - pos.getX() < 0) {
-							Position target = new Position(startX + 1, startY);
-							this.board.remove(target);
-							this.board.add(new DefaultPiece(startX + 1, startY), target);
-						}
-					}
-
-				}
-
-				StdDraw.setPenColor(colors[p.getPos().getX()][p.getPos().getY()]);
-				StdDraw.filledRectangle(xValue + (inc * p.getPos().getX()), yValue + (inc * p.getPos().getY()), xValue,
-						yValue);
-				StdDraw.setPenColor(colors[pos.getX()][pos.getY()]);
-				StdDraw.filledRectangle(xValue + (inc * pos.getX()), yValue + (inc * pos.getY()), xValue, yValue);
-				StdDraw.picture(xValue + (inc * pos.getX()), yValue + (inc * pos.getY()), p.toString(), scale, scale);
-				this.createTiles();
-				this.addPictures();
-				this.isSelected = false;
-				this.currentX = 0;
-				this.currentY = 0;
-				this.currentC = null;
-				this.board.incTurn();
-
-				if (type instanceof BlackKing) {
-					// Castle check and moving rook
-
-					if (!((BlackKing) p).hasMoved()) {
-						if (4 - pos.getX() > 1) {
-							this.currentPiece = this.board.get(new Position(0, 7));
-							move(this.currentPiece, new Position(3, 7));
-							this.board.incTurn();
-						} else if (4 - pos.getX() < -1) {
-							this.currentPiece = this.board.get(new Position(7, 7));
-							move(this.currentPiece, new Position(5, 7));
-							this.board.incTurn();
-						}
-						((BlackKing) p).moved();
-					}
-				}
-				if (type instanceof WhiteKing) {
-					// System.out.println(p.getPos().getX() + " " + pos.getX());
-
-					if (!((WhiteKing) p).hasMoved()) {
-						if (4 - pos.getX() > 1) {
-							this.currentPiece = this.board.get(new Position(0, 0));
-							move(this.currentPiece, new Position(3, 0));
-							this.board.incTurn();
-						} else if (4 - pos.getX() < -1) {
-							this.currentPiece = this.board.get(new Position(7, 0));
-							move(this.currentPiece, new Position(5, 0));
-							this.board.incTurn();
-							System.out.println("haha dummy");
-						}
-						((WhiteKing) p).moved();
-					}
-				}
-				// Turns hasMoved variable to true after being moved
-				if (type instanceof BlackRook && !((BlackRook) p).hasMoved())
-					((BlackRook) p).moved();
-				if (type instanceof WhiteRook && !((WhiteRook) p).hasMoved())
-					((WhiteRook) p).moved();
-			} else {
 
 			}
 		} else {
@@ -472,15 +520,15 @@ public class ChessDriver {
 
 			}
 		}
-		
+
 		for (int i = 0; i < blackPositions.size(); i++) {
-				if (b.get(blackPositions.get(i)) instanceof BlackKing) {
-					bKing = ((BlackKing) b.get(blackPositions.get(i)));
-					
-				}
+			if (b.get(blackPositions.get(i)) instanceof BlackKing) {
+				bKing = ((BlackKing) b.get(blackPositions.get(i)));
+
 			}
-		
-			// detects if pieces should not be allowed to move in a way that puts its own
+		}
+
+		// detects if pieces should not be allowed to move in a way that puts its own
 		// king in check
 		if (b.whiteTurn()) {
 			wKing.setCheck(false);
@@ -494,9 +542,8 @@ public class ChessDriver {
 				return 2;
 			}
 
-
 		} else {
-			
+
 			bKing.setCheck(false);
 			checkPossibleMoves(whitePositions, b);
 			if (bKing.checkStatus()) {
