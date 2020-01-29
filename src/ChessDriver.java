@@ -526,11 +526,11 @@ public class ChessDriver {
 						if (!((BlackKing) p).hasMoved()) {
 							if (4 - pos.getX() > 1) {
 								this.currentPiece = b.get(new Position(0, 7));
-								move(this.currentPiece, new Position(3, 7), this.board);
+								move(this.currentPiece, new Position(3, 7), b);
 								b.incTurn();
 							} else if (4 - pos.getX() < -1) {
 								this.currentPiece = b.get(new Position(7, 7));
-								move(this.currentPiece, new Position(5, 7), this.board);
+								move(this.currentPiece, new Position(5, 7), b);
 								b.incTurn();
 							}
 							((BlackKing) p).moved();
@@ -542,11 +542,11 @@ public class ChessDriver {
 						if (!((WhiteKing) p).hasMoved()) {
 							if (4 - pos.getX() > 1) {
 								this.currentPiece = b.get(new Position(0, 0));
-								move(this.currentPiece, new Position(3, 0), this.board);
+								move(this.currentPiece, new Position(3, 0), b);
 								b.incTurn();
 							} else if (4 - pos.getX() < -1) {
 								this.currentPiece = b.get(new Position(7, 0));
-								move(this.currentPiece, new Position(5, 0), this.board);
+								move(this.currentPiece, new Position(5, 0), b);
 								b.incTurn();
 								System.out.println("haha dummy");
 							}
