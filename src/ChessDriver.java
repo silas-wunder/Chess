@@ -266,7 +266,7 @@ public class ChessDriver {
 			if (StdDraw.isMousePressed()) {
 				click(StdDraw.mouseX(), StdDraw.mouseY());
 				// was 120, anything lower doesn't register clicks, not sure what the effect is
-				StdDraw.pause(200);
+				StdDraw.pause(300);
 			}
 			boolean whiteKing = false;
 			boolean blackKing = false;
