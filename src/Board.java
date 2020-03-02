@@ -9,7 +9,7 @@ public class Board<E> {
 	private int turn;
 
 	/**
-	 * HashMap containing Pieces with Positions
+	 * Psuedo HashMap containing Pieces with Positions
 	 */
 	private Piece[][] pieces = new Piece[8][8];
 

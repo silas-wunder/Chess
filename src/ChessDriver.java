@@ -210,10 +210,12 @@ public class ChessDriver {
 			for (int j = 1; j < 8; j++) {
 				if (j == 1) {
 					this.board.add(new WhitePawn(i, j), new Position(i, j));
-					StdDraw.picture(this.xValue + (inc * i), this.yValue + (inc * j), "resources/WhitePawn.png", scale, scale);
+					StdDraw.picture(this.xValue + (inc * i), this.yValue + (inc * j), "resources/WhitePawn.png", scale,
+							scale);
 				} else if (j == 6) {
 					this.board.add(new BlackPawn(i, j), new Position(i, j));
-					StdDraw.picture(this.xValue + (inc * i), this.yValue + (inc * j), "resources/BlackPawn.png", scale, scale);
+					StdDraw.picture(this.xValue + (inc * i), this.yValue + (inc * j), "resources/BlackPawn.png", scale,
+							scale);
 				} else if (j >= 2 && j <= 5)
 					// DefaultPiece is a placeholder piece so that NullPointer is never thrown
 					this.board.add(new DefaultPiece(i, j), new Position(i, j));
@@ -275,15 +277,14 @@ public class ChessDriver {
 				for (int j = 0; j < pieces[i].length; j++) {
 					// Checks to make sure an instance of both kings exist
 					// This should become obselete once checkmate implementation is complete
-					if (pieces[i][j] instanceof BlackKing) {
+					if (pieces[i][j] instanceof BlackKing)
 						blackKing = true;
-					}
-					if (pieces[i][j] instanceof WhiteKing) {
+					if (pieces[i][j] instanceof WhiteKing)
 						whiteKing = true;
-					}
 				}
 			}
 			// If either king is missing, the game is over
+			// Again, should become obsolete once checkmate implementation is complete
 			if (whiteKing == false) {
 				System.out.println("Player 2 wins!");
 				this.running = false;
@@ -307,32 +308,31 @@ public class ChessDriver {
 		int xC = 0;
 		int yC = 0;
 		// Calculates location of click on a 0-7 scale
-		if ((xCoor * 10) % 10 >= 5) {
+		if ((xCoor * 10) % 10 >= 5)
 			xC = ((int) xCoor) + 1;
-		} else {
+		else
 			xC = ((int) xCoor);
-		}
-		if ((yCoor * 10) % 10 >= 5) {
+
+		if ((yCoor * 10) % 10 >= 5)
 			yC = ((int) yCoor) + 1;
-		} else {
+		else
 			yC = ((int) yCoor);
-		}
+
 		this.posPiece = new Position(xC, yC);
 		if (this.isSelected) {
-			// If a player clicks on the currently selected piece, it is unselected
+			// If the player clicks on the currently selected piece, it is unselected
 			if (this.currentPiece.getPos().equals(this.posPiece)) {
 				this.isSelected = false;
 				this.createTiles();
 				this.addPictures();
+				// If the player clicks on a piece of the same color, change selected piece to
+				// that piece
 			} else if (currentPiece.isWhite() == this.board.get(posPiece).isWhite()
 					&& currentPiece.isBlack() == this.board.get(posPiece).isBlack()) {
-				selectPiece(posPiece.getX(), posPiece.getY());
 				this.createTiles();
 				this.addPictures();
-				this.currentX = 0;
-				this.currentY = 0;
-				this.currentC = null;
-				isSelected = false;
+				selectPiece(posPiece.getX(), posPiece.getY());
+				assignPiece();
 			} else {
 				ArrayList<Position> moves = this.currentPiece.getPossibleMoves(this.board);
 				for (int i = 0; i < moves.size(); i++) {
@@ -343,21 +343,21 @@ public class ChessDriver {
 			}
 		} else {
 			if (this.board.get(this.posPiece) instanceof DefaultPiece) {
-				// Cancel click
+				// Cancel click on click of empty space
 			} else {
 				// Allow selection of a piece only if it's that player's turn
 				if (this.board.whiteTurn() == this.board.get(this.posPiece).isWhite()
 						&& this.board.blackTurn() == this.board.get(this.posPiece).isBlack()) {
 					selectPiece(this.posPiece.getX(), this.posPiece.getY());
 					assignPiece();
-					ArrayList<Position> moves = this.currentPiece.getPossibleMoves(this.board);
 				}
 			}
 		}
 	}
 
 	/**
-	 *
+	 * Highlights the tile at location (x, y)
+	 * 
 	 * @param x x Coordinate
 	 * @param y y Coordinate
 	 */
@@ -701,6 +701,7 @@ public class ChessDriver {
 
 	/**
 	 * Returns all locations of black pieces on the board b
+	 * 
 	 * @param b the board to check positions on
 	 * @return an arraylist of all positions with a black piece
 	 */
@@ -724,6 +725,7 @@ public class ChessDriver {
 
 	/**
 	 * Returns all locations of white pieces on the board b
+	 * 
 	 * @param b the board to check positions on
 	 * @return an arraylist of all positions with a white piece
 	 */
@@ -746,9 +748,11 @@ public class ChessDriver {
 	}
 
 	/**
-	 * Not entirely sure what this code actually does, as nothing is returned or modified within it
+	 * Not entirely sure what this code actually does, as nothing is returned or
+	 * modified within it
 	 * 
 	 * //TODO: I think this code is missing some implementations
+	 * 
 	 * @param pieces
 	 * @param b
 	 */
@@ -760,6 +764,7 @@ public class ChessDriver {
 
 	/**
 	 * In theorey this checks to see if white is in stalemate, doesn't work 100%
+	 * 
 	 * @return boolean representing whether white is in stalemate
 	 */
 	private boolean whiteStale() {
@@ -792,6 +797,7 @@ public class ChessDriver {
 
 	/**
 	 * In theorey this checks to see if black is in stalemate, doesn't work 100%1
+	 * 
 	 * @return boolean representing whether white is in stalemate
 	 */
 	private boolean blackStale() {
