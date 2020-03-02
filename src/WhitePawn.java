@@ -110,6 +110,6 @@ public class WhitePawn extends Piece {
 	}
 
 	public String toString() {
-		return "WhitePawn.png";
+		return "resources/WhitePawn.png";
 	}
 }

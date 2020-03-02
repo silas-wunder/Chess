@@ -174,45 +174,46 @@ public class ChessDriver {
 	 */
 	public void addPieces() {
 		this.board.add(new WhiteRook(0, 0), new Position(0, 0));
-		StdDraw.picture(this.xValue, this.yValue, "WhiteRook.png", scale, scale);
+		StdDraw.picture(this.xValue, this.yValue, "resources/WhiteRook.png", scale, scale);
 		this.board.add(new WhiteKnight(1, 0), new Position(1, 0));
-		StdDraw.picture(this.xValue + (inc * 1), this.yValue, "WhiteKnight.png", scale, scale);
+		StdDraw.picture(this.xValue + (inc * 1), this.yValue, "resources/WhiteKnight.png", scale, scale);
 		this.board.add(new WhiteBishop(2, 0), new Position(2, 0));
-		StdDraw.picture(this.xValue + (inc * 2), this.yValue, "WhiteBishop.png", scale, scale);
+		StdDraw.picture(this.xValue + (inc * 2), this.yValue, "resources/WhiteBishop.png", scale, scale);
 		this.board.add(new WhiteQueen(3, 0), new Position(3, 0));
-		StdDraw.picture(this.xValue + (inc * 3), this.yValue, "WhiteQueen.png", scale, scale);
+		StdDraw.picture(this.xValue + (inc * 3), this.yValue, "resources/WhiteQueen.png", scale, scale);
 		this.board.add(new WhiteKing(4, 0), new Position(4, 0));
-		StdDraw.picture(this.xValue + (inc * 4), this.yValue, "WhiteKing.png", scale, scale);
+		StdDraw.picture(this.xValue + (inc * 4), this.yValue, "resources/WhiteKing.png", scale, scale);
 		this.board.add(new WhiteBishop(5, 0), new Position(5, 0));
-		StdDraw.picture(this.xValue + (inc * 5), this.yValue, "WhiteBishop.png", scale, scale);
+		StdDraw.picture(this.xValue + (inc * 5), this.yValue, "resources/WhiteBishop.png", scale, scale);
 		this.board.add(new WhiteKnight(6, 0), new Position(6, 0));
-		StdDraw.picture(this.xValue + (inc * 6), this.yValue, "WhiteKnight.png", scale, scale);
+		StdDraw.picture(this.xValue + (inc * 6), this.yValue, "resources/WhiteKnight.png", scale, scale);
 		this.board.add(new WhiteRook(7, 0), new Position(7, 0));
-		StdDraw.picture(this.xValue + (inc * 7), this.yValue, "WhiteRook.png", scale, scale);
+		StdDraw.picture(this.xValue + (inc * 7), this.yValue, "resources/WhiteRook.png", scale, scale);
 		this.board.add(new BlackRook(0, 7), new Position(0, 7));
-		StdDraw.picture(this.xValue, this.yValue + (inc * 7), "BlackRook.png", scale, scale);
+		StdDraw.picture(this.xValue, this.yValue + (inc * 7), "resources/BlackRook.png", scale, scale);
 		this.board.add(new BlackKnight(1, 7), new Position(1, 7));
-		StdDraw.picture(this.xValue + (inc * 1), this.yValue + (inc * 7), "BlackKnight.png", scale, scale);
+		StdDraw.picture(this.xValue + (inc * 1), this.yValue + (inc * 7), "resources/BlackKnight.png", scale, scale);
 		this.board.add(new BlackBishop(2, 7), new Position(2, 7));
-		StdDraw.picture(this.xValue + (inc * 2), this.yValue + (inc * 7), "BlackBishop.png", scale, scale);
+		StdDraw.picture(this.xValue + (inc * 2), this.yValue + (inc * 7), "resources/BlackBishop.png", scale, scale);
 		this.board.add(new BlackQueen(3, 7), new Position(3, 7));
-		StdDraw.picture(this.xValue + (inc * 3), this.yValue + (inc * 7), "BlackQueen.png", scale, scale);
+		StdDraw.picture(this.xValue + (inc * 3), this.yValue + (inc * 7), "resources/BlackQueen.png", scale, scale);
 		this.board.add(new BlackKing(4, 7), new Position(4, 7));
-		StdDraw.picture(this.xValue + (inc * 4), this.yValue + (inc * 7), "BlackKing.png", scale, scale);
+		StdDraw.picture(this.xValue + (inc * 4), this.yValue + (inc * 7), "resources/BlackKing.png", scale, scale);
 		this.board.add(new BlackBishop(5, 7), new Position(5, 7));
-		StdDraw.picture(this.xValue + (inc * 5), this.yValue + (inc * 7), "BlackBishop.png", scale, scale);
+		StdDraw.picture(this.xValue + (inc * 5), this.yValue + (inc * 7), "resources/BlackBishop.png", scale, scale);
 		this.board.add(new BlackKnight(6, 7), new Position(6, 7));
-		StdDraw.picture(this.xValue + (inc * 6), this.yValue + (inc * 7), "BlackKnight.png", scale, scale);
+		StdDraw.picture(this.xValue + (inc * 6), this.yValue + (inc * 7), "resources/BlackKnight.png", scale, scale);
 		this.board.add(new BlackRook(7, 7), new Position(7, 7));
-		StdDraw.picture(this.xValue + (inc * 7), this.yValue + (inc * 7), "BlackRook.png", scale, scale);
+		StdDraw.picture(this.xValue + (inc * 7), this.yValue + (inc * 7), "resources/BlackRook.png", scale, scale);
+		// Adds the pawns and DefaultPieces to every other location on the board
 		for (int i = 0; i < 8; i++) {
 			for (int j = 1; j < 8; j++) {
 				if (j == 1) {
 					this.board.add(new WhitePawn(i, j), new Position(i, j));
-					StdDraw.picture(this.xValue + (inc * i), this.yValue + (inc * j), "WhitePawn.png", scale, scale);
+					StdDraw.picture(this.xValue + (inc * i), this.yValue + (inc * j), "resources/WhitePawn.png", scale, scale);
 				} else if (j == 6) {
 					this.board.add(new BlackPawn(i, j), new Position(i, j));
-					StdDraw.picture(this.xValue + (inc * i), this.yValue + (inc * j), "BlackPawn.png", scale, scale);
+					StdDraw.picture(this.xValue + (inc * i), this.yValue + (inc * j), "resources/BlackPawn.png", scale, scale);
 				} else if (j >= 2 && j <= 5)
 					// DefaultPiece is a placeholder piece so that NullPointer is never thrown
 					this.board.add(new DefaultPiece(i, j), new Position(i, j));
@@ -224,10 +225,9 @@ public class ChessDriver {
 	 * Copies the current board to testBoard, used to run potential moves
 	 */
 	private void copyBoard() {
-		Position temp;
 		for (int x = 0; x < 8; x++) {
 			for (int y = 0; y < 8; y++) {
-				temp = new Position(x, y);
+				Position temp = new Position(x, y);
 				if (this.board.getType(temp) instanceof DefaultPiece)
 					this.testBoard.add(new DefaultPiece(x, y), temp);
 				else if (this.board.getType(temp) instanceof WhitePawn)
@@ -396,7 +396,8 @@ public class ChessDriver {
 
 		// If the clicked location is valid, execute move
 		if (b.isValid(pos)) {
-			// If the piece is being moved to the location of a current piece, take that piece
+			// If the piece is being moved to the location of a current piece, take that
+			// piece
 			if ((p.isWhite() == b.hasBlack(pos) && p.isBlack() == b.hasWhite(pos))
 					|| (b.hasWhite(pos) == b.hasBlack(pos))) {
 				// Remove the piece currently there
@@ -415,7 +416,7 @@ public class ChessDriver {
 				// If the white king is in check and it's white's turn, they cannot make a move
 				// that won't take them out of check
 				if (check == 1 && b.whiteTurn()) {
-					
+
 					b.remove(pos);
 					b.remove(new Position(startX, startY));
 					b.add(temp, pos);
@@ -634,9 +635,12 @@ public class ChessDriver {
 	}
 
 	/**
-	 * determines which king if any is in check returns 0 if neither in check
-	 * returns 1 if white in check returns 2 if black in check
+	 * Determines which king, if any, is in check
 	 * 
+	 * returns 0 if neither in check, 1 if white is in check, and 2 if black is in
+	 * check
+	 * 
+	 * @param b the board to run the check on
 	 * @return int representing which king is in check
 	 */
 	public int checkCheck(Board b) {
@@ -645,19 +649,13 @@ public class ChessDriver {
 		WhiteKing wKing = new WhiteKing(-1, -1);
 		BlackKing bKing = new BlackKing(-1, -1);
 
-		for (int i = 0; i < whitePositions.size(); i++) {
-			if (b.get(whitePositions.get(i)) instanceof WhiteKing) {
+		for (int i = 0; i < whitePositions.size(); i++)
+			if (b.get(whitePositions.get(i)) instanceof WhiteKing)
 				wKing = ((WhiteKing) b.get(whitePositions.get(i)));
 
-			}
-		}
-
-		for (int i = 0; i < blackPositions.size(); i++) {
-			if (b.get(blackPositions.get(i)) instanceof BlackKing) {
+		for (int i = 0; i < blackPositions.size(); i++)
+			if (b.get(blackPositions.get(i)) instanceof BlackKing)
 				bKing = ((BlackKing) b.get(blackPositions.get(i)));
-
-			}
-		}
 
 		// detects if pieces should not be allowed to move in a way that puts its own
 		// king in check
@@ -701,6 +699,11 @@ public class ChessDriver {
 		return 0;
 	}
 
+	/**
+	 * Returns all locations of black pieces on the board b
+	 * @param b the board to check positions on
+	 * @return an arraylist of all positions with a black piece
+	 */
 	public ArrayList<Position> blackLocations(Board b) {
 		ArrayList<Position> positions = new ArrayList<Position>();
 		int count = 0;
@@ -716,10 +719,14 @@ public class ChessDriver {
 			if (count > 15)
 				break;
 		}
-
 		return positions;
 	}
 
+	/**
+	 * Returns all locations of white pieces on the board b
+	 * @param b the board to check positions on
+	 * @return an arraylist of all positions with a white piece
+	 */
 	public ArrayList<Position> whiteLocations(Board b) {
 		ArrayList<Position> positions = new ArrayList<Position>();
 		int count = 0;
@@ -735,16 +742,26 @@ public class ChessDriver {
 			if (count > 15)
 				break;
 		}
-
 		return positions;
 	}
 
+	/**
+	 * Not entirely sure what this code actually does, as nothing is returned or modified within it
+	 * 
+	 * //TODO: I think this code is missing some implementations
+	 * @param pieces
+	 * @param b
+	 */
 	private void checkPossibleMoves(ArrayList<Position> pieces, Board b) {
 		for (int i = 0; i < pieces.size(); i++) {
 			b.get(pieces.get(i)).getPossibleMoves(b);
 		}
 	}
 
+	/**
+	 * In theorey this checks to see if white is in stalemate, doesn't work 100%
+	 * @return boolean representing whether white is in stalemate
+	 */
 	private boolean whiteStale() {
 		copyBoard();
 		ArrayList<Position> pieces = whiteLocations(this.testBoard);
@@ -773,6 +790,10 @@ public class ChessDriver {
 
 	}
 
+	/**
+	 * In theorey this checks to see if black is in stalemate, doesn't work 100%1
+	 * @return boolean representing whether white is in stalemate
+	 */
 	private boolean blackStale() {
 		copyBoard();
 		ArrayList<Position> pieces = blackLocations(this.testBoard);

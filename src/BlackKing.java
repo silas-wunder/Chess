@@ -128,7 +128,7 @@ public class BlackKing extends Piece {
 	}
 
 	public String toString() {
-		return "BlackKing.png";
+		return "resources/BlackKing.png";
 	}
 
 }

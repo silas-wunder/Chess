@@ -69,7 +69,7 @@ public class BlackKnight extends Piece {
 	}
 
 	public String toString() {
-		return "BlackKnight.png";
+		return "resources/BlackKnight.png";
 	}
 
 }

@@ -143,7 +143,7 @@ public class BlackQueen extends Piece {
 	}
 
 	public String toString() {
-		return "BlackQueen.png";
+		return "resources/BlackQueen.png";
 	}
 
 }

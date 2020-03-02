@@ -88,7 +88,7 @@ public class WhiteBishop extends Piece {
 	}
 
 	public String toString() {
-		return "WhiteBishop.png";
+		return "resources/WhiteBishop.png";
 	}
 
 }

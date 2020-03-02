@@ -70,7 +70,7 @@ public class WhiteKnight extends Piece {
 	}
 
 	public String toString() {
-		return "WhiteKnight.png";
+		return "resources/WhiteKnight.png";
 	}
 
 }

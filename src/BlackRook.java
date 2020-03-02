@@ -98,7 +98,7 @@ public class BlackRook extends Piece {
 	}
 
 	public String toString() {
-		return "BlackRook.png";
+		return "resources/BlackRook.png";
 	}
 
 	@Override
