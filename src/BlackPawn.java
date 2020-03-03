@@ -24,7 +24,7 @@ public class BlackPawn extends Piece {
 	 * @return ArrayList<Position> the ArrayList of all possible positions
 	 * @param b the board of the piece
 	 */
-	public ArrayList<Position> getPossibleMoves(Board b) {
+	public void calculatePossibleMoves(Board b) {
 		ArrayList<Position> positions = new ArrayList<Position>();
 		Position p = new Position(this.getPos().getX(), this.getPos().getY());
 		// Checks the left diagonal position to see if there is a piece there
@@ -62,7 +62,7 @@ public class BlackPawn extends Piece {
 			}
 		}
 
-		return positions;
+		this.possibleMoves = positions;
 	}
 
 	/**

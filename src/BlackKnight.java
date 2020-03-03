@@ -19,7 +19,7 @@ public class BlackKnight extends Piece {
 	 * @return ArrayList<Position> the ArrayList of all possible positions
 	 * @param b the board of the piece
 	 */
-	public ArrayList<Position> getPossibleMoves(Board b) {
+	public void calculatePossibleMoves(Board b) {
 		Position p = new Position(this.getPos().getX(), this.getPos().getY());
 		ArrayList<Position> positions = new ArrayList<Position>();
 		if (b.isValid(new Position(p.getX() - 1, p.getY() + 2))
@@ -55,7 +55,7 @@ public class BlackKnight extends Piece {
 			}
 		}
 
-		return positions;
+		this.possibleMoves = positions;
 	}
 
 	@Override

@@ -1,17 +1,9 @@
-import java.util.ArrayList;
 
 @SuppressWarnings("rawtypes")
 public class DefaultPiece extends Piece {
 
 	DefaultPiece(int x, int y) {
 		super(x, y);
-	}
-
-	/**
-	 * Can't move
-	 */
-	public ArrayList<Position> getPossibleMoves(Board b) {
-		return null;
 	}
 
 	@Override
@@ -22,5 +14,11 @@ public class DefaultPiece extends Piece {
 	@Override
 	public boolean isBlack() {
 		return false;
+	}
+
+	@Override
+	public void calculatePossibleMoves(Board b) {
+		// Can't move, so possible moves is null
+		this.possibleMoves = null;
 	}
 }

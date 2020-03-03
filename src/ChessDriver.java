@@ -126,9 +126,6 @@ public class ChessDriver {
 	/**
 	 * Creates tiles of alternating color throughout the chess board in order to
 	 * make a checkered playing board
-	 * 
-	 * TODO: maybe add a board parameter so that check condition is not drawn when
-	 * test board is used
 	 */
 	public void createTiles() {
 		double x = xValue;
@@ -265,6 +262,16 @@ public class ChessDriver {
 	 */
 	public void listen() {
 		while (this.running) {
+			// TODO: Stop the current player from putting themselves into check
+			if (this.board.whiteTurn()) {
+				for (Position p : whiteLocations(this.board)) {
+					this.board.get(p).calculatePossibleMoves(this.board);
+				}
+			} else {
+				for (Position p : blackLocations(this.board)) {
+					this.board.get(p).calculatePossibleMoves(this.board);
+				}
+			}
 			if (StdDraw.isMousePressed()) {
 				click(StdDraw.mouseX(), StdDraw.mouseY());
 				// was 120, anything lower doesn't register clicks, not sure what the effect is
@@ -307,7 +314,7 @@ public class ChessDriver {
 		double yCoor = ((y - this.yValue) / inc);
 		int xC = 0;
 		int yC = 0;
-		// Calculates location of click on a 0-7 scale
+		// Calculates location of click on a 0-7 scale, DO NOT MODIFY
 		if ((xCoor * 10) % 10 >= 5)
 			xC = ((int) xCoor) + 1;
 		else
@@ -320,30 +327,35 @@ public class ChessDriver {
 
 		this.posPiece = new Position(xC, yC);
 		if (this.isSelected) {
-			// If the player clicks on the currently selected piece, it is unselected
+			// If there is a selected piece, take action
 			if (this.currentPiece.getPos().equals(this.posPiece)) {
+				// If the player clicks on the currently selected piece, it is unselected
 				this.isSelected = false;
 				this.createTiles();
 				this.addPictures();
-				// If the player clicks on a piece of the same color, change selected piece to
-				// that piece
 			} else if (currentPiece.isWhite() == this.board.get(posPiece).isWhite()
 					&& currentPiece.isBlack() == this.board.get(posPiece).isBlack()) {
+				// If the player clicks on a piece of the same color, change selected piece to
+				// that piece
 				this.createTiles();
 				this.addPictures();
 				selectPiece(posPiece.getX(), posPiece.getY());
 				assignPiece();
 			} else {
+				// If nothing else, check to see if the clicked location is a valid move for the
+				// selected piece
 				ArrayList<Position> moves = this.currentPiece.getPossibleMoves(this.board);
 				for (int i = 0; i < moves.size(); i++) {
 					if (this.posPiece.equals(moves.get(i))) {
+						// If this is a valid move, make the move
 						move(this.currentPiece, this.posPiece, this.board);
 					}
 				}
 			}
 		} else {
+			// If there is no actively selected piece, select a piece or ignore click
 			if (this.board.get(this.posPiece) instanceof DefaultPiece) {
-				// Cancel click on click of empty space
+				// Ignore click of empty space
 			} else {
 				// Allow selection of a piece only if it's that player's turn
 				if (this.board.whiteTurn() == this.board.get(this.posPiece).isWhite()
@@ -410,6 +422,14 @@ public class ChessDriver {
 				p.getPos().setY(pos.getY());
 				// Add p to the board in position pos
 				b.add((Piece) type, pos);
+				// Calculate all opposite color posible moves based on move now
+				if (b.whiteTurn()) {
+					for (Position tmpPos : blackLocations(b))
+						b.get(tmpPos).calculatePossibleMoves(b);
+				} else {
+					for (Position tmpPos : whiteLocations(b))
+						b.get(tmpPos).calculatePossibleMoves(b);
+				}
 				// Check to see if either king is in check now
 				int check = checkCheck(b);
 
@@ -541,28 +561,29 @@ public class ChessDriver {
 					}
 					// Stores if either king is in check
 					int tempC = checkCheck(this.board);
-					if (b.equals(this.board)) {
-						if (whiteStale()) {
-							System.out.println("whiteStale() true, tempC is " + tempC);
-							if (tempC == 1) {
-								this.running = false;
-								System.out.println("checkmate, white loses");
-							} else {
-								this.running = false;
-								System.out.println("stalemate");
-							}
-						} else if (blackStale()) {
-							System.out.println("blackStale() true, tempC is " + tempC);
-							if (tempC == 2) {
-								this.running = false;
-								System.out.println("checkmate, black loses");
-							} else {
-								this.running = false;
-								System.out.println("stalemate");
-							}
-						}
+					// TODO: The call to blackstale and whitestale are wrong
+					// if (b.equals(this.board)) {
+					// 	if (whiteStale()) {
+					// 		System.out.println("whiteStale() true, tempC is " + tempC);
+					// 		if (tempC == 1) {
+					// 			this.running = false;
+					// 			System.out.println("checkmate, white loses");
+					// 		} else {
+					// 			this.running = false;
+					// 			System.out.println("stalemate");
+					// 		}
+					// 	} else if (blackStale()) {
+					// 		System.out.println("blackStale() true, tempC is " + tempC);
+					// 		if (tempC == 2) {
+					// 			this.running = false;
+					// 			System.out.println("checkmate, black loses");
+					// 		} else {
+					// 			this.running = false;
+					// 			System.out.println("stalemate");
+					// 		}
+					// 	}
 
-					}
+					// }
 
 					if (b.equals(this.board)) {
 						StdDraw.setPenColor(colors[p.getPos().getX()][p.getPos().getY()]);
@@ -649,6 +670,7 @@ public class ChessDriver {
 		WhiteKing wKing = new WhiteKing(-1, -1);
 		BlackKing bKing = new BlackKing(-1, -1);
 
+		// Grabs the location of the kings
 		for (int i = 0; i < whitePositions.size(); i++)
 			if (b.get(whitePositions.get(i)) instanceof WhiteKing)
 				wKing = ((WhiteKing) b.get(whitePositions.get(i)));
@@ -661,35 +683,60 @@ public class ChessDriver {
 		// king in check
 		if (b.whiteTurn()) {
 			wKing.setCheck(false);
-			checkPossibleMoves(blackPositions, b);
-			if (wKing.checkStatus()) {
-				xCheck = wKing.getPos().getX();
-				yCheck = wKing.getPos().getY();
-				return 1;
+			bKing.setCheck(false);
+			// Check to see if any of the black pieces are able to move to the current
+			// location of the white king
+			for (Position p : blackLocations(b)) {
+				for (Position mov : b.get(p).getPossibleMoves(b)) {
+					if (mov.equals(wKing.getPos())) {
+						wKing.setCheck(true);
+						xCheck = wKing.getPos().getX();
+						yCheck = wKing.getPos().getY();
+						return 1;
+					}
+				}
 			}
 
-			checkPossibleMoves(whitePositions, b);
-			if (bKing.checkStatus()) {
-				xCheck = bKing.getPos().getX();
-				yCheck = bKing.getPos().getY();
-				return 2;
+			// Check to see if any of the white pieces are able to move to the current
+			// location of the black king
+			for (Position p : whiteLocations(b)) {
+				for (Position mov : b.get(p).getPossibleMoves(b)) {
+					if (mov.equals(bKing.getPos())) {
+						bKing.setCheck(true);
+						xCheck = bKing.getPos().getX();
+						yCheck = bKing.getPos().getY();
+						return 2;
+					}
+				}
 			}
 
 		} else {
-
+			wKing.setCheck(false);
 			bKing.setCheck(false);
-			checkPossibleMoves(whitePositions, b);
-			if (bKing.checkStatus()) {
-				xCheck = bKing.getPos().getX();
-				yCheck = bKing.getPos().getY();
-				return 2;
+			// Check to see if any of the black pieces are able to move to the current
+			// location of the white king
+			for (Position p : whiteLocations(b)) {
+				for (Position mov : b.get(p).getPossibleMoves(b)) {
+					if (mov.equals(bKing.getPos())) {
+						bKing.setCheck(true);
+						xCheck = bKing.getPos().getX();
+						yCheck = bKing.getPos().getY();
+						return 1;
+					}
+				}
 			}
 
-			checkPossibleMoves(blackPositions, b);
-			if (wKing.checkStatus()) {
-				xCheck = wKing.getPos().getX();
-				yCheck = wKing.getPos().getY();
-				return 1;
+			// Check to see if any of the white pieces are able to move to the current
+			// location of the black king
+			for (Position p : blackLocations(b)) {
+				for (Position mov : b.get(p).getPossibleMoves(b)) {
+					if (mov.equals(wKing.getPos())) {
+						wKing.setCheck(true);
+						xCheck = wKing.getPos().getX();
+						yCheck = wKing.getPos().getY();
+						return 2;
+					}
+				}
 			}
 
 		}
@@ -748,32 +795,22 @@ public class ChessDriver {
 	}
 
 	/**
-	 * Not entirely sure what this code actually does, as nothing is returned or
-	 * modified within it
-	 * 
-	 * //TODO: I think this code is missing some implementations
-	 * 
-	 * @param pieces
-	 * @param b
-	 */
-	private void checkPossibleMoves(ArrayList<Position> pieces, Board b) {
-		for (int i = 0; i < pieces.size(); i++) {
-			b.get(pieces.get(i)).getPossibleMoves(b);
-		}
-	}
-
-	/**
-	 * In theorey this checks to see if white is in stalemate, doesn't work 100%
+	 * In theorey this checks to see if white is in stalemate, doesn't work
+	 *  
+	 * TODO: Fix this
 	 * 
 	 * @return boolean representing whether white is in stalemate
 	 */
 	private boolean whiteStale() {
+		// Copy the board to test board
 		copyBoard();
+		// Grabs the location of all white pieces
 		ArrayList<Position> pieces = whiteLocations(this.testBoard);
 		ArrayList<Position> tempMoves;
 		Piece tempP;
 		Position startP;
 		int check = 0;
+		// Loop through every piece and check if any of them put the black
 		for (int i = 0; i < pieces.size(); i++) {
 			tempP = this.testBoard.get(pieces.get(i));
 			startP = tempP.getPos();
@@ -796,7 +833,9 @@ public class ChessDriver {
 	}
 
 	/**
-	 * In theorey this checks to see if black is in stalemate, doesn't work 100%1
+	 * In theorey this checks to see if black is in stalemate, doesn't work 
+	 * 
+	 * TODO: Fix this
 	 * 
 	 * @return boolean representing whether white is in stalemate
 	 */
