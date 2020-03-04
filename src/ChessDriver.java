@@ -779,7 +779,7 @@ public class ChessDriver {
 	/**
 	 * In theorey this checks to see if white is in stalemate, doesn't work
 	 * 
-	 * TODO: Fix this
+	 * TODO: Considering current location of piece a valid move and exiting early
 	 * 
 	 * @return boolean representing whether white is in stalemate
 	 */
@@ -795,12 +795,11 @@ public class ChessDriver {
 		// Loop through every piece and check if any of them put the black
 		for (int i = 0; i < pieces.size(); i++) {
 			Piece tempP = this.testBoard.get(pieces.get(i));
-			Position startP = tempP.getPos();
+			Position startP = new Position(tempP.getPos().getX(), tempP.getPos().getY());
 			ArrayList<Position> tempMoves = tempP.getPossibleMoves(this.testBoard);
 			for (int j = 0; j < tempMoves.size(); j++) {
 				if (this.testBoard.isValid(tempMoves.get(j))) {
 					move(tempP, tempMoves.get(j), this.testBoard);
-					// FIXME: Position is mutable, so startP is being changed when it shouldn't be
 					int check = checkCheck(this.testBoard);
 					if (check == 0 || check == 2) {
 						xCheck = -1;
@@ -820,7 +819,7 @@ public class ChessDriver {
 	/**
 	 * In theorey this checks to see if black is in stalemate, doesn't work
 	 * 
-	 * TODO: Fix this
+	 * TODO: Considering current location of piece a valid move and exiting early
 	 * 
 	 * @return boolean representing whether white is in stalemate
 	 */
@@ -835,7 +834,7 @@ public class ChessDriver {
 		int check = 0;
 		for (int i = 0; i < pieces.size(); i++) {
 			Piece tempP = this.testBoard.get(pieces.get(i));
-			Position startP = tempP.getPos();
+			Position startP = new Position(tempP.getPos().getX(), tempP.getPos().getY());
 			ArrayList<Position> tempMoves = tempP.getPossibleMoves(this.testBoard);
 			for (int j = 0; j < tempMoves.size(); j++) {
 				if (this.testBoard.isValid(tempMoves.get(j))) {

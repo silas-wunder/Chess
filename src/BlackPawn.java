@@ -28,15 +28,15 @@ public class BlackPawn extends Piece {
 		ArrayList<Position> positions = new ArrayList<Position>();
 		Position p = new Position(this.getPos().getX(), this.getPos().getY());
 		// Checks the left diagonal position to see if there is a piece there
-		if (!b.isEmpty(new Position(p.getX() - 1, p.getY() - 1)) || this.canLeftPassant) {
-			if (b.isValid(new Position(p.getX() - 1, p.getY() - 1)))
-				positions.add(new Position(p.getX() - 1, p.getY() - 1));
-		}
+		if (b.isValid(new Position(p.getX() - 1, p.getY() - 1)) && b.hasWhite(new Position(p.getX() - 1, p.getY() - 1))
+				|| this.canLeftPassant)
+			positions.add(new Position(p.getX() - 1, p.getY() - 1));
+
 		// Checks the right diagonal position to see if there is a piece there
-		if (!b.isEmpty(new Position(p.getX() + 1, p.getY() - 1)) || this.canRightPassant) {
-			if (b.isValid(new Position(p.getX() + 1, p.getY() - 1)))
-				positions.add(new Position(p.getX() + 1, p.getY() - 1));
-		}
+		if (b.isValid(new Position(p.getX() + 1, p.getY() - 1)) && b.hasWhite(new Position(p.getX() + 1, p.getY() - 1))
+				|| this.canRightPassant)
+			positions.add(new Position(p.getX() + 1, p.getY() - 1));
+
 		// Checks to see if the pawn has moved yet
 		if (!hasMoved) {
 			// If the pawn hasn't moved, it has the option to move 1 forward or 2 forward
@@ -44,7 +44,7 @@ public class BlackPawn extends Piece {
 				if (b.isValid(new Position(p.getX(), p.getY() - 1)))
 					positions.add(new Position(p.getX(), p.getY() - 1));
 
-			if (b.isEmpty(new Position(p.getX(), p.getY() - 2)))
+			if (b.isEmpty(new Position(p.getX(), p.getY() - 2)) && b.isEmpty(new Position(p.getX(), p.getY() - 1)))
 				if (b.isValid(new Position(p.getX(), p.getY() - 2)))
 					positions.add(new Position(p.getX(), p.getY() - 2));
 		} else {
