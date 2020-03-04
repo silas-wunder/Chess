@@ -10,8 +10,6 @@ public class WhiteBishop extends Piece {
 	/**
 	 * Returns the current possible moves for this piece
 	 * 
-	 * TODO: Move set includes jumping of enemy pieces
-	 * 
 	 * @return ArrayList<Position> the ArrayList of all possible positions
 	 * @param b the board of the piece
 	 */
@@ -24,9 +22,11 @@ public class WhiteBishop extends Piece {
 		p.setX(p.getX() + 1);
 		p.setY(p.getY() + 1);
 		while (b.isValid(p) && !b.hasWhite(p)) {
+			max ++;
+			if(b.hasBlack(p))
+				break;
 			p.setX(p.getX() + 1);
 			p.setY(p.getY() + 1);
-			max++;
 		}
 		for (int i = 1; i < max; i++)
 			positions.add(new Position(this.getPos().getX() + i, this.getPos().getY() + i));
@@ -39,9 +39,11 @@ public class WhiteBishop extends Piece {
 		p.setX(p.getX() - 1);
 		p.setY(p.getY() - 1);
 		while (b.isValid(p) && !b.hasWhite(p)) {
+			max ++;
+			if(b.hasBlack(p))
+				break;
 			p.setX(p.getX() - 1);
 			p.setY(p.getY() - 1);
-			max++;
 		}
 		for (int i = max - 1; i > 0; i--)
 			positions.add(new Position(this.getPos().getX() - i, this.getPos().getY() - i));
@@ -54,9 +56,11 @@ public class WhiteBishop extends Piece {
 		p.setX(p.getX() + 1);
 		p.setY(p.getY() - 1);
 		while (b.isValid(p) && !b.hasWhite(p)) {
+			max ++;
+			if(b.hasBlack(p))
+				break;
 			p.setX(p.getX() + 1);
 			p.setY(p.getY() - 1);
-			max += 1;
 		}
 		for (int i = 1; i < max; i++)
 			positions.add(new Position(this.getPos().getX() + i, this.getPos().getY() - i));
@@ -69,9 +73,11 @@ public class WhiteBishop extends Piece {
 		p.setX(p.getX() - 1);
 		p.setY(p.getY() + 1);
 		while (b.isValid(p) && !b.hasWhite(p)) {
+			max ++;
+			if(b.hasBlack(p))
+				break;
 			p.setX(p.getX() - 1);
 			p.setY(p.getY() + 1);
-			max++;
 		}
 		for (int i = 1; i < max; i++)
 			positions.add(new Position(this.getPos().getX() - i, this.getPos().getY() + i));

@@ -19,8 +19,6 @@ public class WhiteRook extends Piece {
 	/**
 	 * Returns the current possible moves for this piece
 	 * 
-	 * TODO: Move set includes jumping of enemy pieces
-	 * 
 	 * @return ArrayList<Position> the ArrayList of all possible positions
 	 * @param b the board of the piece
 	 */
@@ -30,10 +28,12 @@ public class WhiteRook extends Piece {
 		int max = 1;
 
 		// Forward Positions
-			p.setY(p.getY() + 1);
-		while (b.isValid(p) && !b.hasWhite(p)){
-			p.setY(p.getY() + 1);
+		p.setY(p.getY() + 1);
+		while (b.isValid(p) && !b.hasWhite(p)) {
 			max++;
+			if (b.hasBlack(p))
+				break;
+			p.setY(p.getY() + 1);
 		}
 		for (int i = 1; i < max; i++) {
 			positions.add(new Position(this.getPos().getX(), this.getPos().getY() + i));
@@ -45,9 +45,11 @@ public class WhiteRook extends Piece {
 
 		// Positions to the Right
 		p.setX(p.getX() + 1);
-		while (b.isValid(p) && !b.hasWhite(p)){
-			p.setX(p.getX() + 1);
+		while (b.isValid(p) && !b.hasWhite(p)) {
 			max++;
+			if (b.hasBlack(p))
+				break;
+			p.setX(p.getX() + 1);
 		}
 		for (int i = 1; i < max; i++) {
 			positions.add(new Position(this.getPos().getX() + i, this.getPos().getY()));
@@ -59,8 +61,11 @@ public class WhiteRook extends Piece {
 
 		// Positions to the Left
 		p.setX(p.getX() - 1);
-		while (b.isValid(p) && !b.hasWhite(p)){
+		while (b.isValid(p) && !b.hasWhite(p)) {
 			max++;
+			if (b.hasBlack(p))
+				break;
+			p.setX(p.getX() - 1);
 		}
 		for (int i = max - 1; i > 0; i--) {
 			positions.add(new Position(this.getPos().getX() - i, this.getPos().getY()));
@@ -72,9 +77,11 @@ public class WhiteRook extends Piece {
 
 		// Positions Behind
 		p.setY(p.getY() - 1);
-		while (b.isValid(p) && !b.hasWhite(p)){
-			p.setY(p.getY() - 1);
+		while (b.isValid(p) && !b.hasWhite(p)) {
 			max++;
+			if (b.hasBlack(p))
+				break;
+			p.setY(p.getY() - 1);
 		}
 		for (int i = max - 1; i > 0; i--) {
 			positions.add(new Position(this.getPos().getX(), this.getPos().getY() - i));
