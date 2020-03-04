@@ -19,7 +19,7 @@ public class BlackRook extends Piece {
 	/**
 	 * Returns the current possible moves for this piece
 	 * 
-	 * TODO: This is adding invalid moves to the move set
+	 * TODO: Move set includes jumping of enemy pieces
 	 * 
 	 * @return ArrayList<Position> the ArrayList of all possible positions
 	 * @param b the board of the piece
@@ -30,53 +30,54 @@ public class BlackRook extends Piece {
 		int max = 1;
 
 		// Forward Positions
-		do {
+		p.setY(p.getY() + 1);
+		while (b.isValid(p) && !b.hasBlack(p)) {
 			p.setY(p.getY() + 1);
 			max++;
-		} while (b.isEmpty(p) && b.isValid(p) && !b.hasBlack(p));
-		for (int i = 0; i < max; i++) {
+		}
+		for (int i = 1; i < max; i++) {
 			positions.add(new Position(this.getPos().getX(), this.getPos().getY() + i));
 		}
 
-		// Positions to the Right
-
 		p.setY(this.getPos().getY());
 		p.setX(this.getPos().getX());
 		max = 1;
 
-		do {
+		// Positions to the right
+		p.setX(p.getX() + 1);
+		while (b.isValid(p) && !b.hasBlack(p)) {
 			p.setX(p.getX() + 1);
 			max++;
-		} while (b.isEmpty(p) && b.isValid(p) && !b.hasBlack(p));
-		for (int i = 0; i < max; i++) {
+		}
+		for (int i = 1; i < max; i++) {
 			positions.add(new Position(this.getPos().getX() + i, this.getPos().getY()));
 		}
 
-		// Positions to the Left
-
 		max = 1;
 		p.setY(this.getPos().getY());
 		p.setX(this.getPos().getX());
 
-		do {
+		// Positions to the Left
+		p.setX(p.getX() - 1);
+		while (b.isValid(p) && !b.hasBlack(p)) {
 			p.setX(p.getX() - 1);
 			max++;
-		} while (b.isEmpty(p) && b.isValid(p) && !b.hasBlack(p));
-		for (int i = max - 1; i >= 0; i--) {
+		}
+		for (int i = max - 1; i > 0; i--) {
 			positions.add(new Position(this.getPos().getX() - i, this.getPos().getY()));
 		}
 
-		// Positions Behind
-
 		max = 1;
 		p.setY(this.getPos().getY());
 		p.setX(this.getPos().getX());
 
-		do {
+		// Positions Behind
+		p.setY(p.getY() - 1);
+		while (b.isValid(p) && !b.hasBlack(p)) {
 			p.setY(p.getY() - 1);
 			max++;
-		} while (b.isEmpty(p) && b.isValid(p) && !b.hasBlack(p));
-		for (int i = max - 1; i >= 0; i--) {
+		}
+		for (int i = max - 1; i > 0; i--) {
 			positions.add(new Position(this.getPos().getX(), this.getPos().getY() - i));
 		}
 

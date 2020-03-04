@@ -10,6 +10,8 @@ public class WhiteBishop extends Piece {
 	/**
 	 * Returns the current possible moves for this piece
 	 * 
+	 * TODO: Move set includes jumping of enemy pieces
+	 * 
 	 * @return ArrayList<Position> the ArrayList of all possible positions
 	 * @param b the board of the piece
 	 */
