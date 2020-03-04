@@ -10,8 +10,6 @@ public class WhiteQueen extends Piece {
 	/**
 	 * Returns the current possible moves for this piece
 	 * 
-	 * TODO: This is adding invalid moves to the move set
-	 * 
 	 * @return ArrayList<Position> the ArrayList of all possible positions
 	 * @param b the board of the piece
 	 */
@@ -21,105 +19,137 @@ public class WhiteQueen extends Piece {
 		int max = 1;
 
 		// Positions to the diagonal up - right
-		do {
+		p.setX(p.getX() + 1);
+		p.setY(p.getY() + 1);
+		while (b.isValid(p) && !b.hasWhite(p)) {
+			max++;
+			if (b.hasBlack(p))
+				break;
 			p.setX(p.getX() + 1);
 			p.setY(p.getY() + 1);
-			max++;
-		} while (b.isEmpty(p) && b.isValid(p) && !b.hasWhite(p));
-		for (int i = 0; i < max; i++)
+		}
+		for (int i = 1; i < max; i++)
 			positions.add(new Position(this.getPos().getX() + i, this.getPos().getY() + i));
 
+		// Reset p and max
 		p.setY(this.getPos().getY());
 		p.setX(this.getPos().getX());
 		max = 1;
 
 		// Positions to the diagonal down - left
-		do {
+		p.setX(p.getX() - 1);
+		p.setY(p.getY() - 1);
+		while (b.isValid(p) && !b.hasWhite(p)) {
+			max++;
+			if (b.hasBlack(p))
+				break;
 			p.setX(p.getX() - 1);
 			p.setY(p.getY() - 1);
-			max++;
-		} while (b.isEmpty(p) && b.isValid(p) && !b.hasWhite(p));
-		for (int i = max - 1; i >= 0; i--)
+		}
+		for (int i = max - 1; i > 0; i--)
 			positions.add(new Position(this.getPos().getX() - i, this.getPos().getY() - i));
 
+		// Reset p and max
 		p.setY(this.getPos().getY());
 		p.setX(this.getPos().getX());
 		max = 1;
 
 		// Positions to the diagonal up - left
-		do {
+		p.setX(p.getX() + 1);
+		p.setY(p.getY() - 1);
+		while (b.isValid(p) && !b.hasWhite(p)) {
+			max++;
+			if (b.hasBlack(p))
+				break;
 			p.setX(p.getX() + 1);
 			p.setY(p.getY() - 1);
-			max++;
-		} while (b.isEmpty(p) && b.isValid(p) && !b.hasWhite(p));
-		for (int i = 0; i < max; i++)
+		}
+		for (int i = 1; i < max; i++)
 			positions.add(new Position(this.getPos().getX() + i, this.getPos().getY() - i));
 
+		// Reset p and max
 		p.setY(this.getPos().getY());
 		p.setX(this.getPos().getX());
 		max = 1;
 
 		// Positions to the diagonal down - right
-		do {
+		p.setX(p.getX() - 1);
+		p.setY(p.getY() + 1);
+		while (b.isValid(p) && !b.hasWhite(p)) {
+			max++;
+			if (b.hasBlack(p))
+				break;
 			p.setX(p.getX() - 1);
 			p.setY(p.getY() + 1);
-			max++;
-		} while (b.isEmpty(p) && b.isValid(p) && !b.hasWhite(p));
-		for (int i = 0; i < max; i++)
+		}
+		for (int i = 1; i < max; i++)
 			positions.add(new Position(this.getPos().getX() - i, this.getPos().getY() + i));
 
+		// Reset p and max
 		p.setY(this.getPos().getY());
 		p.setX(this.getPos().getX());
 		max = 1;
 
-		// Forward Positions
-		do {
-			p.setY(p.getY() + 1);
+		// Positions up
+		p.setY(p.getY() + 1);
+		while (b.isValid(p) && !b.hasWhite(p)) {
 			max++;
-		} while (b.isEmpty(p) && b.isValid(p) && !b.hasWhite(p));
-		for (int i = 0; i < max; i++) { // Add possible positions FORWARD
+			if (b.hasBlack(p))
+				break;
+			p.setY(p.getY() + 1);
+		}
+		for (int i = 1; i < max; i++) {
 			positions.add(new Position(this.getPos().getX(), this.getPos().getY() + i));
 		}
 
-		// Positions to the Right
-
+		// Reset p and max
 		p.setY(this.getPos().getY());
 		p.setX(this.getPos().getX());
 		max = 1;
 
-		do {
-			p.setX(p.getX() + 1);
+		// Positions to the right
+		p.setX(p.getX() + 1);
+		while (b.isValid(p) && !b.hasWhite(p)) {
 			max++;
-		} while (b.isEmpty(p) && b.isValid(p) && !b.hasWhite(p));// Positions to the right
-		for (int i = 0; i < max; i++) { // Add possible positions RIGHT-WARD
+			if (b.hasBlack(p))
+				break;
+			p.setX(p.getX() + 1);
+		}
+		for (int i = 1; i < max; i++) {
 			positions.add(new Position(this.getPos().getX() + i, this.getPos().getY()));
 		}
 
-		// Positions to the Left
-
-		max = 1;
+		// Reset p and max
 		p.setY(this.getPos().getY());
 		p.setX(this.getPos().getX());
+		max = 1;
 
-		do {
-			p.setX(p.getX() - 1);
+		// Positions to the left
+		p.setX(p.getX() - 1);
+		while (b.isValid(p) && !b.hasWhite(p)) {
 			max++;
-		} while (b.isEmpty(p) && b.isValid(p) && !b.hasWhite(p));// Positions to the left
-		for (int i = max - 1; i >= 0; i--) { // Add possible positions LEFT-WARD
+			if (b.hasBlack(p))
+				break;
+			p.setX(p.getX() - 1);
+		}
+		for (int i = max - 1; i > 0; i--) {
 			positions.add(new Position(this.getPos().getX() - i, this.getPos().getY()));
 		}
 
-		// Positions Behind
-
-		max = 1;
+		// Reset p and max
 		p.setY(this.getPos().getY());
 		p.setX(this.getPos().getX());
+		max = 1;
 
-		do {
-			p.setY(p.getY() - 1);
+		// Positions down
+		p.setY(p.getY() - 1);
+		while (b.isValid(p) && !b.hasWhite(p)) {
 			max++;
-		} while (b.isEmpty(p) && b.isValid(p) && !b.hasWhite(p));// Positions down
-		for (int i = max - 1; i >= 0; i--) { // Add possible positions DOWN-WARD
+			if (b.hasBlack(p))
+				break;
+			p.setY(p.getY() - 1);
+		}
+		for (int i = max - 1; i > 0; i--) {
 			positions.add(new Position(this.getPos().getX(), this.getPos().getY() - i));
 		}
 
