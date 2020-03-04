@@ -1,2 +1,5 @@
 # Ignore my code-workspace
 *.code-workspace
+
+# Ignore the launch config file and folder
+.vscode

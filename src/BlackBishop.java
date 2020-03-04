@@ -20,12 +20,14 @@ public class BlackBishop extends Piece {
 		int max = 1;
 
 		// Positions to the diagonal up - right
-		do {
+		p.setX(p.getX() + 1);
+		p.setY(p.getY() + 1);
+		while (b.isValid(p) && !b.hasBlack(p)) {
 			p.setX(p.getX() + 1);
 			p.setY(p.getY() + 1);
 			max++;
-		} while (b.isEmpty(p) && b.isValid(p) && !b.hasBlack(p));
-		for (int i = 0; i < max; i++)
+		}
+		for (int i = 1; i < max; i++)
 			positions.add(new Position(this.getPos().getX() + i, this.getPos().getY() + i));
 
 		p.setY(this.getPos().getY());
@@ -33,12 +35,14 @@ public class BlackBishop extends Piece {
 		max = 1;
 
 		// Positions to the diagonal down - left
-		do {
+		p.setX(p.getX() - 1);
+		p.setY(p.getY() - 1);
+		while (b.isValid(p) && !b.hasBlack(p)) {
 			p.setX(p.getX() - 1);
 			p.setY(p.getY() - 1);
 			max++;
-		} while (b.isEmpty(p) && b.isValid(p) && !b.hasBlack(p));
-		for (int i = max - 1; i >= 0; i--)
+		}
+		for (int i = max - 1; i > 0; i--)
 			positions.add(new Position(this.getPos().getX() - i, this.getPos().getY() - i));
 
 		p.setY(this.getPos().getY());
@@ -46,12 +50,14 @@ public class BlackBishop extends Piece {
 		max = 1;
 
 		// Positions to the diagonal up - left
-		do {
+		p.setX(p.getX() + 1);
+		p.setY(p.getY() - 1);
+		while (b.isValid(p) && !b.hasBlack(p)) {
 			p.setX(p.getX() + 1);
 			p.setY(p.getY() - 1);
 			max += 1;
-		} while (b.isEmpty(p) && b.isValid(p) && !b.hasBlack(p));
-		for (int i = 0; i < max; i++)
+		}
+		for (int i = 1; i < max; i++)
 			positions.add(new Position(this.getPos().getX() + i, this.getPos().getY() - i));
 
 		p.setY(this.getPos().getY());
@@ -59,12 +65,14 @@ public class BlackBishop extends Piece {
 		max = 1;
 
 		// Positions to the diagonal down - right
-		do {
+		p.setX(p.getX() - 1);
+		p.setY(p.getY() + 1);
+		while (b.isValid(p) && !b.hasBlack(p)) {
 			p.setX(p.getX() - 1);
 			p.setY(p.getY() + 1);
 			max++;
-		} while (b.isEmpty(p) && b.isValid(p) && !b.hasBlack(p));
-		for (int i = 0; i < max; i++)
+		}
+		for (int i = 1; i < max; i++)
 			positions.add(new Position(this.getPos().getX() - i, this.getPos().getY() + i));
 
 		for (int i = 0; i < positions.size() - 1; i++) {

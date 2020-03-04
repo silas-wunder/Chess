@@ -134,7 +134,7 @@ public class ChessDriver {
 			for (int j = 0; j < 8; j++) {
 				// If this is the location of a king in check, draw square red
 				if (xCheck == j && yCheck == i) {
-					StdDraw.setPenColor(139, 0, 0);
+					StdDraw.setPenColor(new Color(139, 0, 0));
 					colors[i][j] = new Color(139, 0, 0);
 				} else if (i % 2 == 0) {
 					if (j % 2 == 0) {
@@ -262,7 +262,6 @@ public class ChessDriver {
 	 */
 	public void listen() {
 		while (this.running) {
-			// TODO: Stop the current player from putting themselves into check
 			if (this.board.whiteTurn()) {
 				for (Position p : whiteLocations(this.board)) {
 					this.board.get(p).calculatePossibleMoves(this.board);
@@ -437,6 +436,7 @@ public class ChessDriver {
 				// that won't take them out of check
 				if (check == 1 && b.whiteTurn()) {
 
+					// If white is in check after their move, void the move and put the pieces back
 					b.remove(pos);
 					b.remove(new Position(startX, startY));
 					b.add(temp, pos);
@@ -454,7 +454,7 @@ public class ChessDriver {
 					this.currentX = 0;
 					this.currentY = 0;
 					this.currentC = null;
-					isSelected = false;
+					// isSelected = false;
 
 				} else if (check == 2 && b.blackTurn()) {
 
@@ -516,7 +516,7 @@ public class ChessDriver {
 					}
 					if (type instanceof WhitePawn) {
 						// Checks to see if white pawn has reached back rank and should be promoted
-						// Automatically promotes to queen, as that is the promoted piece 97% of the
+						// Automatically promotes to queen, as that is the chosen piece 97% of the
 						// time
 						if (pos.getY() == 7) {
 							((WhitePawn) p).kingMe(board);
@@ -538,7 +538,7 @@ public class ChessDriver {
 					}
 					if (type instanceof BlackPawn) {
 						// Checks to see if black pawn has reached back rank and should be promoted
-						// Automatically promotes to queen, as that is the promoted piece 97% of the
+						// Automatically promotes to queen, as that is the chosen piece 97% of the
 						// time
 						if (pos.getY() == 0) {
 							((BlackPawn) p).kingMe(board);
@@ -563,25 +563,25 @@ public class ChessDriver {
 					int tempC = checkCheck(this.board);
 					// TODO: The call to blackstale and whitestale are wrong
 					// if (b.equals(this.board)) {
-					// 	if (whiteStale()) {
-					// 		System.out.println("whiteStale() true, tempC is " + tempC);
-					// 		if (tempC == 1) {
-					// 			this.running = false;
-					// 			System.out.println("checkmate, white loses");
-					// 		} else {
-					// 			this.running = false;
-					// 			System.out.println("stalemate");
-					// 		}
-					// 	} else if (blackStale()) {
-					// 		System.out.println("blackStale() true, tempC is " + tempC);
-					// 		if (tempC == 2) {
-					// 			this.running = false;
-					// 			System.out.println("checkmate, black loses");
-					// 		} else {
-					// 			this.running = false;
-					// 			System.out.println("stalemate");
-					// 		}
-					// 	}
+					// if (whiteStale()) {
+					// System.out.println("whiteStale() true, tempC is " + tempC);
+					// if (tempC == 1) {
+					// this.running = false;
+					// System.out.println("checkmate, white loses");
+					// } else {
+					// this.running = false;
+					// System.out.println("stalemate");
+					// }
+					// } else if (blackStale()) {
+					// System.out.println("blackStale() true, tempC is " + tempC);
+					// if (tempC == 2) {
+					// this.running = false;
+					// System.out.println("checkmate, black loses");
+					// } else {
+					// this.running = false;
+					// System.out.println("stalemate");
+					// }
+					// }
 
 					// }
 
@@ -683,7 +683,6 @@ public class ChessDriver {
 		// king in check
 		if (b.whiteTurn()) {
 			wKing.setCheck(false);
-			bKing.setCheck(false);
 			// Check to see if any of the black pieces are able to move to the current
 			// location of the white king
 			for (Position p : blackLocations(b)) {
@@ -697,6 +696,7 @@ public class ChessDriver {
 				}
 			}
 
+			bKing.setCheck(false);
 			// Check to see if any of the white pieces are able to move to the current
 			// location of the black king
 			for (Position p : whiteLocations(b)) {
@@ -711,7 +711,6 @@ public class ChessDriver {
 			}
 
 		} else {
-			wKing.setCheck(false);
 			bKing.setCheck(false);
 			// Check to see if any of the black pieces are able to move to the current
 			// location of the white king
@@ -721,11 +720,12 @@ public class ChessDriver {
 						bKing.setCheck(true);
 						xCheck = bKing.getPos().getX();
 						yCheck = bKing.getPos().getY();
-						return 1;
+						return 2;
 					}
 				}
 			}
 
+			wKing.setCheck(false);
 			// Check to see if any of the white pieces are able to move to the current
 			// location of the black king
 			for (Position p : blackLocations(b)) {
@@ -734,7 +734,7 @@ public class ChessDriver {
 						wKing.setCheck(true);
 						xCheck = wKing.getPos().getX();
 						yCheck = wKing.getPos().getY();
-						return 2;
+						return 1;
 					}
 				}
 			}
@@ -796,7 +796,7 @@ public class ChessDriver {
 
 	/**
 	 * In theorey this checks to see if white is in stalemate, doesn't work
-	 *  
+	 * 
 	 * TODO: Fix this
 	 * 
 	 * @return boolean representing whether white is in stalemate
@@ -833,7 +833,7 @@ public class ChessDriver {
 	}
 
 	/**
-	 * In theorey this checks to see if black is in stalemate, doesn't work 
+	 * In theorey this checks to see if black is in stalemate, doesn't work
 	 * 
 	 * TODO: Fix this
 	 * 

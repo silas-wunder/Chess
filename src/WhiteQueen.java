@@ -10,6 +10,8 @@ public class WhiteQueen extends Piece {
 	/**
 	 * Returns the current possible moves for this piece
 	 * 
+	 * TODO: This is adding invalid moves to the move set
+	 * 
 	 * @return ArrayList<Position> the ArrayList of all possible positions
 	 * @param b the board of the piece
 	 */
