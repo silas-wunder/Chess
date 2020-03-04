@@ -85,14 +85,11 @@ public class ChessDriver {
 	 */
 	private int yCheck = -1;
 
-	// TODO: AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
 	// TODO: Check handling has multiple errors (pawns, visuals, potential moves),
-	// castling through/out of check,
-	// stalemate handling doesn't work (checkmate most likely also has bugs), add
-	// win notification to UI, add
-	// restart option to UI, clicking out of bounds will cause the program to crash,
-	// visuals and coding style
-	// should be tweaked for beauty
+	// castling through/out of check, stalemate handling doesn't work (checkmate
+	// most likely also has bugs), add win notification to UI, add restart option to
+	// UI, clicking out of bounds will cause the program to crash, visuals and
+	// coding style should be tweaked for beauty
 	public static void main(String[] args) {
 		// creates driver object
 		ChessDriver driver = new ChessDriver();
@@ -421,14 +418,12 @@ public class ChessDriver {
 				p.getPos().setY(pos.getY());
 				// Add p to the board in position pos
 				b.add((Piece) type, pos);
-				// Calculate all opposite color posible moves based on move now
-				if (b.whiteTurn()) {
-					for (Position tmpPos : blackLocations(b))
-						b.get(tmpPos).calculatePossibleMoves(b);
-				} else {
-					for (Position tmpPos : whiteLocations(b))
-						b.get(tmpPos).calculatePossibleMoves(b);
-				}
+
+				//Calculate all possible moves for all pieces
+				for (Position tmpPos : blackLocations(b))
+					b.get(tmpPos).calculatePossibleMoves(b);
+				for (Position tmpPos : whiteLocations(b))
+					b.get(tmpPos).calculatePossibleMoves(b);
 				// Check to see if either king is in check now
 				int check = checkCheck(b);
 
@@ -560,7 +555,7 @@ public class ChessDriver {
 
 					}
 					// Stores if either king is in check
-					int tempC = checkCheck(this.board);
+					// int tempC = checkCheck(this.board);
 					// TODO: The call to blackstale and whitestale are wrong
 					// if (b.equals(this.board)) {
 					// if (whiteStale()) {
