@@ -780,6 +780,7 @@ public class ChessDriver {
 	 * In theorey this checks to see if white is in stalemate, doesn't work
 	 * 
 	 * TODO: Considering current location of piece a valid move and exiting early
+	 * FIXME: Pawn check handling on test board is not correct
 	 * 
 	 * @return boolean representing whether white is in stalemate
 	 */
@@ -820,6 +821,7 @@ public class ChessDriver {
 	 * In theorey this checks to see if black is in stalemate, doesn't work
 	 * 
 	 * TODO: Considering current location of piece a valid move and exiting early
+	 * FIXME: Pawn check handling on test board is not correct
 	 * 
 	 * @return boolean representing whether white is in stalemate
 	 */
@@ -831,7 +833,6 @@ public class ChessDriver {
 			this.testBoard.get(p).calculatePossibleMoves(this.testBoard);
 
 		ArrayList<Position> pieces = blackLocations(this.testBoard);
-		int check = 0;
 		for (int i = 0; i < pieces.size(); i++) {
 			Piece tempP = this.testBoard.get(pieces.get(i));
 			Position startP = new Position(tempP.getPos().getX(), tempP.getPos().getY());
@@ -839,7 +840,7 @@ public class ChessDriver {
 			for (int j = 0; j < tempMoves.size(); j++) {
 				if (this.testBoard.isValid(tempMoves.get(j))) {
 					move(tempP, tempMoves.get(j), this.testBoard);
-					check = checkCheck(this.testBoard);
+					int check = checkCheck(this.testBoard);
 					if (check == 0 || check == 1) {
 						xCheck = -1;
 						yCheck = -1;

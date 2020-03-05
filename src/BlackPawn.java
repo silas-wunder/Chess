@@ -75,6 +75,7 @@ public class BlackPawn extends Piece {
 		Position place = this.getPos();
 		b.remove(this.getPos());
 		b.add(new BlackQueen(place.getX(), place.getY()), place);
+		b.get(place).calculatePossibleMoves(b);
 	}
 
 	public boolean isWhite() {
