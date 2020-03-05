@@ -61,10 +61,9 @@ public class ChessDriver {
 	 */
 	private int yCheck = -1;
 
-	// TODO: Check visual bugs, castling through/out of check, stalemate handling
-	// doesn't work (checkmate most likely also has bugs), add win notification to
-	// UI, add restart option to UI, visuals and coding style should be tweaked for
-	// beauty
+	// TODO: Check visual bugs, castling through/out of check, add endgame
+	// notification to UI, add restart option to UI, visuals and coding style should
+	// be tweaked for beauty
 	public static void main(String[] args) {
 		// creates driver object
 		ChessDriver driver = new ChessDriver();
@@ -232,18 +231,13 @@ public class ChessDriver {
 	 */
 	public void listen() {
 		while (this.running) {
-			if (this.board.whiteTurn()) {
-				for (Position p : whiteLocations(this.board)) {
-					this.board.get(p).calculatePossibleMoves(this.board);
-				}
-			} else {
-				for (Position p : blackLocations(this.board)) {
-					this.board.get(p).calculatePossibleMoves(this.board);
-				}
-			}
+			for (Position p : whiteLocations(this.board))
+				this.board.get(p).calculatePossibleMoves(this.board);
+			for (Position p : blackLocations(this.board))
+				this.board.get(p).calculatePossibleMoves(this.board);
+
 			if (StdDraw.isMousePressed()) {
 				click(StdDraw.mouseX(), StdDraw.mouseY());
-				// was 120, anything lower doesn't register clicks, not sure what the effect is
 				StdDraw.pause(300);
 			}
 			boolean whiteKing = false;
@@ -295,8 +289,10 @@ public class ChessDriver {
 			yC = ((int) yCoor);
 
 		// Kill the click method if clicked out of bounds to prevent crash
-		if (xC == 8 || yC == 8)
+		if (xC >= 8 || yC >= 8)
 			return;
+
+		checkCheck(this.board);
 
 		this.posPiece = new Position(xC, yC);
 		if (this.isSelected) {
@@ -384,7 +380,8 @@ public class ChessDriver {
 			// If the piece is being moved to the location of a current piece, take that
 			// piece
 
-			// This is an if else with no else, else condition is never hit because of default pieces
+			// This is an if else with no else, else condition is never hit because of
+			// default pieces
 			// TODO: Restructure the conditional and remove the else statement
 			if ((p.isWhite() == b.hasBlack(pos) && p.isBlack() == b.hasWhite(pos))
 					|| (b.hasWhite(pos) == b.hasBlack(pos))) {
@@ -636,13 +633,11 @@ public class ChessDriver {
 		// detects if pieces should not be allowed to move in a way that puts its own
 		// king in check
 		if (b.whiteTurn()) {
-			wKing.setCheck(false);
 			// Check to see if any of the black pieces are able to move to the current
 			// location of the white king
 			for (Position p : blackLocations(b)) {
 				for (Position mov : b.get(p).getPossibleMoves(b)) {
 					if (mov.equals(wKing.getPos())) {
-						wKing.setCheck(true);
 						if (b == this.board) {
 							xCheck = wKing.getPos().getX();
 							yCheck = wKing.getPos().getY();
@@ -652,13 +647,11 @@ public class ChessDriver {
 				}
 			}
 
-			bKing.setCheck(false);
 			// Check to see if any of the white pieces are able to move to the current
 			// location of the black king
 			for (Position p : whiteLocations(b)) {
 				for (Position mov : b.get(p).getPossibleMoves(b)) {
 					if (mov.equals(bKing.getPos())) {
-						bKing.setCheck(true);
 						if (b == this.board) {
 							xCheck = bKing.getPos().getX();
 							yCheck = bKing.getPos().getY();
@@ -669,13 +662,11 @@ public class ChessDriver {
 			}
 
 		} else {
-			bKing.setCheck(false);
 			// Check to see if any of the black pieces are able to move to the current
 			// location of the white king
 			for (Position p : whiteLocations(b)) {
 				for (Position mov : b.get(p).getPossibleMoves(b)) {
 					if (mov.equals(bKing.getPos())) {
-						bKing.setCheck(true);
 						if (b == this.board) {
 							xCheck = bKing.getPos().getX();
 							yCheck = bKing.getPos().getY();
@@ -685,13 +676,11 @@ public class ChessDriver {
 				}
 			}
 
-			wKing.setCheck(false);
 			// Check to see if any of the white pieces are able to move to the current
 			// location of the black king
 			for (Position p : blackLocations(b)) {
 				for (Position mov : b.get(p).getPossibleMoves(b)) {
 					if (mov.equals(wKing.getPos())) {
-						wKing.setCheck(true);
 						if (b == this.board) {
 							xCheck = wKing.getPos().getX();
 							yCheck = wKing.getPos().getY();

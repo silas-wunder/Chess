@@ -47,14 +47,6 @@ public class BlackKnight extends Piece {
 				&& !b.hasBlack(new Position(p.getX() + 2, p.getY() - 1)))
 			positions.add(new Position(p.getX() + 2, p.getY() - 1));
 
-		for (int i = 0; i < positions.size() - 1; i++) {
-			if (b.isValid(positions.get(i))) {
-				if (b.get(positions.get(i)) instanceof WhiteKing) {
-					((WhiteKing) b.get(positions.get(i))).setCheck(true);
-				}
-			}
-		}
-
 		this.possibleMoves = positions;
 	}
 

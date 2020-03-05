@@ -3,3 +3,6 @@
 
 # Ignore the launch config file and folder
 .vscode
+
+# Ignore the eclipse metadata folder
+.metadata

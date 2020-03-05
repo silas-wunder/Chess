@@ -83,14 +83,6 @@ public class BlackBishop extends Piece {
 		for (int i = 1; i < max; i++)
 			positions.add(new Position(this.getPos().getX() - i, this.getPos().getY() + i));
 
-		for (int i = 0; i < positions.size() - 1; i++) {
-			if (b.isValid(positions.get(i))) {
-				if (b.get(positions.get(i)) instanceof WhiteKing) {
-					((WhiteKing) b.get(positions.get(i))).setCheck(true);
-				}
-			}
-		}
-
 		this.possibleMoves = positions;
 
 	}

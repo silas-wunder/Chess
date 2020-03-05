@@ -3,12 +3,10 @@ import java.util.ArrayList;
 @SuppressWarnings("rawtypes")
 public class WhiteKing extends Piece {
 
-	private boolean inCheck;
 	private boolean hasMoved;
 
 	public WhiteKing(int x, int y) {
 		super(x, y);
-		inCheck = false;
 		hasMoved = false;
 	}
 
@@ -89,15 +87,7 @@ public class WhiteKing extends Piece {
 				}
 			}
 		}
-
-		for (int i = 0; i < positions.size() - 1; i++) {
-			if (b.isValid(positions.get(i))) {
-				if (b.get(positions.get(i)) instanceof BlackKing) {
-					((BlackKing) b.get(positions.get(i))).setCheck(true);
-				}
-			}
-		}
-
+		
 		this.possibleMoves = positions;
 	}
 
@@ -117,14 +107,6 @@ public class WhiteKing extends Piece {
 
 	public void moved() {
 		hasMoved = true;
-	}
-
-	public void setCheck(boolean inCheck) {
-		this.inCheck = inCheck;
-	}
-
-	public boolean checkStatus() {
-		return inCheck;
 	}
 
 	public String toString() {
