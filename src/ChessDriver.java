@@ -383,6 +383,9 @@ public class ChessDriver {
 		if (b.isValid(pos)) {
 			// If the piece is being moved to the location of a current piece, take that
 			// piece
+
+			// This is an if else with no else, else condition is never hit because of default pieces
+			// TODO: Restructure the conditional and remove the else statement
 			if ((p.isWhite() == b.hasBlack(pos) && p.isBlack() == b.hasWhite(pos))
 					|| (b.hasWhite(pos) == b.hasBlack(pos))) {
 				// Remove the piece currently there
@@ -404,46 +407,39 @@ public class ChessDriver {
 				// Check to see if either king is in check now
 				int check = checkCheck(b);
 
-				// If the white king is in check and it's white's turn, they cannot make a move
-				// that won't take them out of check
 				if (check == 1 && b.whiteTurn()) {
-
-					// If white is in check after their move, void the move and put the pieces back
-					b.remove(pos);
-					b.remove(new Position(startX, startY));
-					b.add(temp, pos);
-					p.getPos().setX(startX);
-					p.getPos().setY(startY);
-					b.add((Piece) type, new Position(startX, startY));
-
+					// If white has moved and is still in check, this is not a valid move
 					if (b.equals(this.board)) {
-						// If this is the GUI board, inform user the move is invalid and redraw board
-						// TODO: The red tile should flash instead of printing to console
+						// If this is the GUI board, void the move and return pieces
+						b.remove(pos);
+						b.remove(new Position(startX, startY));
+						b.add(temp, pos);
+						p.getPos().setX(startX);
+						p.getPos().setY(startY);
+						b.add((Piece) type, new Position(startX, startY));
 						System.out.println("\u001B[31mInvalid move, please select a new move or piece.\u001B[0m");
 						this.createTiles();
 						this.addPictures();
+						selectPiece(p.getPos().getX(), p.getPos().getY());
 					}
-					selectPiece(p.getPos().getX(), p.getPos().getY());
-
 				} else if (check == 2 && b.blackTurn()) {
-
-					b.remove(pos);
-					b.remove(new Position(startX, startY));
-					b.add(temp, pos);
-					p.getPos().setX(startX);
-					p.getPos().setY(startY);
-					b.add((Piece) type, new Position(startX, startY));
-
+					// If black has moved and is still in check, this is not a valid move
 					if (b.equals(this.board)) {
-						// If this is the GUI board, inform user the move is invalid and redraw board
-						// TODO: The red tile should flash instead of printing to console
+						// If this is the GUI board, void the move and return pieces
+						b.remove(pos);
+						b.remove(new Position(startX, startY));
+						b.add(temp, pos);
+						p.getPos().setX(startX);
+						p.getPos().setY(startY);
+						b.add((Piece) type, new Position(startX, startY));
+						// TODO: Instead of printing to console, there should be a visual indicator
 						System.out.println("\u001B[31mInvalid move, please select a new move or piece.\u001B[0m");
 						this.createTiles();
 						this.addPictures();
+						selectPiece(p.getPos().getX(), p.getPos().getY());
 					}
-					selectPiece(p.getPos().getX(), p.getPos().getY());
-
 				} else {
+					// If the player has not put themselves in check, this is a valid move
 					// Checks conditions for white passant
 					if (type instanceof BlackPawn && !((BlackPawn) b.getType(p.getPos())).hasMoved()) {
 						if (6 - pos.getY() == 2) {
@@ -530,7 +526,6 @@ public class ChessDriver {
 					// TODO: The call to blackstale and whitestale are wrong
 					if (b.equals(this.board)) {
 						if (whiteStale()) {
-							System.out.println("whiteStale() true, tempC is " + tempC);
 							if (tempC == 1) {
 								this.running = false;
 								System.out.println("checkmate, white loses");
@@ -539,7 +534,6 @@ public class ChessDriver {
 								System.out.println("stalemate");
 							}
 						} else if (blackStale()) {
-							System.out.println("blackStale() true, tempC is " + tempC);
 							if (tempC == 2) {
 								this.running = false;
 								System.out.println("checkmate, black loses");
