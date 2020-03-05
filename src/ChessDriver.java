@@ -12,14 +12,6 @@ public class ChessDriver {
 	 */
 	private Board testBoard;
 	/**
-	 * Width of GUI.
-	 */
-	private int width;
-	/**
-	 * Height of GUI.
-	 */
-	private int height;
-	/**
 	 * Value used in Standard Draw when placing things on the board, 0.062 = 0
 	 * position on board.
 	 */
@@ -52,10 +44,6 @@ public class ChessDriver {
 	 * All colors of tiles in the board, initialized later
 	 */
 	private Color[][] colors = new Color[8][8];
-	/**
-	 * boolean value containing if user has clicked
-	 */
-	private boolean clicked = false;
 	/**
 	 * Position of click
 	 */
@@ -101,8 +89,6 @@ public class ChessDriver {
 	public void createBoard(int w, int h) {
 		this.board = new Board();
 		this.testBoard = new Board();
-		this.width = w;
-		this.height = h;
 		StdDraw.setCanvasSize(w, h);
 		this.running = true;
 	}
