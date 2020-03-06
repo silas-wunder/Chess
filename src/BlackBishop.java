@@ -1,7 +1,6 @@
 
 import java.util.ArrayList;
 
-@SuppressWarnings("rawtypes")
 public class BlackBishop extends Piece {
 
 	/**

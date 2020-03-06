@@ -1,7 +1,6 @@
 import java.awt.*;
 import java.util.ArrayList;
 
-@SuppressWarnings("rawtypes")
 public class ChessDriver {
 	/**
 	 * Main board in Chess.

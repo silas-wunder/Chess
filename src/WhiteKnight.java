@@ -1,6 +1,5 @@
 import java.util.ArrayList;
 
-@SuppressWarnings("rawtypes")
 public class WhiteKnight extends Piece {
 
 	/**
