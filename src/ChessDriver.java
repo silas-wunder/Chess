@@ -231,37 +231,15 @@ public class ChessDriver {
 	 */
 	public void listen() {
 		while (this.running) {
+			// Initially calculate all moves for all pieces
 			for (Position p : whiteLocations(this.board))
 				this.board.get(p).calculatePossibleMoves(this.board);
 			for (Position p : blackLocations(this.board))
 				this.board.get(p).calculatePossibleMoves(this.board);
-
+			// Run the game
 			if (StdDraw.isMousePressed()) {
 				click(StdDraw.mouseX(), StdDraw.mouseY());
 				StdDraw.pause(300);
-			}
-			boolean whiteKing = false;
-			boolean blackKing = false;
-			Piece[][] pieces = this.board.getAllPieces();
-			for (int i = 0; i < pieces.length; i++) {
-				for (int j = 0; j < pieces[i].length; j++) {
-					// Checks to make sure an instance of both kings exist
-					// This should become obselete once checkmate implementation is complete
-					if (pieces[i][j] instanceof BlackKing)
-						blackKing = true;
-					if (pieces[i][j] instanceof WhiteKing)
-						whiteKing = true;
-				}
-			}
-			// If either king is missing, the game is over
-			// Again, should become obsolete once checkmate implementation is complete
-			if (whiteKing == false) {
-				System.out.println("Player 2 wins!");
-				this.running = false;
-			}
-			if (blackKing == false) {
-				System.out.println("Player 1 wins!");
-				this.running = false;
 			}
 		}
 	}
@@ -277,7 +255,7 @@ public class ChessDriver {
 		double yCoor = ((y - this.yValue) / inc);
 		int xC = 0;
 		int yC = 0;
-		// Calculates location of click on a 0-7 scale, DO NOT MODIFY
+		// Calculates location of click on a 0-7 scale
 		if ((xCoor * 10) % 10 >= 5)
 			xC = ((int) xCoor) + 1;
 		else
@@ -291,8 +269,6 @@ public class ChessDriver {
 		// Kill the click method if clicked out of bounds to prevent crash
 		if (xC >= 8 || yC >= 8)
 			return;
-
-		checkCheck(this.board);
 
 		this.posPiece = new Position(xC, yC);
 		if (this.isSelected) {
@@ -374,15 +350,10 @@ public class ChessDriver {
 		int startX = p.getPos().getX();
 		// Starting location of p, y direction
 		int startY = p.getPos().getY();
-
 		// If the clicked location is valid, execute move
 		if (b.isValid(pos)) {
 			// If the piece is being moved to the location of a current piece, take that
-			// piece
-
-			// This is an if else with no else, else condition is never hit because of
-			// default pieces
-			// TODO: Restructure the conditional and remove the else statement
+			// piece, will always take a piece due to behavior of DefaultPiece
 			if ((p.isWhite() == b.hasBlack(pos) && p.isBlack() == b.hasWhite(pos))
 					|| (b.hasWhite(pos) == b.hasBlack(pos))) {
 				// Remove the piece currently there
@@ -395,15 +366,13 @@ public class ChessDriver {
 				p.getPos().setY(pos.getY());
 				// Add p to the board in position pos
 				b.add((Piece) type, pos);
-
-				// Calculate all possible moves for all pieces
+				// Calculate all possible moves for all pieces again, need for check calculation
 				for (Position tmpPos : blackLocations(b))
 					b.get(tmpPos).calculatePossibleMoves(b);
 				for (Position tmpPos : whiteLocations(b))
 					b.get(tmpPos).calculatePossibleMoves(b);
 				// Check to see if either king is in check now
 				int check = checkCheck(b);
-
 				if (check == 1 && b.whiteTurn()) {
 					// If white has moved and is still in check, this is not a valid move
 					if (b.equals(this.board)) {
@@ -414,6 +383,7 @@ public class ChessDriver {
 						p.getPos().setX(startX);
 						p.getPos().setY(startY);
 						b.add((Piece) type, new Position(startX, startY));
+						// TODO: Instead of printing to console, there should be a visual indicator
 						System.out.println("\u001B[31mInvalid move, please select a new move or piece.\u001B[0m");
 						this.createTiles();
 						this.addPictures();
@@ -442,16 +412,12 @@ public class ChessDriver {
 						if (6 - pos.getY() == 2) {
 							Position leftPos = new Position(pos.getX() - 1, pos.getY());
 							Position rightPos = new Position(pos.getX() + 1, pos.getY());
-							if (b.isValid(leftPos)) {
-								if (b.get(leftPos) instanceof WhitePawn) {
+							if (b.isValid(leftPos))
+								if (b.get(leftPos) instanceof WhitePawn)
 									((WhitePawn) b.get(leftPos)).canRightPassant(true);
-								}
-							}
-							if (b.isValid(rightPos)) {
-								if (b.get(rightPos) instanceof WhitePawn) {
+							if (b.isValid(rightPos))
+								if (b.get(rightPos) instanceof WhitePawn)
 									((WhitePawn) b.get(rightPos)).canLeftPassant(true);
-								}
-							}
 						}
 						((BlackPawn) b.getType(pos)).moved();
 					}
@@ -460,16 +426,12 @@ public class ChessDriver {
 						if (pos.getY() - 1 == 2) {
 							Position leftPos = new Position(pos.getX() - 1, pos.getY());
 							Position rightPos = new Position(pos.getX() + 1, pos.getY());
-							if (b.isValid(leftPos)) {
-								if (b.get(leftPos) instanceof BlackPawn) {
+							if (b.isValid(leftPos))
+								if (b.get(leftPos) instanceof BlackPawn)
 									((BlackPawn) b.get(leftPos)).canRightPassant(true);
-								}
-							}
-							if (b.isValid(rightPos)) {
-								if (b.get(rightPos) instanceof BlackPawn) {
+							if (b.isValid(rightPos))
+								if (b.get(rightPos) instanceof BlackPawn)
 									((BlackPawn) b.get(rightPos)).canLeftPassant(true);
-								}
-							}
 						}
 						((WhitePawn) b.getType(pos)).moved();
 					}
@@ -518,11 +480,9 @@ public class ChessDriver {
 						}
 
 					}
-					// Stores if either king is in check
-					int tempC = checkCheck(b);
 					if (b.equals(this.board)) {
 						if (whiteStale()) {
-							if (tempC == 1) {
+							if (check == 1) {
 								this.running = false;
 								System.out.println("checkmate, white loses");
 								// System.exit(0);
@@ -532,7 +492,7 @@ public class ChessDriver {
 								// System.exit(0);
 							}
 						} else if (blackStale()) {
-							if (tempC == 2) {
+							if (check == 2) {
 								this.running = false;
 								System.out.println("checkmate, black loses");
 								// System.exit(0);
@@ -560,8 +520,11 @@ public class ChessDriver {
 					this.isSelected = false;
 					b.incTurn();
 
+					// TODO: See if this code can be done before the total redraw of the board,
+					// might help with castling issues
+					// Checks to see if the user attempted to castle and moves accordingly
 					if (type instanceof BlackKing) {
-						// Castle check and moving rook
+						// If the black king is trying to castle, move the black rook as well
 						if (!((BlackKing) p).hasMoved()) {
 							if (4 - pos.getX() > 1) {
 								this.currentPiece = b.get(new Position(0, 7));
@@ -576,6 +539,7 @@ public class ChessDriver {
 						}
 					}
 					if (type instanceof WhiteKing) {
+						// If the white king is trying to castle, move the white rook as well
 						if (!((WhiteKing) p).hasMoved()) {
 							if (4 - pos.getX() > 1) {
 								this.currentPiece = b.get(new Position(0, 0));
@@ -597,9 +561,8 @@ public class ChessDriver {
 				}
 
 			}
-		} else
-
-		{
+		} else {
+			// Quick catch to prevent crashes, game should never reach this point
 			System.out.println("\u001B[31mInvalid move, please select a new move or piece.\u001B[0m");
 			isSelected = false;
 		}
@@ -619,23 +582,18 @@ public class ChessDriver {
 		ArrayList<Position> whitePositions = whiteLocations(b);
 		WhiteKing wKing = new WhiteKing(-1, -1);
 		BlackKing bKing = new BlackKing(-1, -1);
-
 		// Grabs the location of the kings
 		for (int i = 0; i < whitePositions.size(); i++)
 			if (b.get(whitePositions.get(i)) instanceof WhiteKing)
 				wKing = ((WhiteKing) b.get(whitePositions.get(i)));
-
 		for (int i = 0; i < blackPositions.size(); i++)
 			if (b.get(blackPositions.get(i)) instanceof BlackKing)
 				bKing = ((BlackKing) b.get(blackPositions.get(i)));
-
-		// detects if pieces should not be allowed to move in a way that puts its own
-		// king in check
 		if (b.whiteTurn()) {
 			// Check to see if any of the black pieces are able to move to the current
 			// location of the white king
-			for (Position p : blackLocations(b)) {
-				for (Position mov : b.get(p).getPossibleMoves(b)) {
+			for (Position p : blackLocations(b))
+				for (Position mov : b.get(p).getPossibleMoves(b))
 					if (mov.equals(wKing.getPos())) {
 						if (b == this.board) {
 							xCheck = wKing.getPos().getX();
@@ -643,13 +601,10 @@ public class ChessDriver {
 						}
 						return 1;
 					}
-				}
-			}
-
 			// Check to see if any of the white pieces are able to move to the current
 			// location of the black king
-			for (Position p : whiteLocations(b)) {
-				for (Position mov : b.get(p).getPossibleMoves(b)) {
+			for (Position p : whiteLocations(b))
+				for (Position mov : b.get(p).getPossibleMoves(b))
 					if (mov.equals(bKing.getPos())) {
 						if (b == this.board) {
 							xCheck = bKing.getPos().getX();
@@ -657,14 +612,11 @@ public class ChessDriver {
 						}
 						return 2;
 					}
-				}
-			}
-
 		} else {
 			// Check to see if any of the black pieces are able to move to the current
 			// location of the white king
-			for (Position p : whiteLocations(b)) {
-				for (Position mov : b.get(p).getPossibleMoves(b)) {
+			for (Position p : whiteLocations(b))
+				for (Position mov : b.get(p).getPossibleMoves(b))
 					if (mov.equals(bKing.getPos())) {
 						if (b == this.board) {
 							xCheck = bKing.getPos().getX();
@@ -672,13 +624,10 @@ public class ChessDriver {
 						}
 						return 2;
 					}
-				}
-			}
-
 			// Check to see if any of the white pieces are able to move to the current
 			// location of the black king
-			for (Position p : blackLocations(b)) {
-				for (Position mov : b.get(p).getPossibleMoves(b)) {
+			for (Position p : blackLocations(b))
+				for (Position mov : b.get(p).getPossibleMoves(b))
 					if (mov.equals(wKing.getPos())) {
 						if (b == this.board) {
 							xCheck = wKing.getPos().getX();
@@ -686,10 +635,10 @@ public class ChessDriver {
 						}
 						return 1;
 					}
-				}
-			}
-
 		}
+		// If we are on the GUI board, reset xCheck and yCheck when no king is in check
+		// This shouldn't happen on the test board because drawing is dependent on
+		// xCheck and yCheck
 		if (b == this.board) {
 			xCheck = -1;
 			yCheck = -1;
@@ -753,29 +702,27 @@ public class ChessDriver {
 	private boolean whiteStale() {
 		// Copy the board to test board
 		copyBoard();
+		// Recalculate all possible moves for pieces on the test board
 		for (Position p : whiteLocations(this.testBoard))
 			this.testBoard.get(p).calculatePossibleMoves(this.testBoard);
 		for (Position p : blackLocations(this.testBoard))
 			this.testBoard.get(p).calculatePossibleMoves(this.testBoard);
 		// Grabs the location of all white pieces
 		ArrayList<Position> pieces = whiteLocations(this.testBoard);
-		// Loop through every piece and check if any of them put the black
+		// Loop through every piece and check if any of them have valid moves
 		for (int i = 0; i < pieces.size(); i++) {
 			Piece tempP = this.testBoard.get(pieces.get(i));
 			Position startP = new Position(tempP.getPos().getX(), tempP.getPos().getY());
 			ArrayList<Position> tempMoves = tempP.getPossibleMoves(this.testBoard);
-			for (int j = 0; j < tempMoves.size(); j++) {
+			for (int j = 0; j < tempMoves.size(); j++)
 				if (this.testBoard.isValid(tempMoves.get(j))) {
 					move(tempP, tempMoves.get(j), this.testBoard);
 					int check = checkCheck(this.testBoard);
-					if (check == 0 || check == 2) {
+					if (check == 0 || check == 2)
 						return false;
-					}
 					move(tempP, startP, this.testBoard);
 
 				}
-			}
-
 		}
 		return true;
 
@@ -787,27 +734,28 @@ public class ChessDriver {
 	 * @return boolean representing whether white is in stalemate
 	 */
 	private boolean blackStale() {
+		// Copy the board to the test board
 		copyBoard();
+		// Recalculate all possible moves for the pieces on the test board
 		for (Position p : blackLocations(this.testBoard))
 			this.testBoard.get(p).calculatePossibleMoves(this.testBoard);
 		for (Position p : whiteLocations(this.testBoard))
 			this.testBoard.get(p).calculatePossibleMoves(this.testBoard);
-
+		// Grabs the location of all black pieces
 		ArrayList<Position> pieces = blackLocations(this.testBoard);
+		// Loop through every piece and check if any of them have valid moves
 		for (int i = 0; i < pieces.size(); i++) {
 			Piece tempP = this.testBoard.get(pieces.get(i));
 			Position startP = new Position(tempP.getPos().getX(), tempP.getPos().getY());
 			ArrayList<Position> tempMoves = tempP.getPossibleMoves(this.testBoard);
-			for (int j = 0; j < tempMoves.size(); j++) {
+			for (int j = 0; j < tempMoves.size(); j++)
 				if (this.testBoard.isValid(tempMoves.get(j))) {
 					move(tempP, tempMoves.get(j), this.testBoard);
 					int check = checkCheck(this.testBoard);
-					if (check == 0 || check == 1) {
+					if (check == 0 || check == 1)
 						return false;
-					}
 					move(tempP, startP, this.testBoard);
 				}
-			}
 		}
 		return true;
 	}
@@ -828,12 +776,10 @@ public class ChessDriver {
 	 */
 	public void addPictures() {
 		Piece[][] pieces = this.board.getAllPieces();
-		for (int i = 0; i < pieces.length; i++) {
-			for (int j = 0; j < pieces[i].length; j++) {
+		for (int i = 0; i < pieces.length; i++)
+			for (int j = 0; j < pieces[i].length; j++)
 				StdDraw.picture(this.xValue + (inc * pieces[i][j].getPos().getX()),
 						this.yValue + (inc * pieces[i][j].getPos().getY()), pieces[i][j].toString(), scale, scale);
-			}
-		}
 	}
 
 }
