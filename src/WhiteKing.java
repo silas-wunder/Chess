@@ -8,9 +8,15 @@ public class WhiteKing extends Piece {
 	 */
 	private boolean hasMoved;
 
+	/**
+	 * Boolean representing whether or not this king is in check
+	 */
+	private boolean inCheck;
+
 	public WhiteKing(int x, int y) {
 		super(x, y);
 		hasMoved = false;
+		inCheck = false;
 	}
 
 	/**
@@ -67,7 +73,8 @@ public class WhiteKing extends Piece {
 			positions.add(new Position(p.getX() - 1, p.getY() - 1));
 
 		// Checks conditions for the castle move
-		if (!hasMoved) {
+		// TODO: somehow make it so the king can't castle through check
+		if (!hasMoved && !inCheck) {
 			// Checks castle conditions to the right
 			if (b.isEmpty(new Position(5, 0)) && b.isEmpty(new Position(6, 0))
 					&& (b.getType(new Position(7, 0)) instanceof WhiteRook
@@ -91,7 +98,7 @@ public class WhiteKing extends Piece {
 	 * @return boolean representing whether this king has moved or not
 	 */
 	public boolean hasMoved() {
-		return hasMoved;
+		return this.hasMoved;
 	}
 
 	/**
@@ -99,6 +106,24 @@ public class WhiteKing extends Piece {
 	 */
 	public void moved() {
 		hasMoved = true;
+	}
+
+	/**
+	 * Returns whether this king is in check or not
+	 * 
+	 * @return boolean representing whether the king is in check
+	 */
+	public boolean isInCheck() {
+		return this.inCheck;
+	}
+
+	/**
+	 * Sets the king's inCheck value
+	 * 
+	 * @param inCheck boolean representing whether the king is in check or not
+	 */
+	public void setCheck(boolean inCheck) {
+		this.inCheck = inCheck;
 	}
 
 	@Override

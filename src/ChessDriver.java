@@ -60,9 +60,8 @@ public class ChessDriver {
 	 */
 	private int yCheck = -1;
 
-	// TODO: Castling through/out of check is possible, add endgame notification to
-	// UI, add restart option to UI, visuals and coding style should be tweaked for
-	// beauty
+	// TODO: Castling through check is possible, add endgame notification to
+	// UI, add restart option to UI, visuals should be tweaked for beauty
 	public static void main(String[] args) {
 		// creates driver object
 		ChessDriver driver = new ChessDriver();
@@ -342,7 +341,7 @@ public class ChessDriver {
 	 */
 	public void move(Piece p, Position pos, Board b) {
 		// This is the type of piece of p
-		Object type = b.getType(p.getPos());
+		Piece type = b.getType(p.getPos());
 		// This is the type of piece at pos
 		Piece temp = b.get(pos);
 		// Starting location of p, x direction
@@ -364,7 +363,7 @@ public class ChessDriver {
 				p.getPos().setX(pos.getX());
 				p.getPos().setY(pos.getY());
 				// Add p to the board in position pos
-				b.add((Piece) type, pos);
+				b.add(type, pos);
 				// Calculate all possible moves for all pieces again, need for check calculation
 				for (Position tmpPos : blackLocations(b))
 					b.get(tmpPos).calculatePossibleMoves(b);
@@ -381,9 +380,12 @@ public class ChessDriver {
 						b.add(temp, pos);
 						p.getPos().setX(startX);
 						p.getPos().setY(startY);
-						b.add((Piece) type, new Position(startX, startY));
+						b.add(type, new Position(startX, startY));
 						// TODO: Instead of printing to console, there should be a visual indicator
 						System.out.println("\u001B[31mInvalid move, please select a new move or piece.\u001B[0m");
+						for (Position tmpPos : blackLocations(b))
+							b.get(tmpPos).calculatePossibleMoves(b);
+						checkCheck(this.board);
 						this.createTiles();
 						this.addPictures();
 						selectPiece(p.getPos().getX(), p.getPos().getY());
@@ -397,9 +399,12 @@ public class ChessDriver {
 						b.add(temp, pos);
 						p.getPos().setX(startX);
 						p.getPos().setY(startY);
-						b.add((Piece) type, new Position(startX, startY));
+						b.add(type, new Position(startX, startY));
 						// TODO: Instead of printing to console, there should be a visual indicator
 						System.out.println("\u001B[31mInvalid move, please select a new move or piece.\u001B[0m");
+						for (Position tmpPos : whiteLocations(b))
+							b.get(tmpPos).calculatePossibleMoves(b);
+						checkCheck(this.board);
 						this.createTiles();
 						this.addPictures();
 						selectPiece(p.getPos().getX(), p.getPos().getY());
@@ -483,46 +488,29 @@ public class ChessDriver {
 						if (whiteStale()) {
 							if (check == 1) {
 								this.running = false;
-								System.out.println("checkmate, white loses");
+								System.out.println("Checkmate, Black Wins");
 								// System.exit(0);
 							} else {
 								this.running = false;
-								System.out.println("stalemate");
+								System.out.println("Stalemate");
 								// System.exit(0);
 							}
 						} else if (blackStale()) {
 							if (check == 2) {
 								this.running = false;
-								System.out.println("checkmate, black loses");
+								System.out.println("Checkmate, White Wins");
 								// System.exit(0);
 							} else {
 								this.running = false;
-								System.out.println("stalemate");
+								System.out.println("Stalemate");
 								// System.exit(0);
 							}
 						}
 
 					}
 
-					if (b.equals(this.board)) {
-						StdDraw.setPenColor(colors[p.getPos().getX()][p.getPos().getY()]);
-						StdDraw.filledRectangle(xValue + (inc * p.getPos().getX()), yValue + (inc * p.getPos().getY()),
-								xValue, yValue);
-						StdDraw.setPenColor(colors[pos.getX()][pos.getY()]);
-						StdDraw.filledRectangle(xValue + (inc * pos.getX()), yValue + (inc * pos.getY()), xValue,
-								yValue);
-						StdDraw.picture(xValue + (inc * pos.getX()), yValue + (inc * pos.getY()), p.toString(), scale,
-								scale);
-						this.createTiles();
-						this.addPictures();
-					}
-					this.isSelected = false;
-					b.incTurn();
-
-					// TODO: See if this code can be done before the total redraw of the board,
-					// might help with castling issues
 					// Checks to see if the user attempted to castle and moves accordingly
-					if (type instanceof BlackKing) {
+					if (type instanceof BlackKing && check != 2) {
 						// If the black king is trying to castle, move the black rook as well
 						if (!((BlackKing) p).hasMoved()) {
 							if (4 - pos.getX() > 1) {
@@ -537,7 +525,7 @@ public class ChessDriver {
 							((BlackKing) p).moved();
 						}
 					}
-					if (type instanceof WhiteKing) {
+					if (type instanceof WhiteKing && check != 1) {
 						// If the white king is trying to castle, move the white rook as well
 						if (!((WhiteKing) p).hasMoved()) {
 							if (4 - pos.getX() > 1) {
@@ -557,6 +545,21 @@ public class ChessDriver {
 						((BlackRook) p).moved();
 					if (type instanceof WhiteRook && !((WhiteRook) p).hasMoved())
 						((WhiteRook) p).moved();
+
+					if (b.equals(this.board)) {
+						StdDraw.setPenColor(colors[p.getPos().getX()][p.getPos().getY()]);
+						StdDraw.filledRectangle(xValue + (inc * p.getPos().getX()), yValue + (inc * p.getPos().getY()),
+								xValue, yValue);
+						StdDraw.setPenColor(colors[pos.getX()][pos.getY()]);
+						StdDraw.filledRectangle(xValue + (inc * pos.getX()), yValue + (inc * pos.getY()), xValue,
+								yValue);
+						StdDraw.picture(xValue + (inc * pos.getX()), yValue + (inc * pos.getY()), p.toString(), scale,
+								scale);
+						this.createTiles();
+						this.addPictures();
+					}
+					this.isSelected = false;
+					b.incTurn();
 				}
 
 			}
@@ -598,6 +601,7 @@ public class ChessDriver {
 							xCheck = wKing.getPos().getX();
 							yCheck = wKing.getPos().getY();
 						}
+						((WhiteKing) this.board.get(wKing.getPos())).setCheck(true);
 						return 1;
 					}
 			// Check to see if any of the white pieces are able to move to the current
@@ -609,6 +613,7 @@ public class ChessDriver {
 							xCheck = bKing.getPos().getX();
 							yCheck = bKing.getPos().getY();
 						}
+						((BlackKing) this.board.get(bKing.getPos())).setCheck(true);
 						return 2;
 					}
 		} else {
@@ -621,6 +626,7 @@ public class ChessDriver {
 							xCheck = bKing.getPos().getX();
 							yCheck = bKing.getPos().getY();
 						}
+						((BlackKing) this.board.get(bKing.getPos())).setCheck(true);
 						return 2;
 					}
 			// Check to see if any of the white pieces are able to move to the current
@@ -632,6 +638,7 @@ public class ChessDriver {
 							xCheck = wKing.getPos().getX();
 							yCheck = wKing.getPos().getY();
 						}
+						((WhiteKing) this.board.get(wKing.getPos())).setCheck(true);
 						return 1;
 					}
 		}
@@ -639,6 +646,8 @@ public class ChessDriver {
 		// This shouldn't happen on the test board because drawing is dependent on
 		// xCheck and yCheck
 		if (b == this.board) {
+			((WhiteKing) this.board.get(wKing.getPos())).setCheck(false);
+			((BlackKing) this.board.get(bKing.getPos())).setCheck(false);
 			xCheck = -1;
 			yCheck = -1;
 		}

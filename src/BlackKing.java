@@ -8,6 +8,11 @@ public class BlackKing extends Piece {
 	private boolean hasMoved;
 
 	/**
+	 * Boolean representing whether or not this king is in check
+	 */
+	private boolean inCheck;
+
+	/**
 	 * Creates a black king at (x, y)
 	 * 
 	 * @param x the x location of the king
@@ -16,6 +21,7 @@ public class BlackKing extends Piece {
 	public BlackKing(int x, int y) {
 		super(x, y);
 		hasMoved = false;
+		inCheck = false;
 	}
 
 	/**
@@ -72,7 +78,8 @@ public class BlackKing extends Piece {
 			positions.add(new Position(p.getX() - 1, p.getY() - 1));
 
 		// Checks conditions for the castle move
-		if (!hasMoved) {
+		// TODO: Somehow make it so the king can't castle through check
+		if (!hasMoved && !inCheck) {
 			// Checks if the spaces to the right are empty and that the rook to the right
 			// also has not moved
 			if (b.isEmpty(new Position(5, 7)) && b.isEmpty(new Position(6, 7))
@@ -105,6 +112,24 @@ public class BlackKing extends Piece {
 	 */
 	public boolean hasMoved() {
 		return hasMoved;
+	}
+
+	/**
+	 * Returns whether this king is in check or not
+	 * 
+	 * @return boolean representing whether the king is in check
+	 */
+	public boolean isInCheck() {
+		return this.inCheck;
+	}
+
+	/**
+	 * Sets the king's inCheck value
+	 * 
+	 * @param inCheck boolean representing whether the king is in check or not
+	 */
+	public void setCheck(boolean inCheck) {
+		this.inCheck = inCheck;
 	}
 
 	@Override
