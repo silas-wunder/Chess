@@ -1,3 +1,4 @@
+import java.util.ArrayList;
 
 public class Board {
 	/**
@@ -165,5 +166,51 @@ public class Board {
 	 */
 	public boolean blackTurn() {
 		return !whiteTurn();
+	}
+
+	/**
+	 * Returns all locations of white pieces on this board
+	 * 
+	 * @return an arraylist of all positions with a white piece
+	 */
+	public ArrayList<Position> whiteLocations() {
+		ArrayList<Position> positions = new ArrayList<Position>();
+		int count = 0;
+		for (int y = 0; y < 8; y++) {
+			for (int x = 0; x < 8; x++) {
+				if (this.hasWhite(new Position(x, y))) {
+					positions.add(new Position(x, y));
+					count++;
+				}
+				if (count > 15)
+					break;
+			}
+			if (count > 15)
+				break;
+		}
+		return positions;
+	}
+
+	/**
+	 * Returns all locations of black pieces on this board
+	 * 
+	 * @return an arraylist of all positions with a black piece
+	 */
+	public ArrayList<Position> blackLocations() {
+		ArrayList<Position> positions = new ArrayList<Position>();
+		int count = 0;
+		for (int y = 7; y > -1; y--) {
+			for (int x = 0; x < 8; x++) {
+				if (this.hasBlack(new Position(x, y))) {
+					positions.add(new Position(x, y));
+					count++;
+				}
+				if (count > 15)
+					break;
+			}
+			if (count > 15)
+				break;
+		}
+		return positions;
 	}
 }

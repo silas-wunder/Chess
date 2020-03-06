@@ -78,20 +78,37 @@ public class BlackKing extends Piece {
 			positions.add(new Position(p.getX() - 1, p.getY() - 1));
 
 		// Checks conditions for the castle move
-		// TODO: Somehow make it so the king can't castle through check
-		if (!hasMoved && !inCheck) {
+		if (!hasMoved && !inCheck && b.blackTurn()) {
 			// Checks if the spaces to the right are empty and that the rook to the right
 			// also has not moved
 			if (b.isEmpty(new Position(5, 7)) && b.isEmpty(new Position(6, 7))
 					&& b.getType(new Position(7, 7)) instanceof BlackRook
-					&& !((BlackRook) (b.get(new Position(7, 7)))).hasMoved())
-				positions.add(new Position(6, 7));
+					&& !((BlackRook) (b.get(new Position(7, 7)))).hasMoved()) {
+				boolean canCastleRight = true;
+				for (Position pos : b.whiteLocations()) {
+					b.get(pos).calculatePossibleMoves(b);
+					for (Position mov : b.get(pos).getPossibleMoves(b))
+						if (mov.equals(new Position(5, 7)))
+							canCastleRight = false;
+				}
+				if (canCastleRight)
+					positions.add(new Position(6, 7));
+			}
 			// Checks if the spaces to the left are empty and that the rook to the left also
 			// has not moved
 			if (b.isEmpty(new Position(3, 7)) && b.isEmpty(new Position(2, 7)) && b.isEmpty(new Position(1, 7))
 					&& b.getType(new Position(0, 7)) instanceof BlackRook
-					&& !((BlackRook) (b.get(new Position(0, 7)))).hasMoved())
-				positions.add(new Position(2, 7));
+					&& !((BlackRook) (b.get(new Position(0, 7)))).hasMoved()) {
+				boolean canCastleLeft = true;
+				for (Position pos : b.whiteLocations()) {
+					b.get(pos).calculatePossibleMoves(b);
+					for (Position mov : b.get(pos).getPossibleMoves(b))
+						if (mov.equals(new Position(3, 7)))
+							canCastleLeft = false;
+				}
+				if (canCastleLeft)
+					positions.add(new Position(2, 7));
+			}
 
 		}
 		this.possibleMoves = positions;

@@ -60,8 +60,8 @@ public class ChessDriver {
 	 */
 	private int yCheck = -1;
 
-	// TODO: Castling through check is possible, add endgame notification to
-	// UI, add restart option to UI, visuals should be tweaked for beauty
+	// TODO: Add endgame notification to UI, add restart option to UI, visuals
+	// should be tweaked for beauty
 	public static void main(String[] args) {
 		// creates driver object
 		ChessDriver driver = new ChessDriver();
@@ -230,9 +230,9 @@ public class ChessDriver {
 	public void listen() {
 		while (this.running) {
 			// Initially calculate all moves for all pieces
-			for (Position p : whiteLocations(this.board))
+			for (Position p : this.board.whiteLocations())
 				this.board.get(p).calculatePossibleMoves(this.board);
-			for (Position p : blackLocations(this.board))
+			for (Position p : this.board.blackLocations())
 				this.board.get(p).calculatePossibleMoves(this.board);
 			// Run the game
 			if (StdDraw.isMousePressed()) {
@@ -365,9 +365,9 @@ public class ChessDriver {
 				// Add p to the board in position pos
 				b.add(type, pos);
 				// Calculate all possible moves for all pieces again, need for check calculation
-				for (Position tmpPos : blackLocations(b))
+				for (Position tmpPos : b.blackLocations())
 					b.get(tmpPos).calculatePossibleMoves(b);
-				for (Position tmpPos : whiteLocations(b))
+				for (Position tmpPos : b.whiteLocations())
 					b.get(tmpPos).calculatePossibleMoves(b);
 				// Check to see if either king is in check now
 				int check = checkCheck(b);
@@ -383,7 +383,7 @@ public class ChessDriver {
 						b.add(type, new Position(startX, startY));
 						// TODO: Instead of printing to console, there should be a visual indicator
 						System.out.println("\u001B[31mInvalid move, please select a new move or piece.\u001B[0m");
-						for (Position tmpPos : blackLocations(b))
+						for (Position tmpPos : b.blackLocations())
 							b.get(tmpPos).calculatePossibleMoves(b);
 						checkCheck(this.board);
 						this.createTiles();
@@ -402,7 +402,7 @@ public class ChessDriver {
 						b.add(type, new Position(startX, startY));
 						// TODO: Instead of printing to console, there should be a visual indicator
 						System.out.println("\u001B[31mInvalid move, please select a new move or piece.\u001B[0m");
-						for (Position tmpPos : whiteLocations(b))
+						for (Position tmpPos : b.whiteLocations())
 							b.get(tmpPos).calculatePossibleMoves(b);
 						checkCheck(this.board);
 						this.createTiles();
@@ -580,8 +580,8 @@ public class ChessDriver {
 	 * @return int representing which king is in check
 	 */
 	public int checkCheck(Board b) {
-		ArrayList<Position> blackPositions = blackLocations(b);
-		ArrayList<Position> whitePositions = whiteLocations(b);
+		ArrayList<Position> blackPositions = b.blackLocations();
+		ArrayList<Position> whitePositions = b.whiteLocations();
 		WhiteKing wKing = new WhiteKing(-1, -1);
 		BlackKing bKing = new BlackKing(-1, -1);
 		// Grabs the location of the kings
@@ -594,51 +594,51 @@ public class ChessDriver {
 		if (b.whiteTurn()) {
 			// Check to see if any of the black pieces are able to move to the current
 			// location of the white king
-			for (Position p : blackLocations(b))
+			for (Position p : b.blackLocations())
 				for (Position mov : b.get(p).getPossibleMoves(b))
 					if (mov.equals(wKing.getPos())) {
 						if (b == this.board) {
 							xCheck = wKing.getPos().getX();
 							yCheck = wKing.getPos().getY();
 						}
-						((WhiteKing) this.board.get(wKing.getPos())).setCheck(true);
+						((WhiteKing) b.get(wKing.getPos())).setCheck(true);
 						return 1;
 					}
 			// Check to see if any of the white pieces are able to move to the current
 			// location of the black king
-			for (Position p : whiteLocations(b))
+			for (Position p : b.whiteLocations())
 				for (Position mov : b.get(p).getPossibleMoves(b))
 					if (mov.equals(bKing.getPos())) {
 						if (b == this.board) {
 							xCheck = bKing.getPos().getX();
 							yCheck = bKing.getPos().getY();
 						}
-						((BlackKing) this.board.get(bKing.getPos())).setCheck(true);
+						((BlackKing) b.get(bKing.getPos())).setCheck(true);
 						return 2;
 					}
 		} else {
 			// Check to see if any of the black pieces are able to move to the current
 			// location of the white king
-			for (Position p : whiteLocations(b))
+			for (Position p : b.whiteLocations())
 				for (Position mov : b.get(p).getPossibleMoves(b))
 					if (mov.equals(bKing.getPos())) {
 						if (b == this.board) {
 							xCheck = bKing.getPos().getX();
 							yCheck = bKing.getPos().getY();
 						}
-						((BlackKing) this.board.get(bKing.getPos())).setCheck(true);
+						((BlackKing) b.get(bKing.getPos())).setCheck(true);
 						return 2;
 					}
 			// Check to see if any of the white pieces are able to move to the current
 			// location of the black king
-			for (Position p : blackLocations(b))
+			for (Position p : b.blackLocations())
 				for (Position mov : b.get(p).getPossibleMoves(b))
 					if (mov.equals(wKing.getPos())) {
 						if (b == this.board) {
 							xCheck = wKing.getPos().getX();
 							yCheck = wKing.getPos().getY();
 						}
-						((WhiteKing) this.board.get(wKing.getPos())).setCheck(true);
+						((WhiteKing) b.get(wKing.getPos())).setCheck(true);
 						return 1;
 					}
 		}
@@ -655,54 +655,6 @@ public class ChessDriver {
 	}
 
 	/**
-	 * Returns all locations of black pieces on the board b
-	 * 
-	 * @param b the board to check positions on
-	 * @return an arraylist of all positions with a black piece
-	 */
-	public ArrayList<Position> blackLocations(Board b) {
-		ArrayList<Position> positions = new ArrayList<Position>();
-		int count = 0;
-		for (int y = 7; y > -1; y--) {
-			for (int x = 0; x < 8; x++) {
-				if (b.hasBlack(new Position(x, y))) {
-					positions.add(new Position(x, y));
-					count++;
-				}
-				if (count > 15)
-					break;
-			}
-			if (count > 15)
-				break;
-		}
-		return positions;
-	}
-
-	/**
-	 * Returns all locations of white pieces on the board b
-	 * 
-	 * @param b the board to check positions on
-	 * @return an arraylist of all positions with a white piece
-	 */
-	public ArrayList<Position> whiteLocations(Board b) {
-		ArrayList<Position> positions = new ArrayList<Position>();
-		int count = 0;
-		for (int y = 0; y < 8; y++) {
-			for (int x = 0; x < 8; x++) {
-				if (b.hasWhite(new Position(x, y))) {
-					positions.add(new Position(x, y));
-					count++;
-				}
-				if (count > 15)
-					break;
-			}
-			if (count > 15)
-				break;
-		}
-		return positions;
-	}
-
-	/**
 	 * In theorey this checks to see if white is in stalemate, doesn't work
 	 * 
 	 * @return boolean representing whether white is in stalemate
@@ -711,12 +663,12 @@ public class ChessDriver {
 		// Copy the board to test board
 		copyBoard();
 		// Recalculate all possible moves for pieces on the test board
-		for (Position p : whiteLocations(this.testBoard))
+		for (Position p : this.testBoard.whiteLocations())
 			this.testBoard.get(p).calculatePossibleMoves(this.testBoard);
-		for (Position p : blackLocations(this.testBoard))
+		for (Position p : this.testBoard.blackLocations())
 			this.testBoard.get(p).calculatePossibleMoves(this.testBoard);
 		// Grabs the location of all white pieces
-		ArrayList<Position> pieces = whiteLocations(this.testBoard);
+		ArrayList<Position> pieces = this.testBoard.whiteLocations();
 		// Loop through every piece and check if any of them have valid moves
 		for (int i = 0; i < pieces.size(); i++) {
 			Piece tempP = this.testBoard.get(pieces.get(i));
@@ -745,12 +697,12 @@ public class ChessDriver {
 		// Copy the board to the test board
 		copyBoard();
 		// Recalculate all possible moves for the pieces on the test board
-		for (Position p : blackLocations(this.testBoard))
+		for (Position p : this.testBoard.blackLocations())
 			this.testBoard.get(p).calculatePossibleMoves(this.testBoard);
-		for (Position p : whiteLocations(this.testBoard))
+		for (Position p : this.testBoard.whiteLocations())
 			this.testBoard.get(p).calculatePossibleMoves(this.testBoard);
 		// Grabs the location of all black pieces
-		ArrayList<Position> pieces = blackLocations(this.testBoard);
+		ArrayList<Position> pieces = this.testBoard.blackLocations();
 		// Loop through every piece and check if any of them have valid moves
 		for (int i = 0; i < pieces.size(); i++) {
 			Piece tempP = this.testBoard.get(pieces.get(i));
