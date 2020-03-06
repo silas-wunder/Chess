@@ -3,15 +3,20 @@ import java.util.ArrayList;
 @SuppressWarnings("rawtypes")
 public class WhiteBishop extends Piece {
 
+	/**
+	 * Creates a white bishop at (x, y)
+	 * 
+	 * @param x the x location of this bishop
+	 * @param y the y location of this bishop
+	 */
 	public WhiteBishop(int x, int y) {
 		super(x, y);
 	}
 
 	/**
-	 * Returns the current possible moves for this piece
+	 * Calculates the current possible moves for this piece
 	 * 
-	 * @return ArrayList<Position> the ArrayList of all possible positions
-	 * @param b the board of the piece
+	 * @param b the board on which to calculate moves
 	 */
 	public void calculatePossibleMoves(Board b) {
 		ArrayList<Position> positions = new ArrayList<Position>();
@@ -95,6 +100,7 @@ public class WhiteBishop extends Piece {
 		return false;
 	}
 
+	@Override
 	public String toString() {
 		return "resources/WhiteBishop.png";
 	}

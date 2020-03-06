@@ -3,6 +3,10 @@ import java.util.ArrayList;
 @SuppressWarnings("rawtypes")
 public class WhiteKing extends Piece {
 
+	/**
+	 * Boolean representing whether or not this king has moved, used for castling
+	 * validity
+	 */
 	private boolean hasMoved;
 
 	public WhiteKing(int x, int y) {
@@ -11,10 +15,9 @@ public class WhiteKing extends Piece {
 	}
 
 	/**
-	 * Returns the current possible moves for this piece
+	 * Calculates the current possible moves for this piece
 	 * 
-	 * @return ArrayList<Position> the ArrayList of all possible positions
-	 * @param b the board of the piece
+	 * @param b the board on which to calculate moves
 	 */
 	public void calculatePossibleMoves(Board b) {
 		ArrayList<Position> positions = new ArrayList<Position>();
@@ -30,12 +33,12 @@ public class WhiteKing extends Piece {
 		if (b.isValid(new Position(p.getX() - 1, p.getY())) && !b.hasWhite(new Position(p.getX() - 1, p.getY())))
 			positions.add(new Position(p.getX() - 1, p.getY()));
 
-		// Checks the position above
+		// Checks the position up
 
 		if (b.isValid(new Position(p.getX(), p.getY() + 1)) && !b.hasWhite(new Position(p.getX(), p.getY() + 1)))
 			positions.add(new Position(p.getX(), p.getY() + 1));
 
-		// Checks the position below
+		// Checks the position down
 
 		if (b.isValid(new Position(p.getX(), p.getY() - 1)) && !b.hasWhite(new Position(p.getX(), p.getY() - 1)))
 			positions.add(new Position(p.getX(), p.getY() - 1));
@@ -83,8 +86,20 @@ public class WhiteKing extends Piece {
 		this.possibleMoves = positions;
 	}
 
+	/**
+	 * Returns this king's move status
+	 * 
+	 * @return boolean representing whether this king has moved or not
+	 */
 	public boolean hasMoved() {
 		return hasMoved;
+	}
+
+	/**
+	 * Sets this king's move status to true
+	 */
+	public void moved() {
+		hasMoved = true;
 	}
 
 	@Override
@@ -97,10 +112,7 @@ public class WhiteKing extends Piece {
 		return false;
 	}
 
-	public void moved() {
-		hasMoved = true;
-	}
-
+	@Override
 	public String toString() {
 		return "resources/WhiteKing.png";
 	}

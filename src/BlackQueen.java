@@ -3,15 +3,20 @@ import java.util.ArrayList;
 @SuppressWarnings("rawtypes")
 public class BlackQueen extends Piece {
 
+	/**
+	 * Creates a black queen at (x, y)
+	 * 
+	 * @param x the x location of this queen
+	 * @param y the y location of this queen
+	 */
 	public BlackQueen(int x, int y) {
 		super(x, y);
 	}
 
 	/**
-	 * Returns the current possible moves for this piece
+	 * Calculates the current possible moves for this piece
 	 * 
-	 * @return ArrayList<Position> the ArrayList of all possible positions
-	 * @param b the board of the piece
+	 * @param b the board on which to calculate moves
 	 */
 	public void calculatePossibleMoves(Board b) {
 		ArrayList<Position> positions = new ArrayList<Position>();
@@ -166,6 +171,7 @@ public class BlackQueen extends Piece {
 		return true;
 	}
 
+	@Override
 	public String toString() {
 		return "resources/BlackQueen.png";
 	}

@@ -4,7 +4,7 @@ import java.util.ArrayList;
 public class BlackKnight extends Piece {
 
 	/**
-	 * Makes a Knight object
+	 * Makes a black knight at (x, y)
 	 * 
 	 * @param x the x position of the knight
 	 * @param y the y position of the knight
@@ -14,10 +14,9 @@ public class BlackKnight extends Piece {
 	}
 
 	/**
-	 * Returns the current possible moves for the knight
+	 * Calculates the current possible moves for this piece
 	 * 
-	 * @return ArrayList<Position> the ArrayList of all possible positions
-	 * @param b the board of the piece
+	 * @param b the board on which to calculate moves
 	 */
 	public void calculatePossibleMoves(Board b) {
 		Position p = new Position(this.getPos().getX(), this.getPos().getY());
@@ -60,6 +59,7 @@ public class BlackKnight extends Piece {
 		return true;
 	}
 
+	@Override
 	public String toString() {
 		return "resources/BlackKnight.png";
 	}

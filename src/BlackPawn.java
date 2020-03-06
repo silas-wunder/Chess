@@ -3,12 +3,21 @@ import java.util.ArrayList;
 @SuppressWarnings("rawtypes")
 public class BlackPawn extends Piece {
 
+	/**
+	 * Boolean representing whether this pawn has moved or not
+	 */
 	private boolean hasMoved;
+	/**
+	 * Boolean representing whether this pawn can passant to the left or not
+	 */
 	private boolean canLeftPassant;
+	/**
+	 * Boolean representing whether this pawn can passant to the right or not
+	 */
 	private boolean canRightPassant;
 
 	/**
-	 * Makes a Pawn piece
+	 * Makes a black pawn at (x,y)
 	 * 
 	 * @param x the x position of the pawn
 	 * @param y the y position of the pawn
@@ -19,10 +28,9 @@ public class BlackPawn extends Piece {
 	}
 
 	/**
-	 * Returns the current possible moves for the pawn
+	 * Calculates the current possible moves for this piece
 	 * 
-	 * @return ArrayList<Position> the ArrayList of all possible positions
-	 * @param b the board of the piece
+	 * @param b the board on which to calculate moves
 	 */
 	public void calculatePossibleMoves(Board b) {
 		ArrayList<Position> positions = new ArrayList<Position>();
@@ -58,8 +66,9 @@ public class BlackPawn extends Piece {
 	}
 
 	/**
-	 * PRECONDITION: The pawn has reached the opposite end of the board Makes the
-	 * pawn a queen if it reaches the other end of the board
+	 * Makes the pawn a queen if it reaches the other end of the board
+	 * <p>
+	 * PRECONDITION: The pawn has reached the opposite end of the board
 	 * 
 	 * @param b the board of the piece
 	 */
@@ -70,38 +79,71 @@ public class BlackPawn extends Piece {
 		b.get(place).calculatePossibleMoves(b);
 	}
 
+	@Override
 	public boolean isWhite() {
 		return false;
 	}
 
+	@Override
 	public boolean isBlack() {
 		return true;
 	}
 
+	/**
+	 * Sets the pawn's moved variable to true
+	 */
 	public void moved() {
 		this.hasMoved = true;
 	}
 
+	/**
+	 * Returns whether the pawn has moved or not
+	 * 
+	 * @return boolean representing the move status of the pawn
+	 */
 	public boolean hasMoved() {
 		return this.hasMoved;
 	}
 
+	/**
+	 * Sets the ability of this pawn's passant to the left
+	 * 
+	 * @param canPassant boolean representing whether this pawn can passant to the
+	 *                   left
+	 */
 	public void canLeftPassant(boolean canPassant) {
 		this.canLeftPassant = canPassant;
 	}
 
+	/**
+	 * Returns whether the pawn can passant to the left or not
+	 * 
+	 * @return boolean representing this pawn's ability to passant to the left
+	 */
 	public boolean canLeftPassant() {
 		return this.canLeftPassant;
 	}
 
+	/**
+	 * Sets the ability of this pawn's passant to the right
+	 * 
+	 * @param canPassant boolean representing whether this pawn can passant to the
+	 *                   right
+	 */
 	public void canRightPassant(boolean canPassant) {
 		this.canRightPassant = canPassant;
 	}
 
+	/**
+	 * Returns whether the pawn can passant to the right or not
+	 * 
+	 * @return boolean representing this pawn's ability to passant to the right
+	 */
 	public boolean canRightPassant() {
 		return this.canRightPassant;
 	}
 
+	@Override
 	public String toString() {
 		return "resources/BlackPawn.png";
 	}

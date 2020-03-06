@@ -3,15 +3,24 @@ import java.util.ArrayList;
 @SuppressWarnings("rawtypes")
 public class WhitePawn extends Piece {
 
+	/**
+	 * Boolean representing whether this pawn has moved or not
+	 */
 	private boolean hasMoved;
+	/**
+	 * Boolean representing whether this pawn can passant to the left or not
+	 */
 	private boolean canLeftPassant;
+	/**
+	 * Boolean representing whether this pawn can passant to the right or not
+	 */
 	private boolean canRightPassant;
 
 	/**
-	 * Makes a Pawn piece
+	 * Makes a pawn at (x, y)
 	 * 
-	 * @param x the x position of the pawn
-	 * @param y the y position of the pawn
+	 * @param x the x location of this pawn
+	 * @param y the y location of this pawn
 	 */
 	WhitePawn(int x, int y) {
 		super(x, y);
@@ -19,10 +28,9 @@ public class WhitePawn extends Piece {
 	}
 
 	/**
-	 * Returns the current possible moves for this piece
+	 * Calculates the current possible moves for this piece
 	 * 
-	 * @return ArrayList<Position> the ArrayList of all possible positions
-	 * @param b the board of the piece
+	 * @param b the board on which to calculate moves
 	 */
 	public void calculatePossibleMoves(Board b) {
 		ArrayList<Position> positions = new ArrayList<Position>();
@@ -56,8 +64,9 @@ public class WhitePawn extends Piece {
 	}
 
 	/**
-	 * PRECONDITION: The pawn has reached the opposite end of the board Makes the
-	 * pawn a queen if it reaches the other end of the board
+	 * Makes the pawn a queen if it reaches the other end of the board
+	 * <p>
+	 * PRECONDITION: The pawn has reached the opposite end of the board
 	 * 
 	 * @param b the board of the piece
 	 */
@@ -68,38 +77,71 @@ public class WhitePawn extends Piece {
 		b.get(place).calculatePossibleMoves(b);
 	}
 
-	public boolean isWhite() {
-		return true;
-	}
-
-	public boolean isBlack() {
-		return false;
-	}
-
+	/**
+	 * Sets this pawn's move status to true
+	 */
 	public void moved() {
 		this.hasMoved = true;
 	}
 
+	/**
+	 * Returns the move status of this pawn
+	 * 
+	 * @return boolean representing whether or not this pawn has moved
+	 */
 	public boolean hasMoved() {
 		return this.hasMoved;
 	}
 
+	/**
+	 * Sets this pawns left passant ability
+	 * 
+	 * @param canPassant boolean representing whether this pawn can passant to the
+	 *                   left
+	 */
 	public void canLeftPassant(boolean canPassant) {
 		this.canLeftPassant = canPassant;
 	}
 
+	/**
+	 * Returns this pawn's ability to passant to the left
+	 * 
+	 * @return boolean representing whether this pawn can passant to the left
+	 */
 	public boolean canLeftPassant() {
 		return this.canLeftPassant;
 	}
 
+	/**
+	 * Sets this pawn's right passant ability
+	 * 
+	 * @param canPassant boolean representing whether this pawn can passant to the
+	 *                   right
+	 */
 	public void canRightPassant(boolean canPassant) {
 		this.canRightPassant = canPassant;
 	}
 
+	/**
+	 * Returns this pawn's ability to passant to the right
+	 * 
+	 * @return boolean representing whether this pawn can passant to the right
+	 */
 	public boolean canRightPassant() {
 		return this.canRightPassant;
 	}
 
+	@Override
+	public boolean isWhite() {
+		return true;
+	}
+
+	@Override
+	public boolean isBlack() {
+		return false;
+	}
+
+	@Override
 	public String toString() {
 		return "resources/WhitePawn.png";
 	}

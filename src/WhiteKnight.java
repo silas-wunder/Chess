@@ -4,20 +4,19 @@ import java.util.ArrayList;
 public class WhiteKnight extends Piece {
 
 	/**
-	 * Makes a Knight object
+	 * Makes a white knight at (x, y)
 	 * 
-	 * @param x the x position of the knight
-	 * @param y the y position of the knight
+	 * @param x the x location of the knight
+	 * @param y the y location of the knight
 	 */
 	public WhiteKnight(int x, int y) {
 		super(x, y);
 	}
 
 	/**
-	 * Returns the current possible moves for the knight
+	 * Calculates the current possible moves for this piece
 	 * 
-	 * @return ArrayList<Position> the ArrayList of all possible positions
-	 * @param b the board of the piece
+	 * @param b the board on which to calculate moves
 	 */
 	@Override
 	public void calculatePossibleMoves(Board b) {
@@ -61,6 +60,7 @@ public class WhiteKnight extends Piece {
 		return false;
 	}
 
+	@Override
 	public String toString() {
 		return "resources/WhiteKnight.png";
 	}

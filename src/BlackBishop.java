@@ -4,15 +4,20 @@ import java.util.ArrayList;
 @SuppressWarnings("rawtypes")
 public class BlackBishop extends Piece {
 
+	/**
+	 * Creates a black bishop at (x, y)
+	 * 
+	 * @param x the x location of the bishop
+	 * @param y the y location of the bishop
+	 */
 	public BlackBishop(int x, int y) {
 		super(x, y);
 	}
 
 	/**
-	 * Returns the current possible moves for this piece
+	 * Calculates the current possible moves for this piece
 	 * 
-	 * @return ArrayList<Position> the ArrayList of all possible positions
-	 * @param b the board of the piece
+	 * @param b the board on which to calculate moves
 	 */
 	public void calculatePossibleMoves(Board b) {
 		ArrayList<Position> positions = new ArrayList<Position>();
@@ -32,6 +37,7 @@ public class BlackBishop extends Piece {
 		for (int i = 1; i < max; i++)
 			positions.add(new Position(this.getPos().getX() + i, this.getPos().getY() + i));
 
+		// Reset p and max
 		p.setY(this.getPos().getY());
 		p.setX(this.getPos().getX());
 		max = 1;
@@ -49,6 +55,7 @@ public class BlackBishop extends Piece {
 		for (int i = max - 1; i > 0; i--)
 			positions.add(new Position(this.getPos().getX() - i, this.getPos().getY() - i));
 
+		// Reset p and max
 		p.setY(this.getPos().getY());
 		p.setX(this.getPos().getX());
 		max = 1;
@@ -66,6 +73,7 @@ public class BlackBishop extends Piece {
 		for (int i = 1; i < max; i++)
 			positions.add(new Position(this.getPos().getX() + i, this.getPos().getY() - i));
 
+		// Reset p and max
 		p.setY(this.getPos().getY());
 		p.setX(this.getPos().getX());
 		max = 1;
@@ -97,6 +105,7 @@ public class BlackBishop extends Piece {
 		return true;
 	}
 
+	@Override
 	public String toString() {
 		return "resources/BlackBishop.png";
 	}

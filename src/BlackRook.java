@@ -3,13 +3,17 @@ import java.util.ArrayList;
 @SuppressWarnings("rawtypes")
 public class BlackRook extends Piece {
 
+	/**
+	 * Boolean representing whether the rook has moved or not, used for castling
+	 * validity
+	 */
 	private boolean hasMoved;
 
 	/**
-	 * Constructor setting Position of rook
+	 * Creates a black rook at (x, y)
 	 * 
-	 * @param x x Coordinate
-	 * @param y y Coordinate
+	 * @param x the x location of this rook
+	 * @param y the y location of this rook
 	 */
 	BlackRook(int x, int y) {
 		super(x, y);
@@ -17,17 +21,16 @@ public class BlackRook extends Piece {
 	}
 
 	/**
-	 * Returns the current possible moves for this piece
+	 * Calculates the current possible moves for this piece
 	 * 
-	 * @return ArrayList<Position> the ArrayList of all possible positions
-	 * @param b the board of the piece
+	 * @param b the board on which to calculate moves
 	 */
 	public void calculatePossibleMoves(Board b) {
 		ArrayList<Position> positions = new ArrayList<Position>();
 		Position p = new Position(this.getPos().getX(), this.getPos().getY());
 		int max = 1;
 
-		// Forward Positions
+		// Positions up
 		p.setY(p.getY() + 1);
 		while (b.isValid(p) && !b.hasBlack(p)) {
 			max++;
@@ -59,7 +62,7 @@ public class BlackRook extends Piece {
 		p.setY(this.getPos().getY());
 		p.setX(this.getPos().getX());
 
-		// Positions to the Left
+		// Positions to the left
 		p.setX(p.getX() - 1);
 		while (b.isValid(p) && !b.hasBlack(p)) {
 			max++;
@@ -76,7 +79,7 @@ public class BlackRook extends Piece {
 		p.setY(this.getPos().getY());
 		p.setX(this.getPos().getX());
 
-		// Positions Behind
+		// Positions down
 		p.setY(p.getY() - 1);
 		while (b.isValid(p) && !b.hasBlack(p)) {
 			max++;
@@ -91,14 +94,23 @@ public class BlackRook extends Piece {
 		this.possibleMoves = positions;
 	}
 
+	/**
+	 * Sets this rook's move status to true
+	 */
 	public void moved() {
 		hasMoved = true;
 	}
 
+	/**
+	 * Returns this rook's moved status
+	 * 
+	 * @return boolean representing whether this rook has moved or not
+	 */
 	public boolean hasMoved() {
 		return hasMoved;
 	}
 
+	@Override
 	public String toString() {
 		return "resources/BlackRook.png";
 	}
