@@ -1,7 +1,7 @@
 import java.awt.*;
 import java.util.ArrayList;
 
-@SuppressWarnings({ "rawtypes", "unused" })
+@SuppressWarnings("rawtypes")
 public class ChessDriver {
 	/**
 	 * Main board in Chess.
@@ -61,9 +61,9 @@ public class ChessDriver {
 	 */
 	private int yCheck = -1;
 
-	// TODO: Check visual bugs, castling through/out of check, add endgame
-	// notification to UI, add restart option to UI, visuals and coding style should
-	// be tweaked for beauty
+	// TODO: Castling through/out of check is possible, add endgame notification to
+	// UI, add restart option to UI, visuals and coding style should be tweaked for
+	// beauty
 	public static void main(String[] args) {
 		// creates driver object
 		ChessDriver driver = new ChessDriver();
@@ -519,24 +519,27 @@ public class ChessDriver {
 
 					}
 					// Stores if either king is in check
-					int tempC = checkCheck(this.board);
-					// TODO: The call to blackstale and whitestale are wrong
+					int tempC = checkCheck(b);
 					if (b.equals(this.board)) {
 						if (whiteStale()) {
 							if (tempC == 1) {
 								this.running = false;
 								System.out.println("checkmate, white loses");
+								// System.exit(0);
 							} else {
 								this.running = false;
 								System.out.println("stalemate");
+								// System.exit(0);
 							}
 						} else if (blackStale()) {
 							if (tempC == 2) {
 								this.running = false;
 								System.out.println("checkmate, black loses");
+								// System.exit(0);
 							} else {
 								this.running = false;
 								System.out.println("stalemate");
+								// System.exit(0);
 							}
 						}
 
@@ -559,7 +562,6 @@ public class ChessDriver {
 
 					if (type instanceof BlackKing) {
 						// Castle check and moving rook
-
 						if (!((BlackKing) p).hasMoved()) {
 							if (4 - pos.getX() > 1) {
 								this.currentPiece = b.get(new Position(0, 7));
@@ -574,8 +576,6 @@ public class ChessDriver {
 						}
 					}
 					if (type instanceof WhiteKing) {
-						// System.out.println(p.getPos().getX() + " " + pos.getX());
-
 						if (!((WhiteKing) p).hasMoved()) {
 							if (4 - pos.getX() > 1) {
 								this.currentPiece = b.get(new Position(0, 0));
@@ -585,7 +585,6 @@ public class ChessDriver {
 								this.currentPiece = b.get(new Position(7, 0));
 								move(this.currentPiece, new Position(5, 0), b);
 								b.incTurn();
-								System.out.println("haha dummy");
 							}
 							((WhiteKing) p).moved();
 						}
@@ -691,9 +690,10 @@ public class ChessDriver {
 			}
 
 		}
-
-		xCheck = -1;
-		yCheck = -1;
+		if (b == this.board) {
+			xCheck = -1;
+			yCheck = -1;
+		}
 		return 0;
 	}
 
@@ -748,9 +748,6 @@ public class ChessDriver {
 	/**
 	 * In theorey this checks to see if white is in stalemate, doesn't work
 	 * 
-	 * TODO: Considering current location of piece a valid move and exiting early
-	 * FIXME: Pawn check handling on test board is not correct
-	 * 
 	 * @return boolean representing whether white is in stalemate
 	 */
 	private boolean whiteStale() {
@@ -772,8 +769,6 @@ public class ChessDriver {
 					move(tempP, tempMoves.get(j), this.testBoard);
 					int check = checkCheck(this.testBoard);
 					if (check == 0 || check == 2) {
-						xCheck = -1;
-						yCheck = -1;
 						return false;
 					}
 					move(tempP, startP, this.testBoard);
@@ -788,9 +783,6 @@ public class ChessDriver {
 
 	/**
 	 * In theorey this checks to see if black is in stalemate, doesn't work
-	 * 
-	 * TODO: Considering current location of piece a valid move and exiting early
-	 * FIXME: Pawn check handling on test board is not correct
 	 * 
 	 * @return boolean representing whether white is in stalemate
 	 */
@@ -811,8 +803,6 @@ public class ChessDriver {
 					move(tempP, tempMoves.get(j), this.testBoard);
 					int check = checkCheck(this.testBoard);
 					if (check == 0 || check == 1) {
-						xCheck = -1;
-						yCheck = -1;
 						return false;
 					}
 					move(tempP, startP, this.testBoard);

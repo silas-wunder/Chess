@@ -22,72 +22,64 @@ public class WhiteKing extends Piece {
 
 		// Checks the position to the right
 
-		if (b.isValid(new Position(p.getX() + 1, p.getY())))
-			if (!b.hasWhite(new Position(p.getX() + 1, p.getY())))
-				positions.add(new Position(p.getX() + 1, p.getY()));
+		if (b.isValid(new Position(p.getX() + 1, p.getY())) && !b.hasWhite(new Position(p.getX() + 1, p.getY())))
+			positions.add(new Position(p.getX() + 1, p.getY()));
 
 		// Checks the position to the left
 
-		if (b.isValid(new Position(p.getX() - 1, p.getY())))
-			if (!b.hasWhite(new Position(p.getX() - 1, p.getY())))
-				positions.add(new Position(p.getX() - 1, p.getY()));
+		if (b.isValid(new Position(p.getX() - 1, p.getY())) && !b.hasWhite(new Position(p.getX() - 1, p.getY())))
+			positions.add(new Position(p.getX() - 1, p.getY()));
 
 		// Checks the position above
 
-		if (b.isValid(new Position(p.getX(), p.getY() + 1)))
-			if (!b.hasWhite(new Position(p.getX(), p.getY() + 1)))
-				positions.add(new Position(p.getX(), p.getY() + 1));
+		if (b.isValid(new Position(p.getX(), p.getY() + 1)) && !b.hasWhite(new Position(p.getX(), p.getY() + 1)))
+			positions.add(new Position(p.getX(), p.getY() + 1));
 
 		// Checks the position below
 
-		if (b.isValid(new Position(p.getX(), p.getY() - 1)))
-			if (!b.hasWhite(new Position(p.getX(), p.getY() - 1)))
-				positions.add(new Position(p.getX(), p.getY() - 1));
+		if (b.isValid(new Position(p.getX(), p.getY() - 1)) && !b.hasWhite(new Position(p.getX(), p.getY() - 1)))
+			positions.add(new Position(p.getX(), p.getY() - 1));
 
 		// Checks the position to the diagonal up - right
 
-		if (b.isValid(new Position(p.getX() + 1, p.getY() + 1)))
-			if (!b.hasWhite(new Position(p.getX() + 1, p.getY() + 1)))
-				positions.add(new Position(p.getX() + 1, p.getY() + 1));
+		if (b.isValid(new Position(p.getX() + 1, p.getY() + 1))
+				&& !b.hasWhite(new Position(p.getX() + 1, p.getY() + 1)))
+			positions.add(new Position(p.getX() + 1, p.getY() + 1));
 
 		// Checks the position to the diagonal down - right
 
-		if (b.isValid(new Position(p.getX() + 1, p.getY() - 1)))
-			if (!b.hasWhite(new Position(p.getX() + 1, p.getY() - 1)))
-				positions.add(new Position(p.getX() + 1, p.getY() - 1));
+		if (b.isValid(new Position(p.getX() + 1, p.getY() - 1))
+				&& !b.hasWhite(new Position(p.getX() + 1, p.getY() - 1)))
+			positions.add(new Position(p.getX() + 1, p.getY() - 1));
 
 		// Checks the position to the diagonal up - left
 
-		if (b.isValid(new Position(p.getX() - 1, p.getY() + 1)))
-			if (!b.hasWhite(new Position(p.getX() - 1, p.getY() + 1)))
-				positions.add(new Position(p.getX() - 1, p.getY() + 1));
+		if (b.isValid(new Position(p.getX() - 1, p.getY() + 1))
+				&& !b.hasWhite(new Position(p.getX() - 1, p.getY() + 1)))
+			positions.add(new Position(p.getX() - 1, p.getY() + 1));
 
 		// Checks the position to the diagonal down - left
 
-		if (b.isValid(new Position(p.getX() - 1, p.getY() - 1)))
-			if (!b.hasWhite(new Position(p.getX() - 1, p.getY() - 1)))
-				positions.add(new Position(p.getX() - 1, p.getY() - 1));
+		if (b.isValid(new Position(p.getX() - 1, p.getY() - 1))
+				&& !b.hasWhite(new Position(p.getX() - 1, p.getY() - 1)))
+			positions.add(new Position(p.getX() - 1, p.getY() - 1));
 
 		// Checks conditions for the castle move
 		if (!hasMoved) {
 			// Checks castle conditions to the right
-			if (b.isEmpty(new Position(5, 0)) && b.isEmpty(new Position(6, 0))) {
-				if (b.getType(new Position(7, 0)) instanceof WhiteRook) {
-					if (!((WhiteRook) (b.get(new Position(7, 0)))).hasMoved()) {
-						positions.add(new Position(6, 0));
-					}
-				}
-			}
+			if (b.isEmpty(new Position(5, 0)) && b.isEmpty(new Position(6, 0))
+					&& (b.getType(new Position(7, 0)) instanceof WhiteRook
+							&& !((WhiteRook) (b.get(new Position(7, 0)))).hasMoved()))
+				positions.add(new Position(6, 0));
+
 			// Checks castle conditions to the left
-			if (b.isEmpty(new Position(3, 0)) && b.isEmpty(new Position(2, 0)) && b.isEmpty(new Position(1, 0))) {
-				if (b.getType(new Position(0, 0)) instanceof WhiteRook) {
-					if (!((WhiteRook) (b.get(new Position(0, 0)))).hasMoved()) {
-						positions.add(new Position(2, 0));
-					}
-				}
-			}
+			if (b.isEmpty(new Position(3, 0)) && b.isEmpty(new Position(2, 0)) && b.isEmpty(new Position(1, 0))
+					&& (b.getType(new Position(0, 0)) instanceof WhiteRook
+							&& !((WhiteRook) (b.get(new Position(0, 0)))).hasMoved()))
+				positions.add(new Position(2, 0));
+
 		}
-		
+
 		this.possibleMoves = positions;
 	}
 

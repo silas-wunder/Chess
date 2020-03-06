@@ -66,12 +66,14 @@ public class BlackKing extends Piece {
 
 		// Checks conditions for the castle move
 		if (!hasMoved) {
-			// Checks if the spaces to the right are empty
+			// Checks if the spaces to the right are empty and that the rook to the right
+			// also has not moved
 			if (b.isEmpty(new Position(5, 7)) && b.isEmpty(new Position(6, 7))
 					&& b.getType(new Position(7, 7)) instanceof BlackRook
 					&& !((BlackRook) (b.get(new Position(7, 7)))).hasMoved())
 				positions.add(new Position(6, 7));
-			// Checks if the spaces to the left are empty
+			// Checks if the spaces to the left are empty and that the rook to the left also
+			// has not moved
 			if (b.isEmpty(new Position(3, 7)) && b.isEmpty(new Position(2, 7)) && b.isEmpty(new Position(1, 7))
 					&& b.getType(new Position(0, 7)) instanceof BlackRook
 					&& !((BlackRook) (b.get(new Position(0, 7)))).hasMoved())
