@@ -1,5 +1,6 @@
 import java.awt.*;
 import java.util.ArrayList;
+import java.awt.Font;
 
 public class ChessDriver {
 	/**
@@ -59,9 +60,14 @@ public class ChessDriver {
 	 * Y position of the king in check
 	 */
 	private int yCheck = -1;
+	/**
+	 * Value holding who won the game, used to display endgame screen
+	 * <p>
+	 * 0 if stalemate, 1 if white wins, 2 if black wins
+	 */
+	private int winner = 0;
 
-	// TODO: Add endgame notification to UI, add restart option to UI, visuals
-	// should be tweaked for beauty
+	// TODO: Add restart option to UI, visuals should be tweaked for beauty
 	public static void main(String[] args) {
 		// creates driver object
 		ChessDriver driver = new ChessDriver();
@@ -240,6 +246,17 @@ public class ChessDriver {
 				StdDraw.pause(300);
 			}
 		}
+		switch (this.winner) {
+		case 0:
+			drawStalemate();
+			break;
+		case 1:
+			drawWhiteWin();
+			break;
+		case 2:
+			drawBlackWin();
+			break;
+		}
 	}
 
 	/**
@@ -333,8 +350,6 @@ public class ChessDriver {
 	 * Moves piece p to position pos, handles en passant and castling, takes in b so
 	 * that some actions are not taken on the test board
 	 * 
-	 * //TODO: Create helper methods for a lot of this stuff
-	 * 
 	 * @param p   Piece to move
 	 * @param pos Position to move to
 	 * @param b   Board object taken in
@@ -381,8 +396,7 @@ public class ChessDriver {
 						p.getPos().setX(startX);
 						p.getPos().setY(startY);
 						b.add(type, new Position(startX, startY));
-						// TODO: Instead of printing to console, there should be a visual indicator
-						System.out.println("\u001B[31mInvalid move, please select a new move or piece.\u001B[0m");
+						drawInvalidMove();
 						for (Position tmpPos : b.blackLocations())
 							b.get(tmpPos).calculatePossibleMoves(b);
 						checkCheck(this.board);
@@ -400,8 +414,7 @@ public class ChessDriver {
 						p.getPos().setX(startX);
 						p.getPos().setY(startY);
 						b.add(type, new Position(startX, startY));
-						// TODO: Instead of printing to console, there should be a visual indicator
-						System.out.println("\u001B[31mInvalid move, please select a new move or piece.\u001B[0m");
+						drawInvalidMove();
 						for (Position tmpPos : b.whiteLocations())
 							b.get(tmpPos).calculatePossibleMoves(b);
 						checkCheck(this.board);
@@ -488,22 +501,18 @@ public class ChessDriver {
 						if (whiteStale()) {
 							if (check == 1) {
 								this.running = false;
-								System.out.println("Checkmate, Black Wins");
-								// System.exit(0);
+								winner = 2;
 							} else {
 								this.running = false;
-								System.out.println("Stalemate");
-								// System.exit(0);
+								winner = 0;
 							}
 						} else if (blackStale()) {
 							if (check == 2) {
 								this.running = false;
-								System.out.println("Checkmate, White Wins");
-								// System.exit(0);
+								winner = 1;
 							} else {
 								this.running = false;
-								System.out.println("Stalemate");
-								// System.exit(0);
+								winner = 0;
 							}
 						}
 
@@ -566,6 +575,7 @@ public class ChessDriver {
 		} else {
 			// Quick catch to prevent crashes, game should never reach this point
 			System.out.println("\u001B[31mInvalid move, please select a new move or piece.\u001B[0m");
+			drawInvalidMove();
 			isSelected = false;
 		}
 	}
@@ -740,6 +750,46 @@ public class ChessDriver {
 			for (int j = 0; j < pieces[i].length; j++)
 				StdDraw.picture(this.xValue + (inc * pieces[i][j].getPos().getX()),
 						this.yValue + (inc * pieces[i][j].getPos().getY()), pieces[i][j].toString(), scale, scale);
+	}
+
+	public void drawInvalidMove(){
+		StdDraw.setPenColor(new Color(200, 0, 0));
+		StdDraw.setFont(new Font("Bahnschrift", Font.BOLD, 32));
+		StdDraw.text(xValue + (3.5 * inc), yValue + (3.5 * inc), "Invalid Move! Please Select A New Move Or Piece");
+		StdDraw.pause(1000);
+	}
+
+	/**
+	 * Draws the UI notification for stalemate
+	 */
+	public void drawStalemate() {
+		StdDraw.setPenColor(Color.BLACK);
+		StdDraw.filledRectangle(xValue + (3.5 * inc), yValue + (3.5 * inc), (4 * xValue) - 0.005, (2 * yValue) - 0.005);
+		StdDraw.setFont(new Font("Wide Latin", Font.PLAIN, 18));
+		StdDraw.setPenColor(Color.WHITE);
+		StdDraw.text(xValue + (3.5 * inc), yValue + (3.5 * inc), "Stalemate! It's a tie!");
+	}
+
+	/**
+	 * Draws the UI notification for white win
+	 */
+	public void drawWhiteWin() {
+		StdDraw.setPenColor(Color.BLACK);
+		StdDraw.filledRectangle(xValue + (3.5 * inc), yValue + (3.5 * inc), (4 * xValue) - 0.005, (2 * yValue) - 0.005);
+		StdDraw.setFont(new Font("Wide Latin", Font.PLAIN, 18));
+		StdDraw.setPenColor(Color.WHITE);
+		StdDraw.text(xValue + (3.5 * inc), yValue + (3.5 * inc), "Checkmate! White Wins!");
+	}
+
+	/**
+	 * Draws the UI notification for black win
+	 */
+	public void drawBlackWin() {
+		StdDraw.setPenColor(Color.BLACK);
+		StdDraw.filledRectangle(xValue + (3.5 * inc), yValue + (3.5 * inc), (4 * xValue) - 0.005, (2 * yValue) - 0.005);
+		StdDraw.setFont(new Font("Wide Latin", Font.PLAIN, 18));
+		StdDraw.setPenColor(Color.WHITE);
+		StdDraw.text(xValue + (3.5 * inc), yValue + (3.5 * inc), "Checkmate! Black Wins!");
 	}
 
 }
