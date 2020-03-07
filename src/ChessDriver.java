@@ -515,7 +515,6 @@ public class ChessDriver {
 								winner = 0;
 							}
 						}
-
 					}
 
 					// Checks to see if the user attempted to castle and moves accordingly
@@ -752,44 +751,74 @@ public class ChessDriver {
 						this.yValue + (inc * pieces[i][j].getPos().getY()), pieces[i][j].toString(), scale, scale);
 	}
 
-	public void drawInvalidMove(){
+	/**
+	 * Draws the UI notification for an invalid move
+	 * 
+	 * TODO: Make this look nicer
+	 */
+	public void drawInvalidMove() {
 		StdDraw.setPenColor(new Color(200, 0, 0));
-		StdDraw.setFont(new Font("Bahnschrift", Font.BOLD, 32));
-		StdDraw.text(xValue + (3.5 * inc), yValue + (3.5 * inc), "Invalid Move! Please Select A New Move Or Piece");
+		StdDraw.filledRectangle(xValue + (3.5 * inc), yValue + (3.5 * inc), (4 * xValue) + 0.0002,
+				(2 * yValue) + 0.0002);
+		StdDraw.setPenColor(Color.BLACK);
+		StdDraw.filledRectangle(xValue + (3.5 * inc), yValue + (3.5 * inc), (4 * xValue) - 0.01, (2 * yValue) - 0.01);
+		StdDraw.setPenColor(new Color(200, 0, 0));
+		StdDraw.setFont(new Font("Rockwell", Font.BOLD, 32));
+		StdDraw.text(xValue + (3.5 * inc), yValue + (3.8 * inc), "Invalid Move!");
+		StdDraw.setFont(new Font("Rockwell", Font.PLAIN, 22));
+		StdDraw.text(xValue + (3.5 * inc), yValue + (3.2 * inc), "Please Select A New Move Or Piece");
 		StdDraw.pause(1000);
 	}
 
 	/**
 	 * Draws the UI notification for stalemate
+	 * 
+	 * TODO: Make this look nicer
 	 */
 	public void drawStalemate() {
-		StdDraw.setPenColor(Color.BLACK);
-		StdDraw.filledRectangle(xValue + (3.5 * inc), yValue + (3.5 * inc), (4 * xValue) - 0.005, (2 * yValue) - 0.005);
-		StdDraw.setFont(new Font("Wide Latin", Font.PLAIN, 18));
+		StdDraw.setPenColor(new Color(65, 105, 225));
+		StdDraw.filledRectangle(xValue + (3.5 * inc), yValue + (3.5 * inc), (4 * xValue) + 0.0002,
+				(2 * yValue) + 0.0002);
+		StdDraw.setPenColor(new Color(38, 38, 38));
+		StdDraw.filledRectangle(xValue + (3.5 * inc), yValue + (3.5 * inc), (4 * xValue) - 0.01, (2 * yValue) - 0.01);
+		StdDraw.setFont(new Font("Rockwell", Font.PLAIN, 45));
 		StdDraw.setPenColor(Color.WHITE);
-		StdDraw.text(xValue + (3.5 * inc), yValue + (3.5 * inc), "Stalemate! It's a tie!");
+		StdDraw.text(xValue + (3.5 * inc), yValue + (3.8 * inc), "Stalemate!");
+		StdDraw.text(xValue + (3.5 * inc), yValue + (3.2 * inc), "It's a tie!");
 	}
 
 	/**
 	 * Draws the UI notification for white win
+	 * 
+	 * TODO: Make this look nicer
 	 */
 	public void drawWhiteWin() {
-		StdDraw.setPenColor(Color.BLACK);
-		StdDraw.filledRectangle(xValue + (3.5 * inc), yValue + (3.5 * inc), (4 * xValue) - 0.005, (2 * yValue) - 0.005);
-		StdDraw.setFont(new Font("Wide Latin", Font.PLAIN, 18));
+		StdDraw.setPenColor(new Color(225, 185, 65));
+		StdDraw.filledRectangle(xValue + (3.5 * inc), yValue + (3.5 * inc), (4 * xValue) + 0.0002,
+				(2 * yValue) + 0.0002);
+		StdDraw.setPenColor(new Color(38, 38, 38));
+		StdDraw.filledRectangle(xValue + (3.5 * inc), yValue + (3.5 * inc), (4 * xValue) - 0.01, (2 * yValue) - 0.01);
+		StdDraw.setFont(new Font("Rockwell", Font.PLAIN, 45));
 		StdDraw.setPenColor(Color.WHITE);
-		StdDraw.text(xValue + (3.5 * inc), yValue + (3.5 * inc), "Checkmate! White Wins!");
+		StdDraw.text(xValue + (3.5 * inc), yValue + (3.8 * inc), "Checkmate!");
+		StdDraw.text(xValue + (3.5 * inc), yValue + (3.2 * inc), "White Wins!");
 	}
 
 	/**
 	 * Draws the UI notification for black win
+	 * 
+	 * TODO: Make this look nicer
 	 */
 	public void drawBlackWin() {
-		StdDraw.setPenColor(Color.BLACK);
-		StdDraw.filledRectangle(xValue + (3.5 * inc), yValue + (3.5 * inc), (4 * xValue) - 0.005, (2 * yValue) - 0.005);
-		StdDraw.setFont(new Font("Wide Latin", Font.PLAIN, 18));
+		StdDraw.setPenColor(new Color(225, 185, 65));
+		StdDraw.filledRectangle(xValue + (3.5 * inc), yValue + (3.5 * inc), (4 * xValue) + 0.0002,
+				(2 * yValue) + 0.0002);
+		StdDraw.setPenColor(new Color(38, 38, 38));
+		StdDraw.filledRectangle(xValue + (3.5 * inc), yValue + (3.5 * inc), (4 * xValue) - 0.01, (2 * yValue) - 0.01);
+		StdDraw.setFont(new Font("Rockwell", Font.PLAIN, 45));
 		StdDraw.setPenColor(Color.WHITE);
-		StdDraw.text(xValue + (3.5 * inc), yValue + (3.5 * inc), "Checkmate! Black Wins!");
+		StdDraw.text(xValue + (3.5 * inc), yValue + (3.8 * inc), "Checkmate!");
+		StdDraw.text(xValue + (3.5 * inc), yValue + (3.2 * inc), "Black Wins!");
 	}
 
 }
