@@ -67,7 +67,6 @@ public class ChessDriver {
 	 */
 	private int winner = 0;
 
-	// TODO: Add restart option to UI, visuals should be tweaked for beauty
 	public static void main(String[] args) {
 		// creates driver object
 		ChessDriver driver = new ChessDriver();
@@ -107,8 +106,8 @@ public class ChessDriver {
 			for (int j = 0; j < 8; j++) {
 				// If this is the location of a king in check, draw square red
 				if (xCheck == j && yCheck == i) {
-					StdDraw.setPenColor(new Color(170, 0, 0));
-					colors[i][j] = new Color(170, 0, 0);
+					StdDraw.setPenColor(new Color(200, 0, 0));
+					colors[i][j] = new Color(200, 0, 0);
 				} else if (i % 2 == 0) {
 					if (j % 2 == 0) {
 						// This should be the darker color
@@ -753,8 +752,6 @@ public class ChessDriver {
 
 	/**
 	 * Draws the UI notification for an invalid move
-	 * 
-	 * TODO: Make this look nicer
 	 */
 	public void drawInvalidMove() {
 		StdDraw.setPenColor(new Color(200, 0, 0));
@@ -772,8 +769,6 @@ public class ChessDriver {
 
 	/**
 	 * Draws the UI notification for stalemate
-	 * 
-	 * TODO: Make this look nicer
 	 */
 	public void drawStalemate() {
 		StdDraw.setPenColor(new Color(65, 105, 225));
@@ -789,8 +784,6 @@ public class ChessDriver {
 
 	/**
 	 * Draws the UI notification for white win
-	 * 
-	 * TODO: Make this look nicer
 	 */
 	public void drawWhiteWin() {
 		StdDraw.setPenColor(new Color(225, 185, 65));
@@ -806,8 +799,6 @@ public class ChessDriver {
 
 	/**
 	 * Draws the UI notification for black win
-	 * 
-	 * TODO: Make this look nicer
 	 */
 	public void drawBlackWin() {
 		StdDraw.setPenColor(new Color(225, 185, 65));
